@@ -2,7 +2,7 @@
 
 namespace RealState.Core.Domain.Entities
 {
-    public class Property : CommonEntity<int> //Propiedad
+    public class PropertyUnit : CommonEntity<int> //Propiedad
     {
         public required string IdAgent { get; set; } //IdAgente
 

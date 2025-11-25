@@ -6,5 +6,7 @@ namespace RealState.Core.Domain.Entities
     {
         public required string Name { get; set; } //Nombre del tipo de propiedad
         public required string Description { get; set; } //Descripcion del tipo de propiedad
+
+        public ICollection<PropertyUnit>? PropertyUnits { get; set; }
     }
 }
