@@ -12,7 +12,7 @@ namespace RealState.Core.Domain.Entities
         public required int SaleTypeId { get; set; } //TipoDeVenta
         public SaleType? SaleType { get; set; }
 
-        public required ICollection<ImprovementType> ImprovementTypes { get; set; } //TiposDeMejoras
+        public  ICollection<ImprovementType>? ImprovementTypes { get; set; } //TiposDeMejoras
 
         public required string CodeProperty { get; set; } //CodigoDePropiedad
 
@@ -23,6 +23,9 @@ namespace RealState.Core.Domain.Entities
         public required int Bathrooms { get; set; } //Baños
         public required List<string> Images { get; set; } //Imagenes
         public required int StateProperty { get; set; } //Estado de la propiedad
+
+        public ICollection<Chat>? Chats { get; set; }
+        public ICollection<PropertyOffer>? PropertyOffers { get; set; }
 
     }
 }

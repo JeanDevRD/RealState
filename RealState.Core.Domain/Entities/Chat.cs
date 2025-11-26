@@ -9,6 +9,6 @@ namespace RealState.Core.Domain.Entities
         public required int IdProperty { get; set; }
         public PropertyUnit? Property { get; set; }
 
-        public List<Message> Messages { get; set; } = new();
+        public ICollection<Message>? Messages { get; set; } 
     }
 }

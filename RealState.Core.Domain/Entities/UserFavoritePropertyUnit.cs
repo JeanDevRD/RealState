@@ -2,7 +2,7 @@
 
 namespace RealState.Core.Domain.Entities
 {
-    public class UserFavoriteProperty : CommonEntity<int>
+    public class UserFavoritePropertyUnit : CommonEntity<int>
     {
         public required string IdClient { get; set; }
         public required int IdProperty { get; set; }

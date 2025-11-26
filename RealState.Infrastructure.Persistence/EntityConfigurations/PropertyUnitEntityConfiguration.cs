@@ -5,14 +5,14 @@ using RealState.Core.Domain.Entities;
 
 namespace RealState.Infrastructure.Persistence.EntityConfiguration
 {
-    public class PropertyEntityConfiguration : IEntityTypeConfiguration<PropertyUnit>
+    public class PropertyUnitEntityConfiguration : IEntityTypeConfiguration<PropertyUnit>
     {
         public void Configure(EntityTypeBuilder<PropertyUnit> builder)
         {
             #region Basic Configuration
 
             builder.HasKey(p => p.Id);
-            builder.ToTable("Properties");
+            builder.ToTable("PropertyUnits");
 
             #endregion
 
@@ -29,13 +29,20 @@ namespace RealState.Infrastructure.Persistence.EntityConfiguration
             builder.Property(p => p.Bathrooms).IsRequired();
             builder.Property(p => p.StateProperty).IsRequired().HasDefaultValue((int)StateProperty.Available);
 
-            builder.OwnsMany(p => p.Images, img =>
-            {
-                img.ToTable("PropertyImages");
-                img.Property<string>("Value").HasColumnName("ImageUrl").IsRequired();
-                img.WithOwner().HasForeignKey("PropertyUnitId");
-                img.HasKey("PropertyUnitId", "ImageUrl"); 
-            });
+            builder.Property(p => p.Images)
+                .HasConversion
+                (
+                    v => string.Join(",", v),
+                    v => v.Split(",", StringSplitOptions.RemoveEmptyEntries).ToList()
+                ).HasMaxLength(1000).IsRequired();
+
+            #endregion
+
+            #region Relationships
+
+            builder.HasMany(p => p.ImprovementTypes)
+                .WithMany(i => i.PropertyUnits)
+                .UsingEntity(j => j.ToTable("PropertyUnitImprovementTypes"));
 
             #endregion
 
