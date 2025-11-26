@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <Folder Include="Context\" />
-    <Folder Include="Entities\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
     <Folder Include="Seeds\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
   </ItemGroup>

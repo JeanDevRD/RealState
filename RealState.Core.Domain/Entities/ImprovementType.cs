@@ -6,5 +6,6 @@ namespace RealState.Core.Domain.Entities
     {
         public required string Name { get; set; }
         public required string Description { get; set; }
+        public ICollection<PropertyUnit> PropertyUnits { get; set; } = new List<PropertyUnit>();
     }
 }

@@ -12,7 +12,7 @@ namespace RealState.Core.Domain.Entities
         public required int SaleTypeId { get; set; } //TipoDeVenta
         public SaleType? SaleType { get; set; }
 
-        public required List<ImprovementType> ImprovementTypes { get; set; } //TiposDeMejoras
+        public required ICollection<ImprovementType> ImprovementTypes { get; set; } //TiposDeMejoras
 
         public required string CodeProperty { get; set; } //CodigoDePropiedad
 

@@ -9,6 +9,6 @@ namespace RealState.Core.Domain.Entities
         public PropertyUnit? Property { get; set; }
         public required DateTime OfferDate { get; set; }
         public required decimal OfferAmount { get; set; }
-        public required string OfferStatus { get; set; }
+        public required int OfferStatus { get; set; }
     }
 }
