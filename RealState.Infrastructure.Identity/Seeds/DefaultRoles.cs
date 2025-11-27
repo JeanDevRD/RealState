@@ -1,0 +1,24 @@
+﻿using Microsoft.AspNetCore.Identity;
+using RealState.Core.Domain.Common.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RealState.Infrastructure.Identity.Seeds
+{
+    public static class DefaultRoles
+    {
+        public static async Task SeedAsync(RoleManager<IdentityRole> roleManager)
+        {
+            foreach (var role in Enum.GetNames(typeof(UserRole)))
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+        }
+    }
+}
