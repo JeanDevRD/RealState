@@ -13,7 +13,7 @@ namespace RealState.Infrastructure.Persistence.Context
         public DbSet<SaleType> SaleTypes { get; set; }
         public DbSet<ImprovementType> ImprovementTypes { get; set; }
         public DbSet<PropertyOffer> PropertyOffers { get; set; }
-        public DbSet<UserFavoriteProperty> UserFavoriteProperties { get; set; }
+        public DbSet<UserFavoritePropertyUnit> UserFavoriteProperties { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
 
