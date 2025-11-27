@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using RealState.Core.Application.DTOs.User;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Settings;
 using RealState.Infrastructure.Identity.Context;
 using RealState.Infrastructure.Identity.Entities;
 using RealState.Infrastructure.Identity.Seeds;
+using RealState.Infrastructure.Identity.Services;
 using System.Text;
 
 
@@ -17,6 +22,7 @@ namespace RealState.Infrastructure.Identity
     {
         public static void AddIdentityLayerApp(this IServiceCollection services, IConfiguration config ) 
         {
+            #region Context
             ConfigureGeneralIdentity(services, config);
 
             services.Configure<IdentityOptions>(opt =>
@@ -58,9 +64,10 @@ namespace RealState.Infrastructure.Identity
                 opt.AccessDeniedPath = "/Login/AccessDenied";
             });
 
-            #region Services
+#endregion 
 
-            #endregion
+            services.AddScoped<IAccountServiceForApp, AccountServiceForApp>();
+            
         }
         public static void AddIdentityLayerApi(this IServiceCollection services, IConfiguration config)
         {
@@ -115,9 +122,39 @@ namespace RealState.Infrastructure.Identity
                     ValidAudience = config["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:SecretKey"] ?? ""))
                 };
-            });
 
+                opt.Events = new JwtBearerEvents()
+                {
+                    OnAuthenticationFailed = af =>
+                    {
+                        af.NoResult();
+                        af.Response.StatusCode = 500;
+                        af.Response.ContentType = "text/plain";
+                        return af.Response.WriteAsync(af.Exception.Message.ToString());
+                    },
+                    OnChallenge = c =>
+                    {
+                        c.HandleResponse();
+                        c.Response.StatusCode = 401;
+                        c.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(new JwtResponseDto { HasError = true, Error = "No estás autorizado" });
+                        return c.Response.WriteAsync(result);
+                    },
+                    OnForbidden = c =>
+                    {
+                        c.Response.StatusCode = 403;
+                        c.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(new JwtResponseDto { HasError = true, Error = "No tienes permiso para acceder a este recurso" });
+                        return c.Response.WriteAsync(result);
+                    }
+                };
+            }).AddCookie(IdentityConstants.ApplicationScheme, opt =>
+            {
+                opt.ExpireTimeSpan = TimeSpan.FromMinutes(180);
+            });
             #endregion
+
+            services.AddScoped<IAccountServiceForApi, AccountServiceForApi>();
         }
 
         public static async Task RunIdentitySeedAsync(this IServiceProvider service)
