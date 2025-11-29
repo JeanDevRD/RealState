@@ -20,5 +20,6 @@ namespace RealState.Core.Application.Interfaces
         Task<List<UserDto>> GetAllUser();
         Task<string> ConfirmAccountAsync(string userId, string token);
         Task<UserDto?> SetActivated(UserDto dto);
+        Task<List<UserDto>> GetAllUsersByRole(string role);
     }
 }

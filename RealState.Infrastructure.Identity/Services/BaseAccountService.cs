@@ -446,6 +446,31 @@ namespace RealState.Infrastructure.Identity.Services
             };
         }
 
+        public virtual async Task<List<UserDto>> GetAllUsersByRole(string role)
+        {
+            List<UserDto> listUsersDtos = new();
+            var users = await _userManager.GetUsersInRoleAsync(role);
+            
+            foreach (var item in users)
+            {
+                var roleList = await _userManager.GetRolesAsync(item);
+                listUsersDtos.Add(new UserDto()
+                {
+                    Id = item.Id,
+                    Email = item.Email ?? "",
+                    LastName = item.LastName,
+                    FirstName = item.FirstName,
+                    UserName = item.UserName ?? "",
+                    DocumentId = item.DocumentId,
+                    Phone = item.PhoneNumber,
+                    IsVerified = item.EmailConfirmed,
+                    IsActive = item.IsActive,
+                    Role = roleList.FirstOrDefault() ?? ""
+                });
+            }
+            return listUsersDtos;
+        }
+
         #region Private methods
         private async Task<string> GetVerificationEmailUri(User user, string origin)
         {
