@@ -41,7 +41,7 @@ namespace RealState.Infrastructure.Persistence.Repositories
             }
         }
 
-        public virtual async Task<Entity?> GetById(int Id)
+        public virtual async Task<Entity?> GetByIdAsync(int Id)
         {
             return await _context.Set<Entity>().FindAsync(Id);
         }

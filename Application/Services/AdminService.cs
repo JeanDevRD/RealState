@@ -62,6 +62,22 @@ namespace RealState.Core.Application.Services
 
         #endregion
 
+        #region Activate or Deactivate Admin by Admin
 
+        public async Task<bool> ChangeStatusAdminAsync(string adminId)
+        {
+            var admin = await _UserforApp.GetUserById(adminId);
+            if (admin == null)
+            {
+                return false;
+            }
+
+            admin.IsActive = !admin.IsActive;
+            await _UserforApp.SetActivated(admin);
+            return true;
+        }
+
+
+        #endregion
     }
 }
