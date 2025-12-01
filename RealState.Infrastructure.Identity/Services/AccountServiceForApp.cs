@@ -2,11 +2,6 @@
 using RealState.Core.Application.DTOs.User;
 using RealState.Core.Application.Interfaces;
 using RealState.Infrastructure.Identity.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealState.Infrastructure.Identity.Services
 {

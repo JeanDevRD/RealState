@@ -446,29 +446,37 @@ namespace RealState.Infrastructure.Identity.Services
             };
         }
 
-        public virtual async Task<List<UserDto>> GetAllUsersByRole(string role)
+        public async Task<List<UserDto>>GetAllUsersByRole(string role) 
         {
-            List<UserDto> listUsersDtos = new();
             var users = await _userManager.GetUsersInRoleAsync(role);
-            
-            foreach (var item in users)
+
+            if (users == null) return [];
+
+            List<UserDto> result = new List<UserDto>();
+
+            foreach (var u in users) 
             {
-                var roleList = await _userManager.GetRolesAsync(item);
-                listUsersDtos.Add(new UserDto()
+                var rolesList = await _userManager.GetRolesAsync(u);
+
+                var User = new UserDto
                 {
-                    Id = item.Id,
-                    Email = item.Email ?? "",
-                    LastName = item.LastName,
-                    FirstName = item.FirstName,
-                    UserName = item.UserName ?? "",
-                    DocumentId = item.DocumentId,
-                    Phone = item.PhoneNumber,
-                    IsVerified = item.EmailConfirmed,
-                    IsActive = item.IsActive,
-                    Role = roleList.FirstOrDefault() ?? ""
-                });
+                    Id = u.Id,
+                    Email = u.Email ?? "",
+                    LastName = u.LastName,
+                    FirstName = u.FirstName,
+                    UserName = u.UserName ?? "",
+                    DocumentId = u.DocumentId,
+                    Phone = u.PhoneNumber,
+                    IsVerified = u.EmailConfirmed,
+                    IsActive = u.IsActive,
+                    Role = rolesList.FirstOrDefault() ?? ""
+
+                };
+
+                result.Add(User);
+            
             }
-            return listUsersDtos;
+            return result; 
         }
 
         #region Private methods
