@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+<<<<<<< HEAD
 using RealState.Core.Application.DTOs.Common;
 using RealState.Core.Application.DTOs.ImprovementType;
 using RealState.Core.Application.DTOs.PropertyType;
+=======
+using RealState.Core.Application.DTOs.ImprovementType;
+>>>>>>> 7ef5dd215724d2e6d01d1890e4b2c2f0f9e92cad
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
@@ -9,6 +13,7 @@ namespace RealState.Core.Application.Services
 {
     public class ImprovementTypeService : GenericService<ImprovementType, ImprovementTypeDto>
     {
+<<<<<<< HEAD
       private readonly IImprovementTypeRepository _improvementTypeRepo;
       private readonly IMapper _mapper;
 
@@ -63,6 +68,10 @@ namespace RealState.Core.Application.Services
             }
 
             return result;
+=======
+        public ImprovementTypeService(IGenericRepository<ImprovementType> repository, IMapper mapper) : base(repository, mapper)
+        {
+>>>>>>> 7ef5dd215724d2e6d01d1890e4b2c2f0f9e92cad
         }
     }
 }
