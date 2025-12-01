@@ -1,54 +1,54 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Common;
-using RealState.Core.Application.DTOs.PropertyType;
+using RealState.Core.Application.DTOs.SaleType;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class PropertyTypeService : GenericService<PropertyType, PropertyTypeDto>
+    public class SaleTypeService : GenericService<SaleType, SaleTypeDto>
     {
-        private readonly IPropertyTypeRepository _propertyTypeRepo;
+        private readonly ISaleTypeRepository _saleTypeRepo;
         private readonly IPropertyUnitRepository _propertyUnitRepo;
         private readonly IMapper _mapper;
 
-        public PropertyTypeService(IPropertyTypeRepository propertyTypeRepo, IPropertyUnitRepository propertyUnitRepo, IMapper mapper) : base(propertyTypeRepo, mapper)
+        public SaleTypeService(ISaleTypeRepository saleTypeRepo, IPropertyUnitRepository propertyUnitRepo, IMapper mapper) : base(saleTypeRepo, mapper)
         {
-            _propertyTypeRepo = propertyTypeRepo;
+            _saleTypeRepo = saleTypeRepo;
             _propertyUnitRepo = propertyUnitRepo;
             _mapper = mapper;
         }
 
-        #region List property types by admin 
+        #region List sale types by admin 
 
-        public async Task<ResultDto<List<PropertyTypeDto>>> GetAllPropertyType()
+        public async Task<ResultDto<List<SaleTypeDto>>> GetAllSaleType()
         {
-            var result = new ResultDto<List<PropertyTypeDto>>
+            var result = new ResultDto<List<SaleTypeDto>>
             {
-                Data = new List<PropertyTypeDto>(),
+                Data = new List<SaleTypeDto>(),
                 Message = new List<string>()
             };
 
             try
             {
-                var propertyTypes = await _propertyTypeRepo.GetAllListAsync();
-                if (!propertyTypes.Any())
+                var saleTypes = await _saleTypeRepo.GetAllListAsync();
+                if (!saleTypes.Any())
                 {
                     result.IsError = true;
-                    result.Message.Add("No se encontraron tipos de propiedad");
+                    result.Message.Add("No se encontraron tipos de ventas");
                     return result;
                 }
 
-                var propertyTypeList = _mapper.Map<List<PropertyTypeDto>>(propertyTypes);
+                var saleTypeList = _mapper.Map<List<SaleTypeDto>>(saleTypes);
 
-                foreach (var dto in propertyTypeList)
+                foreach (var dto in saleTypeList)
                 {
                     var property = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p.PropertyTypeId == dto.Id).CountAsync();
                     dto.CountProperty = property;
                 }
 
-                result.Data = propertyTypeList;
+                result.Data = saleTypeList;
 
             }
             catch (Exception ex)
