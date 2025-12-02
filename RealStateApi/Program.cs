@@ -2,6 +2,7 @@ using Application;
 using RealState.Infrastructure.Identity;
 using RealState.Infrastructure.Persistence;
 using RealState.Infrastructure.Shared;
+using RealStateApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
