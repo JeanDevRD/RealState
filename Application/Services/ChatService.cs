@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Chat;
-using RealState.Core.Application.DTOs.ImprovementType;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealState.Core.Application.Services
 {
@@ -38,5 +33,29 @@ namespace RealState.Core.Application.Services
                 throw new Exception("Error retrieving chat data with included data: " + ex.Message);
             }
         }
+        public async Task<ChatDto> GetConversation(string propertyId, string clientId)
+        {
+            try
+            {
+                var chat = await GetAllWithInclude();
+                chat = chat.Where(c => c.IdProperty.ToString() == propertyId && c.IdClient == clientId).ToList();
+
+
+                if (chat == null)
+                {
+                    return null!;
+                    
+                }
+
+                return _mapper.Map<ChatDto>(chat);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving conversation: " + ex.Message);
+            }
+        }
+
+
+
     }
 }
