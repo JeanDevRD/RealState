@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using RealState.Core.Application.DTOs.Common;
 using RealState.Core.Application.DTOs.ImprovementType;
-using RealState.Core.Application.DTOs.PropertyType;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
@@ -36,6 +35,7 @@ namespace RealState.Core.Application.Services
             }
         }
 
+        #region Get All improvement types by admin
         public async Task<ResultDto<List<ImprovementTypeDto>>> GetAllImprovementTypes() 
         {
             var result = new ResultDto<List<ImprovementTypeDto>>
@@ -65,5 +65,7 @@ namespace RealState.Core.Application.Services
             return result;
 
         }
+
+        #endregion
     }
 }
