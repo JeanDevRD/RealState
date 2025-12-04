@@ -389,24 +389,12 @@ namespace RealState.Core.Application.Services
                     return result;
                 }
 
-                result.Data = new PropertyDetailHomeDto
-                {
-                    Id = property.Id,
-                    PropertyTypeName = property.PropertyType?.Name ?? "N/A",
-                    SaleTypeName = property.SaleType?.Name ?? "N/A",
-                    CodeProperty = property.CodeProperty,
-                    Price = property.Price,
-                    Bedrooms = property.Bedrooms,
-                    Bathrooms = property.Bathrooms,
-                    SizeM = property.SizeM,
-                    Description = property.Description,
-                    Images = property.Images,
-                    ImprovementNames = property.ImprovementTypes?.Select(i => i.Name).ToList() ?? new List<string>(),
-                    AgentName = $"{agent.FirstName} {agent.LastName}",
-                    AgentPhone = agent.Phone ?? "N/A",
-                    AgentEmail = agent.Email,
-                    AgentPhoto = null
-                };
+                var propertyDetail = _mapper.Map<PropertyDetailHomeDto>(property);
+
+                propertyDetail.AgentName = $"{agent.FirstName} {agent.LastName}";
+                propertyDetail.AgentPhone = agent.Phone ?? "N/A";
+                propertyDetail.AgentEmail = agent.Email;
+                propertyDetail.AgentPhoto = null;
             }
             catch (Exception ex)
             {

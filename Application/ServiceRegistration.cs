@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RealState.Core.Application.Services;
 using System.Reflection;
 
 namespace Application
@@ -13,7 +14,18 @@ namespace Application
             #endregion
 
             #region Services
-
+            services.AddScoped<PropertyUnitService>();
+            services.AddScoped<PropertyTypeService>();
+            services.AddScoped<SaleTypeService>();
+            services.AddScoped<ImprovementTypeService>();
+            services.AddScoped<AgentService>();
+            services.AddScoped<ClientService>();
+            services.AddScoped<AdminService>();
+            services.AddScoped<DeveloperService>();
+            services.AddScoped<ChatService>();
+            services.AddScoped<MessageService>();
+            services.AddScoped<PropertyOfferService>();
+            services.AddScoped<FavoritePropertyServices>();
             #endregion
 
 
