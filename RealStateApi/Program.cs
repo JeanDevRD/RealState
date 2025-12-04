@@ -22,6 +22,8 @@ builder.Services.AddSwaggerConfiguration();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddSwaggerConfiguration();
+builder.Services.AddApiVersioningConfiguration();
 
 builder.Services.AddCors(options =>
 {
@@ -39,8 +41,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwaggerConfiguration(app);
     app.MapOpenApi();
 }
+
+await app.Services.RunIdentitySeedAsync();
+app.UseHealthChecks("/health");
 
 app.UseHttpsRedirection();
 

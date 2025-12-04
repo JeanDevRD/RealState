@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.0.1" />
+    <PackageReference Include="System.Text.Json" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +22,10 @@
     <ProjectReference Include="..\RealState.Infrastructure.Identity\RealState.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\RealState.Infrastructure.Persistence\RealState.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\RealState.Infrastructure.Shared\RealState.Infrastructure.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\v1\" />
   </ItemGroup>
 
 </Project>
