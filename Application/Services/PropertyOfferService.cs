@@ -2,17 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Message;
 using RealState.Core.Application.DTOs.PropertyOffer;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class PropertyOfferService : GenericService<PropertyOffer,PropertyOfferDto>
+    public class PropertyOfferService : GenericService<PropertyOffer, PropertyOfferDto>, IPropertyOfferService
     {
         IPropertyOfferRepository _propertyOffer;
         IMapper _mapper;
 
-        public PropertyOfferService(IPropertyOfferRepository propertyOffer, IMapper mapper) : base(propertyOffer,mapper)
+        public PropertyOfferService(IPropertyOfferRepository propertyOffer, IMapper mapper) : base(propertyOffer, mapper)
         {
             _propertyOffer = propertyOffer;
             _mapper = mapper;
@@ -50,7 +51,8 @@ namespace RealState.Core.Application.Services
             }
         }
 
-        public async Task<PropertyOfferDto>UpdateStatus(int propertyOfferId, bool status) { 
+        public async Task<PropertyOfferDto> UpdateStatus(int propertyOfferId, bool status)
+        {
             try
             {
                 var offer = await _propertyOffer.GetByIdAsync(propertyOfferId);
@@ -61,11 +63,11 @@ namespace RealState.Core.Application.Services
 
                 if (status)
                 {
-                    offer.OfferStatus = 1; 
+                    offer.OfferStatus = 1;
                 }
                 else
                 {
-                    offer.OfferStatus = 2; 
+                    offer.OfferStatus = 2;
                 }
 
                 var updatedOffer = await _propertyOffer.UpdateAsync(offer, propertyOfferId);
@@ -77,7 +79,7 @@ namespace RealState.Core.Application.Services
             }
         }
     }
-    
+
 
 
 }

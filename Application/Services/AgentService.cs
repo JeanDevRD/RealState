@@ -8,7 +8,7 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class AgentService 
+    public class AgentService : IAgentService
     {
         private readonly IAccountServiceForApp _UserforApp;
         private readonly IPropertyUnitRepository _propertyUnitRepo;
@@ -52,8 +52,8 @@ namespace RealState.Core.Application.Services
 
                 foreach (var agent in agents)
                 {
-                    var propertyCount = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p!.IdAgent == agent.Id).CountAsync(); 
-                    
+                    var propertyCount = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p!.IdAgent == agent.Id).CountAsync();
+
                     var agentDto = new AgentDto
                     {
                         Id = agent.Id,
@@ -78,10 +78,10 @@ namespace RealState.Core.Application.Services
 
         #region Activate or deactivate and delete by Admin
 
-        public async Task<bool> ChangeStatusAgentAsync(string agentId) 
-        { 
+        public async Task<bool> ChangeStatusAgentAsync(string agentId)
+        {
             var agent = await _UserforApp.GetUserById(agentId);
-            if(agent == null)
+            if (agent == null)
             {
                 return false;
             }
@@ -160,8 +160,8 @@ namespace RealState.Core.Application.Services
             {
                 var agents = await _UserforApp.GetAllUsersByRole(UserRole.Agent.ToString());
 
-                agents = agents.Where(a => a.IsActive &&(a.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) 
-                ||a.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
+                agents = agents.Where(a => a.IsActive && (a.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                || a.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
 
                 if (!agents.Any())
                 {

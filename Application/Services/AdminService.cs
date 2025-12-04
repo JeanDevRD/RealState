@@ -6,7 +6,7 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class AdminService
+    public class AdminService : IAdminService
     {
         private readonly IAccountServiceForApp _UserforApp;
         private readonly IPropertyUnitRepository _propertyUnitRepo;
@@ -38,7 +38,7 @@ namespace RealState.Core.Application.Services
                     return result;
                 }
 
-               var adminDtos = admins.Select(admin => new AdminDto
+                var adminDtos = admins.Select(admin => new AdminDto
                 {
                     Id = admin.Id,
                     IdentityNumber = admin.DocumentId!,

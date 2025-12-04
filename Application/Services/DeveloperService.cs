@@ -5,7 +5,7 @@ using RealState.Core.Domain.Common.Enums;
 
 namespace RealState.Core.Application.Services
 {
-    public class DeveloperService
+    public class DeveloperService : IDeveloperService
     {
         private readonly IAccountServiceForApp _UserforApp;
 
@@ -26,10 +26,10 @@ namespace RealState.Core.Application.Services
 
         #region List Developer by Admin
 
-        public async Task<ResultDto<List<DeveloperDto>>> GetAllDevelopersAsync() 
+        public async Task<ResultDto<List<DeveloperDto>>> GetAllDevelopersAsync()
         {
             var result = new ResultDto<List<DeveloperDto>>
-            { 
+            {
                 Message = new List<string>(),
                 Data = new List<DeveloperDto>()
             };
@@ -37,7 +37,7 @@ namespace RealState.Core.Application.Services
             try
             {
                 var developers = await _UserforApp.GetAllUsersByRole(UserRole.Developer.ToString());
-                if (!developers.Any()) 
+                if (!developers.Any())
                 {
                     result.IsError = true;
                     result.Message.Add("No se encontraron desarrolladores");
@@ -56,8 +56,8 @@ namespace RealState.Core.Application.Services
 
                 result.Data = developerDtos;
             }
-            catch(Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 result.IsError = true;
                 result.Message.Add(ex.Message);
             }
@@ -69,11 +69,11 @@ namespace RealState.Core.Application.Services
 
         #region Activate or Deactivate Developer by Admin
 
-        public async Task<bool> ChangeStatusDeveloperAsync(string developerId) 
-        { 
+        public async Task<bool> ChangeStatusDeveloperAsync(string developerId)
+        {
             var developer = await _UserforApp.GetUserById(developerId);
 
-            if(developer == null)
+            if (developer == null)
             {
                 return false;
             }

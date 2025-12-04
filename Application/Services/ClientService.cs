@@ -3,7 +3,7 @@ using RealState.Core.Domain.Common.Enums;
 
 namespace RealState.Core.Application.Services
 {
-    public class ClientService
+    public class ClientService : IClientService
     {
         private readonly IAccountServiceForApp _UserforApp;
 
@@ -21,9 +21,6 @@ namespace RealState.Core.Application.Services
         }
 
         #endregion
-
-
-
 
     }
 }

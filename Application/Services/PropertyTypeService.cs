@@ -2,21 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Common;
 using RealState.Core.Application.DTOs.PropertyType;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class PropertyTypeService : GenericService<PropertyType, PropertyTypeDto>
-
+    public class PropertyTypeService : GenericService<PropertyType, PropertyTypeDto>, IPropertyTypeService
     {
         private readonly IPropertyTypeRepository _propertyTypeRepo;
         private readonly IPropertyUnitRepository _propertyUnitRepo;
         private readonly IMapper _mapper;
 
-        public PropertyTypeService(IPropertyTypeRepository propertyTypeRepo, IPropertyUnitRepository propertyUnitRepo, IMapper mapper) 
+        public PropertyTypeService(IPropertyTypeRepository propertyTypeRepo, IPropertyUnitRepository propertyUnitRepo, IMapper mapper)
             : base(propertyTypeRepo, mapper)
-        { 
+        {
             _propertyTypeRepo = propertyTypeRepo;
             _propertyUnitRepo = propertyUnitRepo;
             _mapper = mapper;
@@ -39,7 +39,7 @@ namespace RealState.Core.Application.Services
             }
         }
 
-   
+
 
         #region List property types by admin 
 

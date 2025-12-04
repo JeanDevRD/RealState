@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Message;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class MessageService : GenericService<Message, MessageDto>
+    public class MessageService : GenericService<Message, MessageDto>, IMessageService
     {
         private readonly IMessageRepository _messageRepo;
         private readonly IMapper _mapper;

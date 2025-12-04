@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.UserFavoritePropertyUnit;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 using System;
@@ -11,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace RealState.Core.Application.Services
 {
-    public class FavoritePropertyServices : GenericService<UserFavoritePropertyUnit, UserFavoritePropertyUnitDto>
+    public class FavoritePropertyServices : GenericService<UserFavoritePropertyUnit, UserFavoritePropertyUnitDto>, IFavoritePropertyServices
     {
         IUserFavoritePropertyUnitRepository _favoritePropertyRepo;
         IMapper _mapper;
-        
 
-        public FavoritePropertyServices(IUserFavoritePropertyUnitRepository favoritePropertyRepo, IMapper mapper) 
+
+        public FavoritePropertyServices(IUserFavoritePropertyUnitRepository favoritePropertyRepo, IMapper mapper)
             : base(favoritePropertyRepo, mapper)
         {
             _favoritePropertyRepo = favoritePropertyRepo;

@@ -9,29 +9,25 @@ using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
-using System.Xml.Linq;
 
 namespace RealState.Core.Application.Services
 {
-    public class PropertyUnitService : GenericService<PropertyUnit, PropertyUnitDto>
+    public class PropertyUnitService : GenericService<PropertyUnit, PropertyUnitDto>, IPropertyUnitService
     {
         private readonly IPropertyUnitRepository _propertyUnitRepo;
         private readonly IChatRepository _chatRepo;
         private readonly IPropertyOfferRepository _offerRepo;
         private readonly IAccountServiceForApp _clientService;
         private readonly IMapper _mapper;
-        private readonly IPropertyTypeRepository _propertyTypeRepo;
-        private readonly ISaleTypeRepository _saleTypeRepo;
-        public PropertyUnitService(IPropertyUnitRepository propertyUnitRepo, IMapper mapper, IChatRepository chatRepo, IAccountServiceForApp clientService, 
-            IPropertyOfferRepository offerRepo, IPropertyTypeRepository propertyTypeRepo, ISaleTypeRepository saleTypeRepo) : base(propertyUnitRepo, mapper)
+        
+        public PropertyUnitService(IPropertyUnitRepository propertyUnitRepo, IMapper mapper, IChatRepository chatRepo, IAccountServiceForApp clientService,
+            IPropertyOfferRepository offerRepo) : base(propertyUnitRepo, mapper)
         {
             _propertyUnitRepo = propertyUnitRepo;
             _mapper = mapper;
             _chatRepo = chatRepo;
             _clientService = clientService;
             _offerRepo = offerRepo;
-            _propertyTypeRepo = propertyTypeRepo;
-            _saleTypeRepo = saleTypeRepo;
         }
 
         public async Task<List<PropertyUnitDto>> GetAllWithInclude()
@@ -73,12 +69,12 @@ namespace RealState.Core.Application.Services
             try
             {
                 var propertyIncludes = new List<string>
-        {
-            "PropertyType",
-            "SaleType",
-            "ImprovementTypes",
-            "Images"
-        };
+                {
+                 "PropertyType",
+                 "SaleType",
+                 "ImprovementTypes",
+                 "Images"
+                };
 
                 var propertyQuery = _propertyUnitRepo.GetAllQueryIncluide(propertyIncludes);
                 var getProperty = await propertyQuery.FirstOrDefaultAsync(p => p.Id == idProperty);
@@ -93,14 +89,11 @@ namespace RealState.Core.Application.Services
                 var propertyDetails = _mapper.Map<PropertyDetailsDto>(getProperty);
                 propertyDetails.PropertyTypeName = getProperty.PropertyType?.Name ?? "N/A";
                 propertyDetails.SalesName = getProperty.SaleType?.Name ?? "N/A";
-                propertyDetails.ImprovementTypesNames = getProperty.ImprovementTypes?
-                    .Select(i => i.Name).ToList()
+                propertyDetails.ImprovementTypesNames = getProperty.ImprovementTypes?.Select(i => i.Name).ToList()
                     ?? new List<string>();
 
 
-                var chats = await _chatRepo.GetAllQueryAsync()
-                    .Where(c => c.IdProperty == idProperty)
-                    .ToListAsync();
+                var chats = await _chatRepo.GetAllQueryAsync().Where(c => c.IdProperty == idProperty).ToListAsync();
 
                 var chatDtos = new List<ChatWithPropertyDetails>();
 
@@ -112,19 +105,19 @@ namespace RealState.Core.Application.Services
                     {
                         Id = chat.Id,
                         IdClient = chat.IdClient,
-                        NameClient = client != null
-                            ? $"{client.FirstName} {client.LastName}"
-                            : "N/A"
+                        NameClient = client != null? $"{client.FirstName} {client.LastName}" : "N/A"
                     });
                 }
 
                 propertyDetails.Chats = chatDtos;
 
 
-                var offers = await _offerRepo.GetAllQueryAsync().Where(o => o.IdProperty == idProperty).Include(o => o.Property)   
-                    .ToListAsync();
+                var offers = await _offerRepo.GetAllQueryAsync().Where(o => o != null && o.IdProperty == idProperty)
+                    .Select(o => o!) .Include(o => o.Property).ToListAsync();
 
                 var offerDtos = new List<PropertyOfferWithPropertyDetails>();
+
+             
 
                 foreach (var offer in offers)
                 {
@@ -134,9 +127,7 @@ namespace RealState.Core.Application.Services
                     {
                         Id = offer.Id,
                         IdClient = offer.IdClient,
-                        NameClient = client != null
-                            ? $"{client.FirstName} {client.LastName}"
-                            : "Usuario eliminado",
+                        NameClient = client != null ? $"{client.FirstName} {client.LastName}" : "Usuario eliminado",
                         OfferDate = offer.OfferDate,
                         OfferAmount = offer.OfferAmount,
                         OfferStatus = offer.OfferStatus,
@@ -144,14 +135,13 @@ namespace RealState.Core.Application.Services
                     });
                 }
 
-                propertyDetails.ClientWithOffer = offerDtos
-                    .GroupBy(o => o.IdClient)
+                propertyDetails.ClientWithOffer = offerDtos.GroupBy(o => o.IdClient)
                     .Select(g => new ClientWithPropertyOffer
                     {
                         NameClient = g.First().NameClient,
                         PropertyOffers = g.ToList()
-                    })
-                    .ToList();
+
+                    }).ToList();
 
 
                 result.Data = propertyDetails;
@@ -165,10 +155,7 @@ namespace RealState.Core.Application.Services
             return result;
         }
 
-
-
         #endregion
-
 
         #region Property Units by Agent
 
@@ -183,8 +170,8 @@ namespace RealState.Core.Application.Services
             {
                 var propertyUnits = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p.IdAgent == idAgent).ToListAsync();
 
-                if(onlyAvailable == true) 
-                {                     
+                if (onlyAvailable == true)
+                {
                     propertyUnits = propertyUnits.Where(p => p.StateProperty == 1).ToList();
                 }
 
@@ -350,18 +337,9 @@ namespace RealState.Core.Application.Services
                     return result;
                 }
 
-                result.Data = properties.Select(p => new PropertyCardDto
-                {
-                    Id = p!.Id,
-                    PropertyTypeName = p.PropertyType?.Name ?? "N/A",
-                    FirstImage = p.Images.FirstOrDefault() ?? "",
-                    CodeProperty = p.CodeProperty,
-                    SaleTypeName = p.SaleType?.Name ?? "N/A",
-                    Price = p.Price,
-                    Bedrooms = p.Bedrooms,
-                    Bathrooms = p.Bathrooms,
-                    SizeM = p.SizeM
-                }).ToList();
+                var result1 = _mapper.Map<List<PropertyCardDto>>(properties);
+
+                result.Data = result1;
             }
             catch (Exception ex)
             {
@@ -427,7 +405,7 @@ namespace RealState.Core.Application.Services
                     AgentName = $"{agent.FirstName} {agent.LastName}",
                     AgentPhone = agent.Phone ?? "N/A",
                     AgentEmail = agent.Email,
-                    AgentPhoto = null 
+                    AgentPhoto = null
                 };
             }
             catch (Exception ex)
@@ -460,6 +438,3 @@ namespace RealState.Core.Application.Services
     }
 
 }
-
-
- 

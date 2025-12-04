@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
 using RealState.Core.Application.DTOs.Common;
 using RealState.Core.Application.DTOs.ImprovementType;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class ImprovementTypeService : GenericService<ImprovementType, ImprovementTypeDto>
+    public class ImprovementTypeService : GenericService<ImprovementType, ImprovementTypeDto>, IImprovementTypeService
     {
-      private readonly IImprovementTypeRepository _improvementTypeRepo;
-      private readonly IMapper _mapper;
+        private readonly IImprovementTypeRepository _improvementTypeRepo;
+        private readonly IMapper _mapper;
 
-        public ImprovementTypeService(IImprovementTypeRepository improvementTypeRepo, IMapper mapper) 
+        public ImprovementTypeService(IImprovementTypeRepository improvementTypeRepo, IMapper mapper)
             : base(improvementTypeRepo, mapper)
         {
             _improvementTypeRepo = improvementTypeRepo;
@@ -36,7 +37,7 @@ namespace RealState.Core.Application.Services
         }
 
         #region Get All improvement types by admin
-        public async Task<ResultDto<List<ImprovementTypeDto>>> GetAllImprovementTypes() 
+        public async Task<ResultDto<List<ImprovementTypeDto>>> GetAllImprovementTypes()
         {
             var result = new ResultDto<List<ImprovementTypeDto>>
             {
@@ -47,8 +48,8 @@ namespace RealState.Core.Application.Services
             try
             {
                 var improvementTypes = await _improvementTypeRepo.GetAllListAsync();
-                if (!improvementTypes.Any()) 
-                { 
+                if (!improvementTypes.Any())
+                {
                     result.IsError = true;
                     result.Message.Add("No se encontraron tipos de mejora");
                     return result;
@@ -56,8 +57,8 @@ namespace RealState.Core.Application.Services
 
                 result.Data = _mapper.Map<List<ImprovementTypeDto>>(improvementTypes);
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 result.IsError = true;
                 result.Message.Add(ex.Message);
             }

@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Common;
 using RealState.Core.Application.DTOs.SaleType;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class SaleTypeService : GenericService<SaleType, SaleTypeDto>
+    public class SaleTypeService : GenericService<SaleType, SaleTypeDto>, ISaleTypeService
     {
         private readonly ISaleTypeRepository _saleTypeRepo;
         private readonly IPropertyUnitRepository _propertyUnitRepo;

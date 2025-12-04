@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Chat;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class ChatService : GenericService<Chat, ChatDto>
+    public class ChatService : GenericService<Chat, ChatDto>, IChatService
     {
         public readonly IChatRepository _chatRepo;
         public readonly IMapper _mapper;
@@ -44,7 +45,7 @@ namespace RealState.Core.Application.Services
                 if (chat == null)
                 {
                     return null!;
-                    
+
                 }
 
                 return _mapper.Map<ChatDto>(chat);
