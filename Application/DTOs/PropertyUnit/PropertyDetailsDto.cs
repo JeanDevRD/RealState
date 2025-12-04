@@ -4,7 +4,7 @@ using RealState.Core.Application.DTOs.User;
 
 namespace RealState.Core.Application.DTOs.PropertyUnit
 {
-    public class PropertyDetails : CommonDto<int>
+    public class PropertyDetailsDto : CommonDto<int>
     {
         public required string PropertyTypeName { get; set; }
         public required string SalesName { get; set; }
