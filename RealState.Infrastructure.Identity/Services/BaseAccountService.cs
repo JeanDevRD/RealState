@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Email;
 using RealState.Core.Application.DTOs.User;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Domain.Common.Enums;
 using RealState.Infrastructure.Identity.Entities;
+using RealState.Infrastructure.Identity.Seeds;
 using System.Text;
 
 
@@ -49,6 +51,8 @@ namespace RealState.Infrastructure.Identity.Services
                 return response;
             }
 
+
+
             User user = new()
             {
                 FirstName = saveDto.FirstName,
@@ -56,10 +60,10 @@ namespace RealState.Infrastructure.Identity.Services
                 DocumentId = saveDto.DocumentId,
                 Email = saveDto.Email,
                 UserName = saveDto.UserName,
-                EmailConfirmed = false,
+                EmailConfirmed = saveDto.Role == UserRole.Admin.ToString() ? true : false,
                 PhoneNumber = saveDto.Phone,
                 PhotoUrl = saveDto.PhotoUrl,
-                IsActive = false
+                IsActive = saveDto.Role == UserRole.Admin.ToString() ? true : false
             };
 
             var result = await _userManager.CreateAsync(user, saveDto.Password);
@@ -73,25 +77,30 @@ namespace RealState.Infrastructure.Identity.Services
 
             await _userManager.AddToRoleAsync(user, saveDto.Role);
 
-            if (isApi != null && !isApi.Value)
+            if (saveDto.Role != UserRole.Admin.ToString())
             {
-                string verificationUri = await GetVerificationEmailUri(user, origin ?? "");
-                await _emailService.SendEmailAsync(new EmailRequestDto
+
+                if (isApi != null && !isApi.Value)
                 {
-                    To = saveDto.Email,
-                    HtmlBody = $"<p>Por favor confirma tu cuenta visitando esta URL: <a href='{verificationUri}'>Confirmar cuenta</a></p>",
-                    Subject = "Confirmar registro - Real Estate"
-                });
-            }
-            else
-            {
-                string? verificationToken = await GetVerificationEmailToken(user);
-                await _emailService.SendEmailAsync(new EmailRequestDto
+                    string verificationUri = await GetVerificationEmailUri(user, origin ?? "");
+                    await _emailService.SendEmailAsync(new EmailRequestDto
+                    {
+                        To = saveDto.Email,
+                        HtmlBody = $"<p>Por favor confirma tu cuenta visitando esta URL: <a href='{verificationUri}'>Confirmar cuenta</a></p>",
+                        Subject = "Confirmar registro - Real Estate"
+                    });
+                }
+                else
                 {
-                    To = saveDto.Email,
-                    HtmlBody = $"<p>Por favor confirma tu cuenta usando este token: <strong>{verificationToken}</strong></p>",
-                    Subject = "Confirmar registro - Real Estate"
-                });
+                    string? verificationToken = await GetVerificationEmailToken(user);
+                    await _emailService.SendEmailAsync(new EmailRequestDto
+                    {
+                        To = saveDto.Email,
+                        HtmlBody = $"<p>Por favor confirma tu cuenta usando este token: <strong>{verificationToken}</strong></p>",
+                        Subject = "Confirmar registro - Real Estate"
+                    });
+                }
+
             }
 
             var rolesList = await _userManager.GetRolesAsync(user);

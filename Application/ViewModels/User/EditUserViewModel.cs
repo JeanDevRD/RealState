@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealState.Core.Application.DTOs.User
 {
-    public class SaveUserDto
+    public class EditUserViewModel
     {
         public string? Id { get; set; }
         public required string FirstName { get; set; }

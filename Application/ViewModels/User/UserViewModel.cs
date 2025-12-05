@@ -1,6 +1,6 @@
 ﻿namespace RealState.Core.Application.DTOs.User
 {
-    public class UserDto
+    public class UserViewModel 
     {
         public required string Id { get; set; }
         public required string FirstName { get; set; }

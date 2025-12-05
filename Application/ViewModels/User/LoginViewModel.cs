@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealState.Core.Application.DTOs.User
 {
-    public class LoginDto
+    public class LoginViewModel
     {
         public required string UserName { get; set; }
         public required string Password { get; set; }
