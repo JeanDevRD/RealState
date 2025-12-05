@@ -60,10 +60,12 @@ namespace RealState.Infrastructure.Identity.Services
                 DocumentId = saveDto.DocumentId,
                 Email = saveDto.Email,
                 UserName = saveDto.UserName,
-                EmailConfirmed = saveDto.Role == UserRole.Admin.ToString() ? true : false,
+                EmailConfirmed = saveDto.Role == UserRole.Admin.ToString() ||
+                saveDto.Role == UserRole.Developer.ToString() ? true : false,
                 PhoneNumber = saveDto.Phone,
                 PhotoUrl = saveDto.PhotoUrl,
-                IsActive = saveDto.Role == UserRole.Admin.ToString() ? true : false
+                IsActive = saveDto.Role == UserRole.Admin.ToString() ||
+                saveDto.Role == UserRole.Developer.ToString() ? true : false
             };
 
             var result = await _userManager.CreateAsync(user, saveDto.Password);
@@ -77,7 +79,7 @@ namespace RealState.Infrastructure.Identity.Services
 
             await _userManager.AddToRoleAsync(user, saveDto.Role);
 
-            if (saveDto.Role != UserRole.Admin.ToString())
+            if (saveDto.Role != UserRole.Admin.ToString() || saveDto.Role != UserRole.Developer.ToString())
             {
 
                 if (isApi != null && !isApi.Value)
