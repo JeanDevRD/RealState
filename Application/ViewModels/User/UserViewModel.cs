@@ -1,10 +1,6 @@
 ﻿namespace RealState.Core.Application.ViewModels.User
 {
-<<<<<<< HEAD
-    public class UserViewModel 
-=======
     public class UserViewModel
->>>>>>> 1fe7c70e1328ffb96b77a35ed48f36d1d74a378c
     {
         public required string Id { get; set; }
         public required string FirstName { get; set; }
