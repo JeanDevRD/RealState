@@ -1,8 +1,8 @@
 ﻿using RealState.Core.Application.DTOs.Common;
 
-namespace RealState.Core.Application.DTOs.SaleType
+namespace RealState.Core.Application.ViewModels.SalesType
 {
-    public class SaleTypeDto : CommonDto<int> 
+    public class SaleTypeViewModel : CommonDto<int> 
     {
         public required string Name { get; set; } 
         public required string Description { get; set; }

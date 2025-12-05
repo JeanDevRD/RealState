@@ -6,7 +6,7 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Services
 {
-    public class AdminService : IAdminService
+    public class AdminService : IDeveloperService
     {
         private readonly IAccountServiceForApp _UserforApp;
         private readonly IPropertyUnitRepository _propertyUnitRepo;

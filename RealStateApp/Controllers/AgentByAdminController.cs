@@ -1,23 +1,20 @@
-using System.Diagnostics;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.Agent;
-using RealState.Core.Application.ViewModels.HomeAdmin;
-using RealState.Core.Domain.Common.Enums;
-using RealStateApp.Models;
+
 
 namespace RealStateApp.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AgentController : Controller
+    public class AgentByAdminController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IAgentService _agentService;
         private readonly IMapper _mapper;
 
-        public AgentController(ILogger<HomeController> logger,IAgentService agentService, IMapper mapper)
+        public AgentByAdminController(ILogger<HomeController> logger,IAgentService agentService, IMapper mapper)
         {
             _logger = logger;
             _agentService = agentService;
@@ -28,14 +25,24 @@ namespace RealStateApp.Controllers
         {
             var agents = await _agentService.GetAllAgentsAsync();
             var result = _mapper.Map<List<AgentViewModel>>(agents.Data);
-            return View("AgentList", result);
+            return View("Index", result);
+        }
+
+        public IActionResult ChangeStatusUser()
+        {
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangeStatusUser(string id)
         {
             var res = await _agentService.ChangeStatusAgentAsync(id);
-            return RedirectToAction("AgentList");
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            return View("Delete", id);
         }
 
         [HttpPost]
