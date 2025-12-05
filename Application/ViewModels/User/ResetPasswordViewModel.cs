@@ -1,7 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ArtemisBanking.Core.Application.ViewModels.User
+namespace RealState.Core.Application.ViewModels.User
 {
     public class ResetPasswordRequestViewModel
     {

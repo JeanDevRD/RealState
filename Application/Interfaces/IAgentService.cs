@@ -7,7 +7,7 @@ namespace RealState.Core.Application.Interfaces
     public interface IAgentService
     {
         Task<bool> ChangeStatusAgentAsync(string agentId);
-        Task<bool> DeleteStatusAgentAsync(string agentId);
+        Task<bool> DeleteAgentAsync(string agentId);
         Task<ResultDto<List<PropertyCardDto>>> GetAgentAvailablePropertiesAsync(string agentId);
         Task<ResultDto<List<AgentCardDto>>> GetAllActiveAgentsAsync();
         Task<ResultDto<List<AgentDto>>> GetAllAgentsAsync();
