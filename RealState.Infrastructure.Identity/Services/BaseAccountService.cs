@@ -176,6 +176,7 @@ namespace RealState.Infrastructure.Identity.Services
 
                 if (!user.EmailConfirmed && isNotcreated)
                 {
+
                     if (isApi != null && !isApi.Value)
                     {
                         string verificationUri = await GetVerificationEmailUri(user, origin ?? "");

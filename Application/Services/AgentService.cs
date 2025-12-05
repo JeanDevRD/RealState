@@ -91,7 +91,7 @@ namespace RealState.Core.Application.Services
             return true;
         }
 
-        public async Task<bool> DeleteStatusAgentAsync(string agentId)
+        public async Task<bool> DeleteAgentAsync(string agentId)
         {
             var agent = await _UserforApp.GetUserById(agentId);
             if (agent == null)

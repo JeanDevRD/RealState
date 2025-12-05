@@ -1,0 +1,41 @@
+﻿@model LoginViewModel
+
+@{
+    Layout = "_LayoutAnonymous";
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white text-center py-3">
+        <h3 class="mb-0">
+            <i class="bi bi-shield-lock"></i> Artemis Banking
+        </h3>
+        <small>Banca en línea segura</small>
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Usuario</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" name="@Model.UserName" class="form-control" placeholder="Ingrese su usuario" required autofocus />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Contraseña</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="@Model.Password" class="form-control" placeholder="Ingrese su contraseña" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-2 mb-3">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            </button>
+            <div class="text-center">
+                <a asp-controller="Login" asp-action="ForgotPassword" class="text-decoration-none">
+                    <i class="bi bi-question-circle"></i> ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
