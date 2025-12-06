@@ -15,6 +15,9 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
            .ForMember(d => d.CodeProperty, opt => opt.Ignore())
            .ForMember(d => d.Images, opt => opt.MapFrom(src => new List<string>()))
            .ForMember(d => d.StateProperty, opt => opt.MapFrom(src => (int)StateProperty.Available));
+
+            CreateMap<PropertyDetailsDto, PropertyDetailViewModel>()
+                .ReverseMap();
         }
     }
 }

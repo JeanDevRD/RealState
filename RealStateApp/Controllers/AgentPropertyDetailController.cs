@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.Message;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.PropertyUnit;
 
 namespace RealStateApp.Controllers
 {
@@ -9,12 +11,13 @@ namespace RealStateApp.Controllers
     public class AgentPropertyDetailController : Controller
     {
         private readonly IPropertyUnitService _propertyService;
-        private readonly IAccountServiceForApp _accountService;
+        private readonly IMapper _mapper;
 
-        public AgentPropertyDetailController(IPropertyUnitService propertyService,IAccountServiceForApp accountService)
+        public AgentPropertyDetailController(IPropertyUnitService propertyService, IMapper mapper)
         {
             _propertyService = propertyService;
-            _accountService = accountService;
+            _mapper = mapper;
+
         }
 
         public async Task<IActionResult> Detail(int id)
@@ -41,7 +44,9 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index", "Agent");
             }
 
-            return View(result.Data);
+            var details = _mapper.Map<PropertyDetailViewModel>(result.Data);
+
+            return View(details);
         }
     }
 }

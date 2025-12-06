@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.Message;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.Chat;
 
 namespace RealStateApp.Controllers
 {
@@ -10,14 +12,16 @@ namespace RealStateApp.Controllers
         private readonly IMessageService _messageService;
         private readonly IAccountServiceForApp _accountService;
         private readonly IPropertyUnitService _propertyService;
+        private readonly IMapper _mapper;
 
         public AgentChatController(IChatService chatService, IMessageService messageService,
-            IAccountServiceForApp accountService,IPropertyUnitService propertyService)
+            IAccountServiceForApp accountService,IPropertyUnitService propertyService, IMapper mapper)
         {
             _chatService = chatService;
             _messageService = messageService;
             _accountService = accountService;
             _propertyService = propertyService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Detail(int chatId)
@@ -39,7 +43,9 @@ namespace RealStateApp.Controllers
             var property = await _propertyService.GetByIdAsync(chat.IdProperty);
             ViewBag.PropertyCode = property?.CodeProperty ?? "";
 
-            return View(chat);
+            var chatVM = _mapper.Map<ChatViewModel>(chat);
+
+            return View(chatVM);
         }
 
         [HttpPost]
@@ -76,7 +82,6 @@ namespace RealStateApp.Controllers
                     SentAt = DateTime.Now
                 });
 
-                TempData["Success"] = "Mensaje enviado correctamente.";
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.DTOs.User;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.PropertyUnit;
 using RealState.Core.Application.ViewModels.User;
 using RealStateApp.Helpers;
 
@@ -39,7 +40,9 @@ namespace RealStateApp.Controllers
                 ViewBag.Message = ("Error al obtener Propiedades ", result.Message);
             }
 
-            return View(result.Data ?? new List<PropertyUnitDto>());
+            var property = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
+
+            return View(property);
         }
 
         [HttpGet]
