@@ -34,7 +34,7 @@ namespace RealStateApp.Controllers
             if (result.IsError || result.Data == null)
             {
                 TempData["Error"] = "Error al obtener detalles: " + result.Message;
-                return RedirectToAction("Index", "Agent");
+                return RedirectToAction("Index", "HomeAgent");
             }
 
             var property = await _propertyService.GetByIdAsync(id);

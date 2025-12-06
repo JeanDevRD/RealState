@@ -19,6 +19,6 @@ namespace RealState.Core.Application.ViewModels.PropertyUnit
         public double SizeM { get; set; }
         public int StateProperty { get; set; }
         public bool IsSold => StateProperty == 1;
-       
+
     }
 }
