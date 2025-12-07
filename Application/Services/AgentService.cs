@@ -60,6 +60,7 @@ namespace RealState.Core.Application.Services
                         Name = agent.FirstName,
                         LastName = agent.LastName,
                         Email = agent.Email,
+                        IsActive = agent.IsActive,
                         TotalProperties = propertyCount
                     };
                     result.Data.Add(agentDto);

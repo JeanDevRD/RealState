@@ -1,6 +1,4 @@
-﻿
-
-namespace RealState.Core.Application.ViewModels.Offer
+﻿namespace RealState.Core.Application.ViewModels.Offer
 {
     public class OfferListViewModel
     {

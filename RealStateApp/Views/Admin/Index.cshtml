@@ -1,0 +1,61 @@
+﻿@model List<AdminViewModel>
+@{
+    ViewData["Title"] = "Gestión de Administradores";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-12 text-end">
+            <a asp-controller="Admin" asp-action="Create" class="btn btn-primary">
+                Crear Nuevo Administrador
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Listado de Administradores</h4>
+        </div>
+        <div class="card-body">
+            @if (Model == null || Model.Count == 0)
+            {
+                <div class="alert alert-info" role="alert">
+                    No hay administradores registrados actualmente.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Cédula</th>
+                                <th>Nombre de Usuario</th>
+                                <th>Email</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var admin in Model)
+                            {
+                                <tr>
+                                    <td>@admin.Name</td>
+                                    <td>@admin.LastName</td>
+                                    <td>@admin.IdentityNumber</td>
+                                    <td>@admin.UserName</td>
+                                    <td>@admin.Email</td>
+                                    <td>
+                                        <a asp-controller="Admin" asp-action="Edit" asp-route-id="@admin.Id" class="btn btn-sm btn-warning me-2">Editar</a>
+                                        <a asp-controller="Admin" asp-action="Delete" asp-route-id="@admin.Id" class="btn btn-sm btn-danger me-2">Eliminar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

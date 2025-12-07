@@ -54,6 +54,7 @@ namespace RealStateApp.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.EditMode = true;
             var propertyTypeDto = await _saleTypeService.GetByIdAsync(id);
             var viewModel = _mapper.Map<SaveSaleTypeViewModel>(propertyTypeDto);
             return View("Save", viewModel);
@@ -80,7 +81,7 @@ namespace RealStateApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProperty(int id)
+        public async Task<IActionResult> DeleteSale(int id)
         {
             await _saleTypeService.DeleteAsync(id);
             return RedirectToAction("Index", "SaleType");

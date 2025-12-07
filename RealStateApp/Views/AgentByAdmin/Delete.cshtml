@@ -1,0 +1,28 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Confirmar Eliminación";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4 mt-5">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-danger">Eliminación Permanente</h4>
+                    <p class="card-text">Estás a punto de **eliminar permanentemente** un agente.</p>
+                    <p class="text-danger small">Esta acción no se puede deshacer.</p>
+
+                    <form asp-controller="AgentByAdmin" asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@Model" />
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                            <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                            <a asp-controller="AgentByAdmin" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

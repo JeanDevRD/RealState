@@ -79,16 +79,16 @@ namespace RealStateApp.Controllers
                 return View("Index");
             }
 
-            var viewModel = _mapper.Map<SaveUserViewModel>(userDto);
-            return View("Save", viewModel);
+            var viewModel = _mapper.Map<EditUserViewModel>(userDto);
+            return View("Edit", viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SaveUserViewModel save)
+        public async Task<IActionResult> Edit(EditUserViewModel save)
         {
             if (!ModelState.IsValid)
             {
-                return View("Save", save);
+                return View("Edit", save);
             }
 
             var dto = _mapper.Map<SaveUserDto>(save);

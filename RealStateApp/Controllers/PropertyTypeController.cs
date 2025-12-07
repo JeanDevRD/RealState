@@ -30,7 +30,7 @@ namespace RealStateApp.Controllers
 
         public IActionResult Create()
         {
-            return View("Create", new SavePropertyTypeViewModel 
+            return View("Save", new SavePropertyTypeViewModel 
             {
                 Id = 0,
                 Name = "",
@@ -53,6 +53,7 @@ namespace RealStateApp.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.EditMode = true;
             var propertyTypeDto = await _propertyTypeService.GetByIdAsync(id);
             var viewModel = _mapper.Map<SavePropertyTypeViewModel>(propertyTypeDto);
             return View("Save", viewModel);

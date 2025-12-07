@@ -1,9 +1,8 @@
-﻿using RealState.Core.Application.DTOs.Common;
-using RealState.Core.Application.DTOs.PropertyUnit;
+﻿using RealState.Core.Application.ViewModels.Common;
 
 namespace RealState.Core.Application.ViewModels.ImprovementType
 {
-    public class ImprovementTypeViewModel : CommonDto<int>
+    public class ImprovementTypeViewModel : CommonViewModel<int>
     {
         public required string Name { get; set; }
         public required string Description { get; set; }

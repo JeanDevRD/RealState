@@ -28,9 +28,9 @@ namespace RealStateApp.Controllers
             return View("Index", result);
         }
 
-        public IActionResult ChangeStatusUser()
+        public IActionResult ChangeStatus(string IdUser)
         {
-            return View();
+            return View("ChangeStatus", IdUser);
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace RealStateApp.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var res = await _agentService.DeleteAgentAsync(id);
-            return RedirectToAction("AgentList");
+            return RedirectToAction("Index");
         }
 
     }

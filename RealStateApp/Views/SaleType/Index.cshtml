@@ -1,0 +1,63 @@
+﻿@model List<SaleTypeViewModel>
+@{
+    ViewData["Title"] = "Gestión de Tipos de pagos";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Tipos de Propiedad</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <a asp-controller="SaleType" asp-action="Create" class="btn btn-success">
+                            <i class="fas fa-plus-circle"></i> Crear Nuevo Tipo de pago
+                        </a>
+                    </div>
+
+                    @if (Model == null || Model.Count == 0)
+                    {
+                        <div class="alert alert-info" role="alert">
+                            No hay Tipos de pagos registrados.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad de Tipos de pago</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.CountProperty</td>
+                                            <td>
+                                                <a asp-controller="SaleType" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-2" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a asp-controller="SaleType" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

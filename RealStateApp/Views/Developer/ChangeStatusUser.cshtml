@@ -1,0 +1,31 @@
+﻿@model DeveloperViewModel
+@{
+    ViewData["Title"] = "Cambiar Estado de Desarrollador";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card bg-light shadow-lg border-info rounded-lg mt-5">
+                <div class="card-header bg-info text-white">
+                    <h3 class="text-center font-weight-light my-4">Cambiar Estado de Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center lead">
+                        El estado actual del desarrollador **@Model.Name @Model.LastName** es: **[Aquí debería ir el estado actual (Activo/Inactivo)]**.
+                    </p>
+                    <p class="text-center">
+                        ¿Estás seguro de que deseas cambiar el estado de este desarrollador? Esto podría activar o desactivar su cuenta.
+                    </p>
+                    <hr />
+
+                    <form method="post" asp-controller="Developer" asp-action="ChangeStatusUser" class="d-flex justify-content-around mt-4">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <a asp-controller="Developer" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-info">Confirmar Cambio de Estado</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

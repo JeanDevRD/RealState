@@ -54,6 +54,7 @@ namespace RealStateApp.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.EditMode = true;
             var propertyTypeDto = await _improvementTypeService.GetByIdAsync(id);
             var viewModel = _mapper.Map<ImprovementTypeViewModel>(propertyTypeDto);
             return View("Save", viewModel);
