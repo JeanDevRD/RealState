@@ -14,13 +14,14 @@ using RealState.Infrastructure.Identity.Entities;
 using RealState.Infrastructure.Identity.Seeds;
 using RealState.Infrastructure.Identity.Services;
 using System.Text;
+using System.Threading.Tasks;
 
 
 namespace RealState.Infrastructure.Identity
 {
     public static class ServiceRegistration
     {
-        public static void AddIdentityLayerApp(this IServiceCollection services, IConfiguration config ) 
+        public static async Task AddIdentityLayerApp(this IServiceCollection services, IConfiguration config ) 
         {
             #region Context
             ConfigureGeneralIdentity(services, config);
@@ -67,7 +68,9 @@ namespace RealState.Infrastructure.Identity
 #endregion 
 
             services.AddScoped<IAccountServiceForApp, AccountServiceForApp>();
-            
+
+            await RunIdentitySeedAsync(services.BuildServiceProvider());
+           
         }
         public static void AddIdentityLayerApi(this IServiceCollection services, IConfiguration config)
         {
@@ -152,6 +155,8 @@ namespace RealState.Infrastructure.Identity
             {
                 opt.ExpireTimeSpan = TimeSpan.FromMinutes(180);
             });
+
+             RunIdentitySeedAsync(services.BuildServiceProvider()).Wait();
             #endregion
 
             services.AddScoped<IAccountServiceForApi, AccountServiceForApi>();

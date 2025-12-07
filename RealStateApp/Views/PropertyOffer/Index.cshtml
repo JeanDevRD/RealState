@@ -1,0 +1,81 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+@model List<PropertyOfferViewModel>
+@{
+    ViewData["Title"] = "Mis Ofertas";
+    Layout = "_LayoutClient";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Mis Ofertas</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No has realizado ofertas todavía.
+            </div>
+            <a asp-controller="HomeClient" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-search"></i> Buscar Propiedades
+            </a>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var offer in Model)
+                        {
+                            <tr>
+                                <td>Código: @(offer.Property?.CodeProperty ?? "N/A")</td>
+                                <td>@offer.OfferDate.ToString("dd/MM/yyyy")</td>
+                                <td class="text-success">RD$ @offer.OfferAmount.ToString("N2")</td>
+                                <td>
+                                    @if (offer.OfferStatus == 0)
+                                    {
+                                        <span class="badge bg-warning text-dark">Pendiente</span>
+                                    }
+                                    else if (offer.OfferStatus == 1)
+                                    {
+                                        <span class="badge bg-success">Aceptada</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Rechazada</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (offer.OfferStatus == 0)
+                                    {
+                                        <a asp-controller="PropertyOffer" asp-action="Edit" asp-route-id="@offer.IdProperty" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        <a asp-controller="PropertyOffer" asp-action="Delete" asp-route-id="@offer.IdProperty" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No disponible</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

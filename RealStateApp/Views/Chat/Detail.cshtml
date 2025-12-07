@@ -1,0 +1,55 @@
+﻿@model RealState.Core.Application.ViewModels.Chat.ChatDetailViewModel
+@{
+    ViewData["Title"] = "Chat";
+    Layout = "_LayoutClient";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-comments"></i>
+                    Conversación con @Model.ClientName - Propiedad: @Model.PropertyCode
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="chat-messages mb-3 p-3" style="max-height: 400px; overflow-y: auto; background-color: #f8f9fa; border-radius: 5px;">
+                    @if (Model.Messages == null || !Model.Messages.Any())
+                    {
+                        <p class="text-muted text-center">No hay mensajes en esta conversación</p>
+                    }
+                    else
+                    {
+                        @foreach (var message in Model.Messages)
+                        {
+                            <div class="message mb-3 @(message.SenderId == Model.CurrentUserId ? "text-end" : "")">
+                                <div class="d-inline-block p-2 rounded @(message.SenderId == Model.CurrentUserId ? "bg-primary text-white" : "bg-white border")" style="max-width: 70%;">
+                                    <p class="mb-1">@message.Content</p>
+                                    <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                        @message.SentAt.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <form asp-controller="Chat" asp-action="SendMessage" method="post">
+                    <input type="hidden" name="chatId" value="@Model.ChatId" />
+                    <div class="input-group">
+                        <input type="text" name="content" class="form-control" placeholder="Escribe tu mensaje..." required />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="ClientPropertyDetail" asp-action="Details" asp-route-id="@Model.PropertyId" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver a la Propiedad
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

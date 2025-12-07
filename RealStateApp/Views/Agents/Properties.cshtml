@@ -1,0 +1,57 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@model List<PropertyUnitViewModel>
+@{
+    ViewData["Title"] = "Propiedades del Agente";
+    Layout = "_LayoutAnonymous";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <a asp-controller="Agents" asp-action="Index" class="btn btn-secondary">
+            <p class="fas fa-arrow-left"></p> Volver a Agentes </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Propiedades del Agente</h2>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p class="fas fa-info-circle"></p> Este agente no tiene propiedades disponibles.
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var property in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">@property.PropertyTypeName</span>
+                        <span class="badge bg-secondary mb-2">@property.SaleTypeName</span>
+                        <h5 class="card-title">Código: @property.CodeProperty</h5>
+                        <h4 class="text-success">RD$ @property.Price.ToString("N2")</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-bed"></i> @property.Bedrooms Habitaciones</li>
+                            <li><i class="fas fa-bath"></i> @property.Bathrooms Baños</li>
+                            <li><i class="fas fa-ruler-combined"></i> @property.SizeM m²</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@property.Id" 
+                        class="btn btn-primary w-100"> <i class="fas fa-eye"></i> Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

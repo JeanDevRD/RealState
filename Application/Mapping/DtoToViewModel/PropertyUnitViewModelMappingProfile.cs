@@ -21,6 +21,12 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
 
             CreateMap<PropertyFilterDto, PropertyFilterViewModel>()
                 .ReverseMap();
+
+            CreateMap<PropertyCardDto, PropertyCardViewModel>().
+                ReverseMap();
+
+            CreateMap<PropertyDetailHomeDto, PropertyDetailHomeViewModel>()
+                .ReverseMap();
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using RealState.Core.Application.DTOs.PropertyUnit;
+using RealState.Core.Application.DTOs.Agent;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.Agent;
 using RealState.Core.Application.ViewModels.PropertyUnit;
 
 namespace RealStateApp.Controllers
@@ -23,11 +24,13 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = string.Join(", ", result.Message);
+                TempData["Error"] = result.Message;
                 return View(new List<AgentCardDto>());
             }
 
-            return View(result.Data);
+            var agents = _mapper.Map<List<AgentCardViewModel>>(result.Data);
+
+            return View(agents);
         }
 
         [HttpPost]
@@ -42,10 +45,11 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Info"] = string.Join(", ", result.Message);
+                TempData["Info"] = result.Message;
             }
+            var agents = _mapper.Map<List<AgentCardViewModel>>(result.Data);
 
-            return View("Index", result.Data ?? new List<AgentCardDto>());
+            return View("Index", agents ?? new List<AgentCardViewModel>());
         }
 
         public async Task<IActionResult> Properties(string agentId)
@@ -60,7 +64,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = string.Join(", ", result.Message);
+                TempData["Error"] = result.Message;
                 return RedirectToAction("Index");
             }
 

@@ -1,0 +1,38 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+@model SavePropertyOfferViewModel
+@{
+    ViewData["Title"] = "Editar Oferta";
+    Layout = "_LayoutClient";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">Editar Oferta</h4>
+            </div>
+            <div class="card-body">
+                <form asp-controller="PropertyOffer" asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="OfferAmount" class="form-label">Nuevo Monto de la Oferta (RD$)</label>
+                        <input asp-for="OfferAmount" type="number" class="form-control" step="0.01" />
+                        <span asp-validation-for="OfferAmount" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-controller="PropertyOffer" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

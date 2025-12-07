@@ -28,10 +28,10 @@ namespace RealStateApp.Controllers
             if (result.IsError)
             {
                 TempData["Error"] = "Error al obtener propiedades" + result.Message;
-                return View(new List<PropertyUnitViewModel>());
+                return View(new List<PropertyCardViewModel>());
             }
 
-            var properties = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
+            var properties = _mapper.Map<List<PropertyCardViewModel>>(result.Data);
             ViewBag.PropertyTypes = await _propertyTypeService.GetAllAsync();
 
             return View(properties);
@@ -88,11 +88,13 @@ namespace RealStateApp.Controllers
 
             if (result.IsError || result.Data == null)
             {
-                TempData["Error"] = string.Join(", ", result.Message);
+                TempData["Error"] = result.Message;
                 return RedirectToAction("Index");
             }
 
-            return View(result.Data);
+           var property = _mapper.Map<PropertyDetailHomeViewModel>(result.Data);
+
+            return View(property);
         }
     }
 }

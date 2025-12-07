@@ -1,0 +1,51 @@
+﻿@using RealState.Core.Application.ViewModels.UserFavoritePropertyUnit
+@model List<UserFavoritePropertyUnitViewModel>
+@{
+    ViewData["Title"] = "Mis Propiedades Favoritas";
+    Layout = "_LayoutClient";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Mis Propiedades Favoritas</h2>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No tienes propiedades marcadas como favoritas.
+            </div>
+            <a asp-controller="HomeClient" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-search"></i> Buscar Propiedades
+            </a>
+        </div>
+    }
+    else
+    {
+        @foreach (var favorite in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Propiedad ID: @favorite.IdProperty</h5>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid gap-2">
+                            <a asp-controller="ClientPropertyDetail" asp-action="Details" asp-route-id="@favorite.IdProperty" class="btn btn-primary">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <form asp-controller="FavoriteProperty" asp-action="Toggle" asp-route-propertyId="@favorite.IdProperty" method="post">
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="fas fa-heart-broken"></i> Quitar de Favoritos
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

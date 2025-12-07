@@ -1,14 +1,14 @@
-﻿using RealState.Core.Application.DTOs.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealState.Core.Application.DTOs.PropertyUnit
+namespace RealState.Core.Application.ViewModels.PropertyUnit
 {
-     public class PropertyDetailHomeDto : CommonDto<int>
+    public class PropertyDetailHomeViewModel
     {
+        public int Id { get; set; }
         public required string PropertyTypeName { get; set; }
         public required string SaleTypeName { get; set; }
         public required string CodeProperty { get; set; }
@@ -24,5 +24,5 @@ namespace RealState.Core.Application.DTOs.PropertyUnit
         public required string AgentPhone { get; set; }
         public required string AgentEmail { get; set; }
         public string? AgentPhoto { get; set; }
-     }
+    }
 }
