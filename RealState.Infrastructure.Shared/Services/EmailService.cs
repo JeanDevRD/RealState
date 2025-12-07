@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using RealState.Core.Application.DTOs.Email;
 using RealState.Core.Application.Interfaces;
@@ -8,12 +9,12 @@ namespace RealState.Infrastructure.Shared.Services
 {
     public class EmailService : IEmailService
     {
-        public readonly MailSettings _mailSettings;
+        private readonly MailSettings _mailSettings;
         private readonly ILogger<EmailService> _logger;
 
-        public EmailService(MailSettings mailSettings, ILogger<EmailService> logger)
+        public EmailService(IOptions<MailSettings> mailSettings, ILogger<EmailService> logger)
         {
-            _mailSettings = mailSettings;
+            _mailSettings = mailSettings.Value;
             _logger = logger;
         }
 

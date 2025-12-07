@@ -16,12 +16,12 @@ namespace RealStateApp.Controllers
     public class AdminController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDeveloperService _adminService;
+        private readonly IAdminService _adminService;
         private readonly IAccountServiceForApp _forApp;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public AdminController(ILogger<HomeController> logger, IDeveloperService adminService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
+        public AdminController(ILogger<HomeController> logger, IAdminService adminService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
         {
             _logger = logger;
             _mapper = mapper;

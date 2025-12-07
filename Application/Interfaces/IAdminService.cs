@@ -3,7 +3,7 @@ using RealState.Core.Application.DTOs.Common;
 
 namespace RealState.Core.Application.Interfaces
 {
-    public interface IDeveloperService
+    public interface IAdminService
     {
         Task<bool> ChangeStatusAdminAsync(string adminId);
         Task<ResultDto<List<AdminDto>>> GetAllAdminAsync();

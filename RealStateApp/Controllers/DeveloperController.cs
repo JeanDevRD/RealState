@@ -15,12 +15,12 @@ namespace RealStateApp.Controllers
     public class DeveloperController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDeveloperService _developerService;
+        private readonly IAdminService _developerService;
         private readonly IAccountServiceForApp _forApp;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public DeveloperController(ILogger<HomeController> logger, IDeveloperService developerService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
+        public DeveloperController(ILogger<HomeController> logger, IAdminService developerService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
         {
             _logger = logger;
             _mapper = mapper;
