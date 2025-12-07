@@ -34,12 +34,12 @@ namespace RealState.Core.Application.Services
                 throw new Exception("Error retrieving chat data with included data: " + ex.Message);
             }
         }
-        public async Task<ChatDto> GetConversation(string propertyId, string clientId)
+        public async Task<ChatDto> GetConversation(int propertyId, string clientId)
         {
             try
             {
                 var chat = await GetAllWithInclude();
-                chat = chat.Where(c => c.IdProperty.ToString() == propertyId && c.IdClient == clientId).ToList();
+                chat = chat.Where(c => c.IdProperty == propertyId && c.IdClient == clientId).ToList();
 
 
                 if (chat == null)

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyOffer;
 using RealState.Core.Application.DTOs.PropertyUnit;
@@ -6,20 +8,23 @@ using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyOffer;
 using RealState.Core.Application.ViewModels.PropertyUnit;
 using RealState.Core.Domain.Common.Enums;
-using RealStateApp.Helpers;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class PropertyOfferController : Controller
     {
 
         private readonly IPropertyOfferService _propertyOffer;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public PropertyOfferController(IPropertyOfferService propertyOffer, IMapper mapper)
+        public PropertyOfferController(IPropertyOfferService propertyOffer, IMapper mapper, UserManager<User> userManager)
         {
             _propertyOffer = propertyOffer;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public IActionResult Create()
@@ -39,6 +44,27 @@ namespace RealStateApp.Controllers
             });
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var result = await _propertyOffer.GetAllWhithInclude();
+
+            var propertiesByClient = result.Where(po => po.IdClient == userId).ToList();
+
+            if (propertiesByClient.Count == 0)
+            {
+                ViewBag.Message = ("No hay Propiedades para mostrar");
+            }
+            var propertyOffers = _mapper.Map<List<PropertyOfferViewModel>>(propertiesByClient);
+
+            return View("Index", propertyOffers);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(SavePropertyOfferViewModel vm)
         {
@@ -47,8 +73,8 @@ namespace RealStateApp.Controllers
                 return View(vm);
             }
 
-   
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -75,7 +101,8 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             var property = await _propertyOffer.GetByIdAsync(id);
 
             if (property == null || property.IdClient != userId)
@@ -119,7 +146,8 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             var property = await _propertyOffer.GetByIdAsync(id);
 
             if (property == null || property.IdClient != userId)
@@ -133,7 +161,8 @@ namespace RealStateApp.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             var property = await _propertyOffer.GetByIdAsync(id);
 
             if (property == null || property.IdClient != userId)

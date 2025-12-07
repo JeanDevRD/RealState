@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Common.Enums;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
@@ -9,18 +11,20 @@ namespace RealStateApp.Controllers
         private readonly IPropertyOfferService _offerService;
         private readonly IAccountServiceForApp _accountService;
         private readonly IPropertyUnitService _propertyService;
+        private readonly UserManager<User> _userManager;
 
         public AgentOfferController(IPropertyOfferService offerService, IAccountServiceForApp accountService, 
-            IPropertyUnitService propertyService)
+            IPropertyUnitService propertyService, UserManager<User>userManager)
         {
             _offerService = offerService;
             _accountService = accountService;
             _propertyService = propertyService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> ClientOffers(string clientId, int propertyId)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
             var property = await _propertyService.GetByIdAsync(propertyId);
 
             if (property?.IdAgent != userId)

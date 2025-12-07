@@ -1,5 +1,5 @@
-﻿using RealState.Core.Application.DTOs.Message;
-using RealState.Core.Application.DTOs.PropertyUnit;
+﻿using RealState.Core.Application.ViewModels.Message;
+using RealState.Core.Application.ViewModels.PropertyUnit;
 
 
 namespace RealState.Core.Application.ViewModels.Chat
@@ -10,7 +10,7 @@ namespace RealState.Core.Application.ViewModels.Chat
         public required string IdClient { get; set; }
         public required string IdAgent { get; set; }
         public required int IdProperty { get; set; }
-        public PropertyUnitDto? Property { get; set; }
-        public ICollection<MessageDto>? Messages { get; set; }
+        public PropertyUnitViewModel? Property { get; set; }
+        public ICollection<MessageViewModel>? Messages { get; set; }
     }
 }

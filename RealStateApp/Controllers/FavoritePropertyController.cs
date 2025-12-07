@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RealState.Core.Application.DTOs.UserFavoritePropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.UserFavoritePropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
@@ -9,15 +12,17 @@ namespace RealStateApp.Controllers
     {
         IFavoritePropertyServices _favoriteProperty;
         IMapper _mapper;
+        UserManager<User> _userManager;
 
-        public FavoritePropertyController(IFavoritePropertyServices favoriteProperty, IMapper mapper) 
+        public FavoritePropertyController(IFavoritePropertyServices favoriteProperty, IMapper mapper, UserManager<User> userManager) 
         { 
             _favoriteProperty = favoriteProperty;
             _mapper = mapper;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -28,6 +33,30 @@ namespace RealStateApp.Controllers
             var properties = _mapper.Map<List<UserFavoritePropertyUnitViewModel>>(propertiesDto);
 
             return View(properties);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Toggle(int propertyId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var favorites = await _favoriteProperty.GetFavoritesByClient(userId!);
+
+            var existing = favorites.FirstOrDefault(f => f.IdProperty == propertyId);
+
+            if (existing != null)
+            {
+                await _favoriteProperty.DeleteAsync(existing.Id);
+            }
+            else
+                await _favoriteProperty.AddAsync(new UserFavoritePropertyUnitDto
+                {
+                    Id = 0,
+                    IdClient = userId,
+                    IdProperty = propertyId
+                });
+
+            return RedirectToAction("Index", "HomeClient");
         }
     }
 }
