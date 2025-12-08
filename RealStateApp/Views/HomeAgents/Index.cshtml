@@ -1,0 +1,62 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@model List<PropertyUnitViewModel>
+@{
+    ViewData["Title"] = "Mis Propiedades";
+    Layout = "_LayoutAgent";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Mis Propiedades</h2>
+        <p class="text-muted">Aquí puedes ver todas tus propiedades registradas (disponibles y vendidas)</p>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No tienes propiedades registradas.
+            </div>
+            <a asp-controller="PropertyManagement" asp-action="Create" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Crear Primera Propiedad
+            </a>
+        </div>
+    }
+    else
+    {
+        @foreach (var property in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 @(property.IsSold ? "border-danger" : "")">
+                    @if (property.IsSold)
+                    {
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-danger">VENDIDA</span>
+                        </div>
+                    }
+                    <img src="@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName"
+                         style="height: 200px; object-fit: cover; @(property.IsSold ? "opacity: 0.6;" : "")" />
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">@property.PropertyTypeName</span>
+                        <span class="badge bg-secondary mb-2">@property.SaleTypeName</span>
+                        <h5 class="card-title">Código: @property.CodeProperty</h5>
+                        <h4 class="text-success">RD$ @property.Price.ToString("N2")</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-bed"></i> @property.Bedrooms Habitaciones</li>
+                            <li><i class="fas fa-bath"></i> @property.Bathrooms Baños</li>
+                            <li><i class="fas fa-ruler-combined"></i> @property.SizeM m²</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-controller="AgentPropertyDetail" asp-action="Detail" asp-route-id="@property.Id"
+                           class="btn btn-primary w-100">
+                            <i class="fas fa-eye"></i> Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

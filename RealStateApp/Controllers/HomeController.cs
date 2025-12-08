@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 
 namespace RealStateApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IPropertyUnitService _propertyService;

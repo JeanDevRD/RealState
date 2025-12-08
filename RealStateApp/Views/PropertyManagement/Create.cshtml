@@ -1,0 +1,116 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@model SavePropertyViewModel
+@{
+    ViewData["Title"] = "Nueva Propiedad";
+    Layout = "_LayoutAgent";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="fas fa-plus-circle"></i> Registrar Nueva Propiedad</h3>
+            </div>
+            <div class="card-body">
+                <form asp-controller="PropertyManagement" asp-action="Create" method="post" enctype="multipart/form-data">
+
+
+                    <h5 class="mb-3"><i class="fas fa-info-circle"></i> Información Básica </h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tipo de Propiedad *</label>
+                            <select asp-for="PropertyTypeId" class="form-select">
+                                <option value="">Seleccione...</option>
+                                @foreach (var type in (List<dynamic>)ViewBag.PropertyTypes)
+                                {
+                                    <option value="@type.Id">@type.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tipo de Venta *</label>
+                            <select asp-for="SaleTypeId" class="form-select">
+                                <option value="">Seleccione...</option>
+                                @foreach (var type in (List<dynamic>)ViewBag.SaleTypes)
+                                {
+                                    <option value="@type.Id">@type.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SaleTypeId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Price" class="form-label">Precio (RD$) *</label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="SizeM" class="form-label">Tamaño (m²) *</label>
+                            <input asp-for="SizeM" type="number" step="0.01" class="form-control" />
+                            <span asp-validation-for="SizeM" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Bedrooms" class="form-label">Habitaciones *</label>
+                            <input asp-for="Bedrooms" type="number" class="form-control" />
+                            <span asp-validation-for="Bedrooms" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Bathrooms" class="form-label">Baños *</label>
+                            <input asp-for="Bathrooms" type="number" class="form-control" />
+                            <span asp-validation-for="Bathrooms" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Descripción *</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <h5 class="mb-3"><i class="fas fa-star"></i> Mejoras</h5>
+                    <div class="mb-3">
+                        <div class="row">
+                            @foreach (var improvement in (List<dynamic>)ViewBag.Improvements)
+                            {
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="ImprovementTypeIds" value="@improvement.Id"
+                                               id="improvement_@improvement.Id" />
+                                        <label class="form-check-label" for="improvement_@improvement.Id">
+                                            @improvement.Name
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <hr />
+                    <h5 class="mb-3"><i class="fas fa-images"></i> Imágenes (Mínimo 1, Máximo 4) *</h5>
+                    <div class="mb-3">
+                        <input type="file" name="images" accept="image/*" multiple class="form-control" />
+                        <small class="text-muted">Seleccione entre 1 y 4 imágenes de la propiedad</small>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a asp-controller="PropertyManagement" asp-action="Index" class="btn btn-secondary">
+                          <i class="fas fa-times"></i> Cancelar </a>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Crear Propiedad </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

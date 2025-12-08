@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RealState.Core.Application.DTOs.PropertyOffer;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Infrastructure.Identity.Entities;
@@ -12,14 +14,16 @@ namespace RealStateApp.Controllers
         private readonly IAccountServiceForApp _accountService;
         private readonly IPropertyUnitService _propertyService;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
         public AgentOfferController(IPropertyOfferService offerService, IAccountServiceForApp accountService, 
-            IPropertyUnitService propertyService, UserManager<User>userManager)
+            IPropertyUnitService propertyService, UserManager<User>userManager, IMapper mapper)
         {
             _offerService = offerService;
             _accountService = accountService;
             _propertyService = propertyService;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> ClientOffers(string clientId, int propertyId)
@@ -40,7 +44,9 @@ namespace RealStateApp.Controllers
             ViewBag.PropertyCode = property?.CodeProperty ?? "";
             ViewBag.PropertyId = propertyId;
 
-            return View(offers);
+            var offersVM = _mapper.Map<List<PropertyOfferDto>>(offers);
+
+            return View(offersVM);
         }
 
 

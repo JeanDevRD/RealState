@@ -1,0 +1,125 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+@model List<PropertyOfferViewModel>
+@{
+    ViewData["Title"] = "Ofertas del Cliente";
+    Layout = "_LayoutAgent";
+}
+
+<div class="row mb-3">
+    <div class="col-12">
+        <a asp-controller="AgentPropertyDetail" asp-action="Detail" asp-route-id="@ViewBag.PropertyId"
+           class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a la Propiedad
+        </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-hand-holding-usd"></i> Ofertas de @ViewBag.ClientName
+                </h4>
+                <small>Propiedad: @ViewBag.PropertyCode</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Este cliente no ha realizado ofertas para esta propiedad.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Monto Ofertado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var offer in Model.OrderByDescending(o => o.OfferDate))
+                        {
+                            <tr class="@(offer.OfferStatus == 0 ? "table-warning" : offer.OfferStatus == 1 ? "table-success" : "table-danger")">
+                                <td>
+                                    <i class="fas fa-calendar"></i> @offer.OfferDate.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+                                <td>
+                                    <strong class="text-success">RD$ @offer.OfferAmount.ToString("N2")</strong>
+                                </td>
+                                <td>
+                                    @if (offer.OfferStatus == 0)
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-clock"></i> Pendiente
+                                        </span>
+                                    }
+                                    else if (offer.OfferStatus == 1)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check-circle"></i> Aceptada
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times-circle"></i> Rechazada
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (offer.OfferStatus == 0)
+                                    {
+                                        <div class="btn-group" role="group">
+                                            <form asp-controller="AgentOffer" asp-action="RespondOffer" method="post" class="d-inline">
+                                                <input type="hidden" name="offerId" value="@offer.Id" />
+                                                <input type="hidden" name="accept" value="true" />
+                                                <button type="submit" class="btn btn-sm btn-success"
+                                                        onclick="return confirm('¿Estás seguro de ACEPTAR esta oferta? Esto marcará la propiedad como vendida y rechazará todas las demás ofertas pendientes.')">
+                                                    <i class="fas fa-check"></i> Aceptar
+                                                </button>
+                                            </form>
+                                            <form asp-controller="AgentOffer" asp-action="RespondOffer" method="post" class="d-inline ms-2">
+                                                <input type="hidden" name="offerId" value="@offer.Id" />
+                                                <input type="hidden" name="accept" value="false" />
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('¿Estás seguro de RECHAZAR esta oferta?')">
+                                                    <i class="fas fa-times"></i> Rechazar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            <i class="fas fa-lock"></i> Acción completada
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (Model.Any(o => o.OfferStatus == 0))
+            {
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Importante:</strong> Al aceptar una oferta, la propiedad se marcará como vendida automáticamente
+                    y todas las demás ofertas pendientes serán rechazadas.
+                </div>
+            }
+        }
+    </div>
+</div>

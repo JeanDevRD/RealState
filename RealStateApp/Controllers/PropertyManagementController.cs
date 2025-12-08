@@ -42,7 +42,7 @@ namespace RealStateApp.Controllers
                 ViewBag.Message = ("Error al obtener propiedades ", result.Message);
             }
 
-            var property = _mapper.Map<List<PropertyUnitDto>>(result.Data);
+            var property = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
 
             return View(property);
         }
@@ -225,8 +225,10 @@ namespace RealStateApp.Controllers
             {
                 return RedirectToAction("Index");
             }
+            
+            var PropertyVM = _mapper.Map<PropertyUnitViewModel>(property);
 
-            return View(property);
+            return View(PropertyVM);
         }
 
         [HttpPost]

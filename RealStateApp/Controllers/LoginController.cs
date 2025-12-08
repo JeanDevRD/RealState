@@ -52,7 +52,7 @@ namespace RealStateApp.Controllers
 
             if (result.HasError)
             {
-                TempData["Error"] = string.Join(", ", result.Errors);
+                TempData["Error"] = result.Errors;
                 return View(loginViewModel);
             }
 
@@ -124,7 +124,7 @@ namespace RealStateApp.Controllers
 
             if (result.HasError)
             {
-                TempData["Error"] = string.Join(", ", result.Errors);
+                TempData["Error"] = result.Errors;
                 return View();
             }
 
