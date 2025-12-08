@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
 builder.Services.AddSharedLayer(builder.Configuration);
-builder.Services.AddIdentityLayerApi(builder.Configuration);
+builder.Services.AddIdentityLayerApiAsync(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
@@ -37,6 +37,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+await app.Services.RunIdentitySeedAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

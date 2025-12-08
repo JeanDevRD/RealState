@@ -11,7 +11,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
 builder.Services.AddSharedLayer(builder.Configuration);
-await builder.Services.AddIdentityLayerApp(builder.Configuration);
+builder.Services.AddIdentityLayerApp(builder.Configuration);
 
 builder.Services.AddSession(opt =>
 {
@@ -21,6 +21,8 @@ builder.Services.AddSession(opt =>
 });
 
 var app = builder.Build();
+
+await app.Services.RunIdentitySeedAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

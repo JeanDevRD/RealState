@@ -21,7 +21,7 @@ namespace RealState.Infrastructure.Identity
 {
     public static class ServiceRegistration
     {
-        public static async Task AddIdentityLayerApp(this IServiceCollection services, IConfiguration config ) 
+        public static void AddIdentityLayerApp(this IServiceCollection services, IConfiguration config ) 
         {
             #region Context
             ConfigureGeneralIdentity(services, config);
@@ -74,11 +74,8 @@ namespace RealState.Infrastructure.Identity
             services.AddScoped<IAccountServiceForApp, AccountServiceForApp>();
             services.AddScoped<IAccountServiceForApi, AccountServiceForApi>();
 
-
-            await RunIdentitySeedAsync(services.BuildServiceProvider());
-           
         }
-        public static void AddIdentityLayerApi(this IServiceCollection services, IConfiguration config)
+        public static void AddIdentityLayerApiAsync(this IServiceCollection services, IConfiguration config)
         {
             #region Context
             ConfigureGeneralIdentity(services, config);
@@ -162,9 +159,9 @@ namespace RealState.Infrastructure.Identity
                 opt.ExpireTimeSpan = TimeSpan.FromMinutes(180);
             });
 
-             RunIdentitySeedAsync(services.BuildServiceProvider()).Wait();
-            #endregion
 
+            #endregion
+            services.AddScoped<IAccountServiceForApp, AccountServiceForApp>();
             services.AddScoped<IAccountServiceForApi, AccountServiceForApi>();
         }
 
