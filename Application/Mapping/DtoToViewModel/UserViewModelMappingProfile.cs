@@ -10,7 +10,7 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
         {
             CreateMap<UserDto, EditUserViewModel>()
             .ForMember(d => d.Phone, opt => opt.MapFrom(src => src.Phone ?? ""))
-            .ForMember(d => d.PhotoUrl, opt => opt.Ignore())
+            .ForMember(d => d.Photo, opt => opt.Ignore())
             .ForMember(d => d.Password, opt => opt.Ignore())
             .ForMember(d => d.ConfirmPassword, opt => opt.Ignore());
         }

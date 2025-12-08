@@ -13,7 +13,10 @@
                 <div class="card-body">
                     <form method="post" asp-controller="Developer" asp-action="Edit">
                         <input type="hidden" asp-for="Id" />
-                        <input type="hidden" asp-for="Role" /> <div class="row">
+                        <input type="hidden" asp-for="Role" />
+                        <input type="hidden" asp-for="ExistingPhotoUrl" />
+                        <div class="row">
+
                             <div class="col-md-6 mb-3">
                                 <label asp-for="FirstName" class="form-label">Nombre</label>
                                 <input asp-for="FirstName" class="form-control" />
@@ -66,8 +69,20 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="PhotoUrl" class="form-label">URL de Foto (Opcional)</label>
-                            <input asp-for="PhotoUrl" class="form-control" />
+                            <label asp-for="Photo" class="form-label">Foto de Perfil</label>
+
+                            @if (!string.IsNullOrEmpty(Model.ExistingPhotoUrl))
+                            {
+                                <div class="mb-2">
+                                    <img src="~/@Model.ExistingPhotoUrl" alt="Foto actual"
+                                         class="img-thumbnail" style="max-width: 150px;" />
+                                    <p class="text-muted small">Foto actual</p>
+                                </div>
+                            }
+
+                            <input asp-for="Photo" type="file" class="form-control" accept="image/*" />
+                            <span asp-validation-for="Photo" class="text-danger"></span>
+                            <small class="text-muted">Dejar vacío para mantener la foto actual</small>
                         </div>
 
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">

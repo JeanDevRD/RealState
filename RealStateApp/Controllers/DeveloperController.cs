@@ -50,7 +50,7 @@ namespace RealStateApp.Controllers
                 ConfirmPassword = "",
                 Role = UserRole.Developer.ToString(),
                 Phone = "",
-                PhotoUrl = ""
+                Photo = null
             });
         }
 

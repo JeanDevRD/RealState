@@ -93,7 +93,7 @@ namespace RealStateApp.Controllers
 
             if (photoFile != null)
             {
-                var photoPath = UploadFile.Uploader(photoFile, userId, "Users", true, vm.PhotoUrl);
+                var photoPath = UploadFile.Uploader(photoFile, userId, "Users", true, dto.PhotoUrl);
                 dto.PhotoUrl = photoPath;
             }
 

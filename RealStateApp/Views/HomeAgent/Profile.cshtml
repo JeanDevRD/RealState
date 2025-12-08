@@ -29,14 +29,14 @@
                 <form asp-controller="HomeAgent" asp-action="Profile" method="post" enctype="multipart/form-data">
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Role" />
-                    <input type="hidden" asp-for="PhotoUrl" />
+                    <input type="hidden" asp-for="Photo" />
 
                     <!-- Foto de Perfil -->
                     <div class="row mb-4">
                         <div class="col-12 text-center">
-                            @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+                            @if (Model.Phone != null)
                             {
-                                <img src="@Model.PhotoUrl" class="rounded-circle mb-3"
+                                <img src="~/@Model.Photo" class="rounded-circle mb-3"
                                      alt="Foto de perfil" style="width: 150px; height: 150px; object-fit: cover;" />
                             }
                             else
