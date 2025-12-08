@@ -9,6 +9,7 @@ using RealState.Core.Application.ViewModels.Admin;
 using RealState.Core.Application.ViewModels.User;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Infrastructure.Identity.Entities;
+using RealStateApp.Helpers;
 
 namespace RealStateApp.Controllers
 {
@@ -51,21 +52,30 @@ namespace RealStateApp.Controllers
                 ConfirmPassword = "",
                 Role = UserRole.Admin.ToString(),
                 Phone = "",
-                PhotoUrl = ""
+                Photo = null,
             });
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(SaveUserViewModel save) 
-        { 
-            if(!ModelState.IsValid)
+        {
+            if (!ModelState.IsValid)
             {
                 return View("Save", save);
             }
-            
-            var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+
             var dto = _mapper.Map<SaveUserDto>(save);
+
+            if (save.Photo != null)
+            {
+                var tempId = Guid.NewGuid().ToString();
+                var photoPath = UploadFile.Uploader(save.Photo, tempId, "Users");
+                dto.PhotoUrl = photoPath;
+            }
+
+            var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var result = await _forApp.RegisterUser(dto, origin);
+
             return RedirectToAction("Index", "Admin");
         }
 
@@ -92,6 +102,17 @@ namespace RealStateApp.Controllers
             }
 
             var dto = _mapper.Map<SaveUserDto>(save);
+
+            if (save.Photo != null)
+            {
+                var photoPath = UploadFile.Uploader(save.Photo, save.Id!, "Users", true, save.ExistingPhotoUrl);
+                dto.PhotoUrl = photoPath;
+            }
+            else
+            {
+                dto.PhotoUrl = save.ExistingPhotoUrl;
+            }
+
             var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var result = await _forApp.EditUser(dto, origin);
             return RedirectToAction("Index", "Admin");

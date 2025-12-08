@@ -29,7 +29,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = "Error al obtener propiedades" + result.Message;
+                TempData["Error"] = "Error al obtener propiedades";
                 return View(new List<PropertyCardViewModel>());
             }
 

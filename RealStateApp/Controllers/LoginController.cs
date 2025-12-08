@@ -29,11 +29,20 @@ namespace RealStateApp.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            if (_signInManager.IsSignedIn(User))
+            var userSession = await _userManager.GetUserAsync(User);
+
+            if (userSession != null)
             {
-                return RedirectToHome();
+                var dtoUser = await _forApp.GetUserByUserName(userSession.UserName ?? string.Empty);
+
+                if (dtoUser != null && dtoUser.Role == UserRole.Admin.ToString())
+                    return RedirectToRoute(new { controller = "HomeAdmin", action = "Index" });
+                if (dtoUser != null && dtoUser.Role == UserRole.Agent.ToString())
+                    return RedirectToRoute(new { controller = "HomeAgent", action = "Index" });
+                if (dtoUser != null && dtoUser.Role == UserRole.Client.ToString())
+                    return RedirectToRoute(new { controller = "HomeClient", action = "Index" });
             }
             return View(new LoginViewModel { Password = "", UserName = "" });
         }
@@ -42,6 +51,18 @@ namespace RealStateApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(LoginViewModel loginViewModel)
         {
+            var userSession = await _userManager.GetUserAsync(User);
+            if (userSession != null)
+            {
+                var dtoUser = await _forApp.GetUserByUserName(userSession.UserName ?? string.Empty);
+                if (dtoUser != null && dtoUser.Role == UserRole.Admin.ToString())
+                    return RedirectToRoute(new { controller = "HomeAdmin", action = "Index" });
+                if (dtoUser != null && dtoUser.Role == UserRole.Agent.ToString())
+                    return RedirectToRoute(new { controller = "HomeAgent", action = "Index" });
+                if (dtoUser != null && dtoUser.Role == UserRole.Client.ToString())
+                    return RedirectToRoute(new { controller = "HomeClient", action = "Index" });
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(loginViewModel);
@@ -50,13 +71,38 @@ namespace RealStateApp.Controllers
             var dto = _map.Map<LoginDto>(loginViewModel);
             var result = await _forApp.AuthenticateAsync(dto);
 
-            if (result.HasError)
+            if (result == null || result.HasError)
             {
-                TempData["Error"] = result.Errors;
+                foreach (var error in result?.Errors ?? Enumerable.Empty<string>())
+                {
+                    TempData["Error"] = error;
+                }
+                return View(loginViewModel);
+            }
+            var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+            if (user == null)
+            {
+                ModelState.AddModelError("userValidation", "Usuario no encontrado.");
                 return View(loginViewModel);
             }
 
-            return RedirectToHome(result.Roles.FirstOrDefault());
+
+            var signIn = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, true);
+
+            if (!signIn.Succeeded)
+            {
+                TempData["Error"] = "Credenciales inválidas o cuenta bloqueada.";
+                return View(loginViewModel);
+            }
+
+            if (result.Roles != null && result.Roles.Contains(UserRole.Admin.ToString()))
+                return RedirectToRoute(new { controller = "HomeAdmin", action = "Index" });
+            if (result.Roles != null && result.Roles.Contains(UserRole.Agent.ToString()))
+                return RedirectToRoute(new { controller = "HomeAgent", action = "Index" });
+            if (result.Roles != null && result.Roles.Contains(UserRole.Client.ToString()))
+                return RedirectToRoute(new { controller = "HomeClient", action = "Index" });
+
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
 
         [Authorize]
@@ -165,7 +211,7 @@ namespace RealStateApp.Controllers
 
             if (returnUser.HasError)
             {
-                TempData["Error"] = string.Join(", ", returnUser.Errors);
+                TempData["Error"] = returnUser.Errors;
                 return View(vm);
             }
 
@@ -173,25 +219,6 @@ namespace RealStateApp.Controllers
             return RedirectToAction("Index");
         }
 
-        private IActionResult RedirectToHome(string? role = null)
-        {
-            if (string.IsNullOrEmpty(role) && User.Identity?.IsAuthenticated == true)
-            {
-                if (User.IsInRole(UserRole.Admin.ToString()))
-                    return RedirectToAction("Index", "HomeAdmin");
-                if (User.IsInRole(UserRole.Agent.ToString()))
-                    return RedirectToAction("Index", "HomeAgent");
-                if (User.IsInRole(UserRole.Client.ToString()))
-                    return RedirectToAction("Index", "HomeClient");
-            }
-
-            return role switch
-            {
-                "Admin" => RedirectToAction("Index", "HomeAdmin"),
-                "Agent" => RedirectToAction("Index", "HomeAgent"),
-                "Client" => RedirectToAction("Index", "HomeClient"),
-                _ => RedirectToAction("Index", "Home")
-            };
-        }
+      
     }
 }

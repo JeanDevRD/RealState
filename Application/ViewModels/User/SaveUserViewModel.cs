@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealState.Core.Application.ViewModels.User
 {
@@ -39,6 +40,7 @@ namespace RealState.Core.Application.ViewModels.User
 
         [DataType( DataType.PhoneNumber)]
         public string? Phone { get; set; }
-        public string? PhotoUrl { get; set; }
+        public IFormFile? Photo { get; set; }
+        public string? ExistingPhotoUrl { get; set; }
     }
 }

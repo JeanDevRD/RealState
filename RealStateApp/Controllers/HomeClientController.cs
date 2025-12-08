@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
@@ -12,15 +14,18 @@ namespace RealStateApp.Controllers
     {
         private readonly IPropertyUnitService _propertyService;
         private readonly IMapper _mapper;
-        public HomeClientController(IPropertyUnitService propertyUnit, IMapper mapper) 
+        private readonly UserManager<User> _userManager;
+        public HomeClientController(IPropertyUnitService propertyUnit, IMapper mapper, UserManager<User> user) 
         { 
            _propertyService = propertyUnit;
            _mapper = mapper;
+           _userManager = user;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -43,7 +48,8 @@ namespace RealStateApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(PropertyFilterViewModel VM)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");

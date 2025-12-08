@@ -4,6 +4,7 @@ using RealState.Core.Application.DTOs.User;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.User;
 using RealState.Core.Domain.Common.Enums;
+using RealStateApp.Helpers;
 
 namespace RealStateApp.Controllers
 {
@@ -32,7 +33,6 @@ namespace RealStateApp.Controllers
                 ConfirmPassword = "",
                 Role = UserRole.Client.ToString(),
                 Phone = "",
-                PhotoUrl = ""
             });
         }
 
@@ -45,15 +45,33 @@ namespace RealStateApp.Controllers
             }
 
             var dto = _mapper.Map<SaveUserDto>(vm);
+
+            if (vm.Photo != null)
+            {
+                var tempId = Guid.NewGuid().ToString();
+                var photoPath = UploadFile.Uploader(vm.Photo, tempId, "Users");
+                dto.PhotoUrl = photoPath;
+            }
+
             var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-
-
             var result = await _accountService.RegisterUser(dto, origin);
 
             if (result.HasError)
             {
                 TempData["Error"] = result.ErrorMessage;
                 return View(vm);
+            }
+
+            if (vm.Photo != null && !string.IsNullOrEmpty(result.Id))
+            {
+                var tempPath = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/Images/Users/{Guid.NewGuid()}");
+
+                var finalPath = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/Images/Users/{result.Id}");
+
+                if (Directory.Exists(tempPath))
+                {
+                    Directory.Move(tempPath, finalPath);
+                }
             }
 
             if (vm.Role == UserRole.Client.ToString())

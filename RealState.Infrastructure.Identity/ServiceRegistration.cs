@@ -63,6 +63,10 @@ namespace RealState.Infrastructure.Identity
                 opt.LoginPath = "/Login/Index";
                 opt.LogoutPath = "/Login/Logout";
                 opt.AccessDeniedPath = "/Login/AccessDenied";
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.SameSite = SameSiteMode.Lax;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                opt.SlidingExpiration = true;
             });
 
 #endregion 

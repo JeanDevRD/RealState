@@ -1,39 +1,47 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.DTOs.User;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
 using RealState.Core.Application.ViewModels.User;
+using RealState.Infrastructure.Identity.Entities;
 using RealStateApp.Helpers;
 
 namespace RealStateApp.Controllers
 {
-    [Authorize(Roles = "Agent")]
+    
     public class HomeAgentController : Controller
     {
         private readonly IPropertyUnitService _propertyService;
         private readonly IAccountServiceForApp _accountService;
         private readonly IMapper _mapper;
+        private readonly ILogger<HomeAgentController> _logger;
+        private readonly UserManager<User> _userManager;
 
         public HomeAgentController(IPropertyUnitService propertyService, IAccountServiceForApp accountService,
-            IMapper mapper)
+            IMapper mapper, ILogger<HomeAgentController> logger, UserManager<User> user)
         {
             _propertyService = propertyService;
             _accountService = accountService;
             _mapper = mapper;
+            _logger = logger;
+            _userManager = user;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
             }
 
-            var result = await _propertyService.GetAllPropertyUnitsByAgent(userId, onlyAvailable: false);
+            var result = await _propertyService.GetAllPropertyUnitsByAgent(userId, onlyAvailable: true); 
 
             if (result.IsError)
             {
@@ -48,7 +56,8 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -73,7 +82,8 @@ namespace RealStateApp.Controllers
                 return View(vm);
             }
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userManager.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId) || vm.Id != userId)
             {
                 return RedirectToAction("Index", "Login");
