@@ -1,0 +1,183 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@model PropertyDetailHomeViewModel
+@{
+    ViewData["Title"] = "Detalle de Propiedad";
+    Layout = "_LayoutClient";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Images.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@Model.Images[i]" class="d-block w-100" alt="Imagen @(i+1)" style="height: 400px; object-fit: cover;" />
+                        </div>
+                    }
+                </div>
+                @if (Model.Images.Count > 1)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Detalles de la Propiedad</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Código:</strong> @Model.CodeProperty
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Tipo:</strong> @Model.PropertyTypeName
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Tipo de Venta:</strong> @Model.SaleTypeName
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="text-success mb-0">RD$ @Model.Price.ToString("N2")</h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <i class="fas fa-bed"></i> <strong>Habitaciones:</strong> @Model.Bedrooms
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fas fa-bath"></i> <strong>Baños:</strong> @Model.Bathrooms
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fas fa-ruler-combined"></i> <strong>Tamaño:</strong> @Model.SizeM m²
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <strong>Descripción:</strong>
+                        <p class="mt-2">@Model.Description</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <strong>Mejoras:</strong>
+                        <div class="mt-2">
+                            @foreach (var improvement in Model.ImprovementNames)
+                            {
+                                <span class="badge bg-info me-1 mb-1">@improvement</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Chat con el Agente</h5>
+            </div>
+            <div class="card-body">
+                <div class="chat-messages mb-3" style="max-height: 300px; overflow-y: auto;">
+                    <p class="text-muted text-center">Inicia una conversación con el agente</p>
+                </div>
+                <form asp-controller="Chat" asp-action="SendMessage" method="post">
+                    <input type="hidden" name="IdProperty" value="@Model.Id" />
+                    <input type="hidden" name="agentId" value="@ViewBag.AgentId" />
+                    <div class="input-group">
+                        <input type="text" name="content" class="form-control" placeholder="Escribe tu mensaje..." required />
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Mis Ofertas</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#offerModal">
+                        <i class="fas fa-hand-holding-usd"></i> Hacer una Oferta
+                    </button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No has realizado ofertas para esta propiedad</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Información del Agente</h5>
+            </div>
+            <div class="card-body text-center">
+                @if (!string.IsNullOrEmpty(Model.AgentPhoto))
+                {
+                    <img src="@Model.AgentPhoto" class="rounded-circle mb-3" alt="@Model.AgentName" style="width: 100px; height: 100px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-3 mx-auto" style="width: 100px; height: 100px;">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                }
+                <h5>@Model.AgentName</h5>
+                <p class="mb-2">
+                    <i class="fas fa-phone"></i> @Model.AgentPhone
+                </p>
+                <p class="mb-0">
+                    <i class="fas fa-envelope"></i> @Model.AgentEmail
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="offerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hacer una Oferta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="PropertyOffer" asp-action="Create" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="IdProperty" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Monto de la Oferta (RD$)</label>
+                        <input type="number" name="OfferAmount" class="form-control" step="0.01" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">Enviar Oferta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

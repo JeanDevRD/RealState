@@ -29,7 +29,7 @@ namespace RealStateApp.Controllers
 
             ViewBag.ClientRole = "Client";
 
-            var details = _mapper.Map<PropertyDetailViewModel>(result.Data);
+            var details = _mapper.Map<PropertyDetailHomeViewModel>(result.Data);
             return View(details);
         }
     }

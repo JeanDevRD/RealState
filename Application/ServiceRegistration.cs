@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.Services;
 using System.Reflection;
 
@@ -15,18 +16,18 @@ namespace Application
             #endregion
 
             #region Services
-            services.AddScoped<PropertyUnitService>();
-            services.AddScoped<PropertyTypeService>();
-            services.AddScoped<SaleTypeService>();
-            services.AddScoped<ImprovementTypeService>();
-            services.AddScoped<AgentService>();
-            services.AddScoped<ClientService>();
-            services.AddScoped<AdminService>();
-            services.AddScoped<DeveloperService>();
-            services.AddScoped<ChatService>();
-            services.AddScoped<MessageService>();
-            services.AddScoped<PropertyOfferService>();
-            services.AddScoped<FavoritePropertyServices>();
+            services.AddScoped<IPropertyUnitService, PropertyUnitService>();
+            services.AddScoped<IPropertyTypeService, PropertyTypeService>();
+            services.AddScoped<ISaleTypeService, SaleTypeService>();
+            services.AddScoped<IImprovementTypeService, ImprovementTypeService>();
+            services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IDeveloperService, DeveloperService>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IPropertyOfferService, PropertyOfferService>();
+            services.AddScoped<IFavoritePropertyServices, FavoritePropertyServices>();
             #endregion
 
 

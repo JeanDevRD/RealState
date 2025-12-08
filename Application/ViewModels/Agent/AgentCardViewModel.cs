@@ -1,7 +1,12 @@
-﻿
-namespace RealState.Core.Application.DTOs.PropertyUnit
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RealState.Core.Application.ViewModels.Agent
 {
-     public class AgentCardDto
+    public class AgentCardViewModel
     {
         public required string Id { get; set; }
         public required string Name { get; set; }
