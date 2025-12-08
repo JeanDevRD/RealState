@@ -21,7 +21,7 @@ namespace RealState.Core.Application.Features.SaleType.Commands.CreateSaleType
         public async Task<int> Handle(CreateSaleTypeCommand command, CancellationToken cancellationToken)
         {
             Domain.Entities.SaleType entity = new()
-            { 
+            {
                 Id = 0,
                 Name = command.Name,
                 Description = command.Description

@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.PropertyType;
 using RealState.Core.Domain.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.PropertyType.Commands.CreatePropertyType
 {
@@ -43,6 +42,6 @@ namespace RealState.Core.Application.Features.PropertyType.Commands.CreateProper
             return propertyTypeList;
         }
 
-        
+
     }
 }

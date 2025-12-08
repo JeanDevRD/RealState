@@ -38,7 +38,7 @@ namespace RealState.Core.Application.ViewModels.User
         [DataType(DataType.Password)]
         public required string Role { get; set; }
 
-        [DataType( DataType.PhoneNumber)]
+        [DataType(DataType.PhoneNumber)]
         public string? Phone { get; set; }
         public IFormFile? Photo { get; set; }
         public string? ExistingPhotoUrl { get; set; }

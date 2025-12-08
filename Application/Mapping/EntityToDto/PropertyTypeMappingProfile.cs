@@ -9,6 +9,6 @@ namespace RealState.Core.Application.Mapping.EntityToDto
         public PropertyTypeMappingProfile()
         {
             CreateMap<PropertyType, PropertyTypeDto>().ReverseMap();
-        }   
+        }
     }
 }

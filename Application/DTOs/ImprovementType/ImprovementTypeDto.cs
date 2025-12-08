@@ -1,5 +1,4 @@
 ﻿using RealState.Core.Application.DTOs.Common;
-using RealState.Core.Application.DTOs.PropertyUnit;
 
 namespace RealState.Core.Application.DTOs.ImprovementType
 {
@@ -8,5 +7,5 @@ namespace RealState.Core.Application.DTOs.ImprovementType
         public required string Name { get; set; }
         public required string Description { get; set; }
 
-}
+    }
 }

@@ -19,7 +19,7 @@ namespace RealState.Core.Application.Services
         private readonly IPropertyOfferRepository _offerRepo;
         private readonly IAccountServiceForApp _clientService;
         private readonly IMapper _mapper;
-        
+
         public PropertyUnitService(IPropertyUnitRepository propertyUnitRepo, IMapper mapper, IChatRepository chatRepo, IAccountServiceForApp clientService,
             IPropertyOfferRepository offerRepo) : base(propertyUnitRepo, mapper)
         {
@@ -105,7 +105,7 @@ namespace RealState.Core.Application.Services
                     {
                         Id = chat.Id,
                         IdClient = chat.IdClient,
-                        NameClient = client != null? $"{client.FirstName} {client.LastName}" : "N/A"
+                        NameClient = client != null ? $"{client.FirstName} {client.LastName}" : "N/A"
                     });
                 }
 
@@ -113,11 +113,11 @@ namespace RealState.Core.Application.Services
 
 
                 var offers = await _offerRepo.GetAllQueryAsync().Where(o => o != null && o.IdProperty == idProperty)
-                    .Select(o => o!) .Include(o => o.Property).ToListAsync();
+                    .Select(o => o!).Include(o => o.Property).ToListAsync();
 
                 var offerDtos = new List<PropertyOfferWithPropertyDetails>();
 
-             
+
 
                 foreach (var offer in offers)
                 {

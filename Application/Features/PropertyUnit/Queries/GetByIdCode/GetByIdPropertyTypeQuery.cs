@@ -32,6 +32,6 @@ namespace RealState.Core.Application.Features.PropertyUnit.Queries.GetByIdCode
             return result;
         }
 
-        
+
     }
 }

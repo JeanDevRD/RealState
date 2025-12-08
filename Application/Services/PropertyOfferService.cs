@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using RealState.Core.Application.DTOs.Message;
 using RealState.Core.Application.DTOs.PropertyOffer;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;

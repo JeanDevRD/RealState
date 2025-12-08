@@ -42,6 +42,6 @@ namespace RealState.Core.Application.Features.SaleType.Queries.GetAll
             return saleTypeList;
         }
 
-        
+
     }
 }

@@ -4,11 +4,6 @@ using RealState.Core.Application.DTOs.UserFavoritePropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Entities;
 using RealState.Core.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealState.Core.Application.Services
 {

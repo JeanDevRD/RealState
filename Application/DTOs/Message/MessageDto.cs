@@ -1,5 +1,5 @@
-﻿using RealState.Core.Application.DTOs.Common;
-using RealState.Core.Application.DTOs.Chat;
+﻿using RealState.Core.Application.DTOs.Chat;
+using RealState.Core.Application.DTOs.Common;
 
 namespace RealState.Core.Application.DTOs.Message
 {

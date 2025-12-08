@@ -31,7 +31,7 @@ namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
 
             var agents = await _UserForApi.GetAllUsersByRole(UserRole.Agent.ToString());
 
-            var agentDtos = new List<AgentDto>(); 
+            var agentDtos = new List<AgentDto>();
             if (!agents.Any())
             {
                 return agentDtos;
@@ -42,7 +42,7 @@ namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
                 var propertyCount = await _propertyUnitRepo
                     .GetAllQueryAsync()
                     .Where(p => p!.IdAgent == agent.Id)
-                    .CountAsync(cancellationToken); 
+                    .CountAsync(cancellationToken);
 
                 var agentDto = new AgentDto
                 {
@@ -54,11 +54,11 @@ namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
                     TotalProperties = propertyCount
                 };
 
-                agentDtos.Add(agentDto); 
+                agentDtos.Add(agentDto);
             }
             return agentDtos;
         }
 
-        
+
     }
 }

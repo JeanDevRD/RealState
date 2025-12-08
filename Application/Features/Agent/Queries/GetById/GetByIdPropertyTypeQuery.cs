@@ -2,9 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.Agent;
-using RealState.Core.Application.DTOs.ImprovementType;
 using RealState.Core.Application.Interfaces;
-using RealState.Core.Domain.Common.Enums;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Features.Agent.Queries.GetById
@@ -56,6 +54,6 @@ namespace RealState.Core.Application.Features.Agent.Queries.GetById
             return agentDto;
         }
 
-        
+
     }
 }

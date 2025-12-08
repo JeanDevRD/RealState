@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 using RealStateApp.Helpers;
 
 namespace RealStateApp.Controllers
@@ -16,20 +18,23 @@ namespace RealStateApp.Controllers
         private readonly ISaleTypeService _saleTypeService;
         private readonly IImprovementTypeService _improvementTypeService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userService;
 
-        public PropertyManagementController(IPropertyUnitService propertyService,IPropertyTypeService propertyTypeService,
-            ISaleTypeService saleTypeService,IImprovementTypeService improvementTypeService,IMapper mapper)
+        public PropertyManagementController(IPropertyUnitService propertyService, IPropertyTypeService propertyTypeService,
+            ISaleTypeService saleTypeService, IImprovementTypeService improvementTypeService, IMapper mapper, UserManager<User> User)
         {
             _propertyService = propertyService;
             _propertyTypeService = propertyTypeService;
             _saleTypeService = saleTypeService;
             _improvementTypeService = improvementTypeService;
             _mapper = mapper;
+            _userService = User;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userService.GetUserId(User);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -139,7 +144,8 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userService.GetUserId(User);
+
             var property = await _propertyService.GetByIdAsync(id);
 
             if (property == null || property.IdAgent != userId)
@@ -175,7 +181,8 @@ namespace RealStateApp.Controllers
                 return View(vm);
             }
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userService.GetUserId(User);
+
             var property = await _propertyService.GetByIdAsync(vm.Id);
 
             if (property == null || property.IdAgent != userId)
@@ -218,7 +225,7 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userService.GetUserId(User);
             var property = await _propertyService.GetByIdAsync(id);
 
             if (property == null || property.IdAgent != userId)

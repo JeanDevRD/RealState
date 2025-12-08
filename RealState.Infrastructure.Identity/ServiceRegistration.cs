@@ -72,6 +72,8 @@ namespace RealState.Infrastructure.Identity
 #endregion 
 
             services.AddScoped<IAccountServiceForApp, AccountServiceForApp>();
+            services.AddScoped<IAccountServiceForApi, AccountServiceForApi>();
+
 
             await RunIdentitySeedAsync(services.BuildServiceProvider());
            

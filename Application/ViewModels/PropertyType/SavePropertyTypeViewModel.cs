@@ -1,10 +1,9 @@
-﻿using RealState.Core.Application.DTOs.Common;
-using RealState.Core.Application.ViewModels.Common;
+﻿using RealState.Core.Application.ViewModels.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealState.Core.Application.ViewModels.PropertyType
 {
-    public class SavePropertyTypeViewModel : CommonViewModel<int> 
+    public class SavePropertyTypeViewModel : CommonViewModel<int>
     {
         [Required(ErrorMessage = "Debe ingresar el nombre")]
         [DataType(DataType.Text)]

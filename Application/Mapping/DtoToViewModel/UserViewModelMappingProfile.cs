@@ -13,6 +13,9 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
             .ForMember(d => d.Photo, opt => opt.Ignore())
             .ForMember(d => d.Password, opt => opt.Ignore())
             .ForMember(d => d.ConfirmPassword, opt => opt.Ignore());
+
+            CreateMap<SaveUserDto, SaveUserViewModel>()
+                .ReverseMap();
         }
     }
 }

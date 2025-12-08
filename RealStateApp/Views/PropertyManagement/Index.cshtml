@@ -1,0 +1,74 @@
+﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@model List<PropertyUnitViewModel>
+
+@{
+    ViewData["Title"] = "Mantenimiento de Propiedades";
+    Layout = "_LayoutAgent";
+}
+
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <h2>Mantenimiento de Propiedades</h2>
+        <a asp-controller="PropertyManagement" asp-action="Create" class="btn btn-success">
+            <i class="fas fa-plus"></i> Crear Propiedad
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No tienes propiedades disponibles.
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var property in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@property.FirstImage"
+                         class="card-img-top"
+                         alt="@property.PropertyTypeName"
+                         style="height: 200px; object-fit: cover;" />
+
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">@property.PropertyTypeName</span>
+                        <span class="badge bg-secondary mb-2">@property.SaleTypeName</span>
+
+                        <h5 class="card-title">Código: @property.CodeProperty</h5>
+                        <h4 class="text-success">RD$ @property.Price.ToString("N2")</h4>
+
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-bed"></i> @property.Bedrooms Habitaciones</li>
+                            <li><i class="fas fa-bath"></i> @property.Bathrooms Baños</li>
+                            <li><i class="fas fa-ruler-combined"></i> @property.SizeM m²</li>
+                        </ul>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2">
+                            <a asp-controller="PropertyManagement"
+                               asp-action="Edit"
+                               asp-route-id="@property.Id"
+                               class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+
+                            <a asp-controller="PropertyManagement"
+                               asp-action="Delete"
+                               asp-route-id="@property.Id"
+                               class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>

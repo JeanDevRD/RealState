@@ -7,7 +7,7 @@ namespace Application
 {
     public static class ServiceRegistration
     {
-        public static void AddApplicationLayer(this IServiceCollection services) 
+        public static void AddApplicationLayer(this IServiceCollection services)
         {
 
             #region Configuration

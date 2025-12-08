@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.ImprovementType;
-using RealState.Core.Application.DTOs.SaleType;
 using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
@@ -35,6 +33,6 @@ namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
             return improventTypeList;
         }
 
-        
+
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.PropertyType.Commands.CreatePropertyType
 {
@@ -22,7 +21,7 @@ namespace RealState.Core.Application.Features.PropertyType.Commands.CreateProper
         public async Task<int> Handle(CreatePropertyTypeCommand command, CancellationToken cancellationToken)
         {
             Domain.Entities.PropertyType entity = new()
-            { 
+            {
                 Id = 0,
                 Name = command.Name,
                 Description = command.Description

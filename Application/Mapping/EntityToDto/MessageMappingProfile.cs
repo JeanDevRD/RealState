@@ -9,6 +9,6 @@ namespace RealState.Core.Application.Mapping.EntityToDto
         public MessageMappingProfile()
         {
             CreateMap<Message, MessageDto>().ReverseMap();
-        }   
+        }
     }
 }

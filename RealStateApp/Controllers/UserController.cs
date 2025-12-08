@@ -5,6 +5,7 @@ using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.User;
 using RealState.Core.Domain.Common.Enums;
 using RealStateApp.Helpers;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RealStateApp.Controllers
 {
@@ -26,7 +27,7 @@ namespace RealStateApp.Controllers
                 Id = "",
                 FirstName = "",
                 LastName = "",
-                DocumentId = "",
+                DocumentId = " ",
                 Email = "",
                 UserName = "",
                 Password = "",
@@ -39,8 +40,16 @@ namespace RealStateApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {
+            if ((vm.Role == UserRole.Client.ToString() || vm.Role == UserRole.Agent.ToString())
+               && vm.DocumentId == null)
+            {
+                ModelState.Remove(nameof(vm.DocumentId));
+            }
+
             if (!ModelState.IsValid)
             {
+
+                TempData["Error"] = "Por favor corrige los errores en el formulario de registro.";
                 return View(vm);
             }
 

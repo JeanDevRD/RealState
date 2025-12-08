@@ -35,6 +35,6 @@ namespace RealState.Core.Application.Features.PropertyUnit.Queries.GetAll
             return propertyList;
         }
 
-        
+
     }
 }

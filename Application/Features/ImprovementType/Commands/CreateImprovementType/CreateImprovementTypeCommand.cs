@@ -21,7 +21,7 @@ namespace RealState.Core.Application.Features.ImprovementType.Commands.CreateImp
         public async Task<int> Handle(CreateImprovementTypeCommand command, CancellationToken cancellationToken)
         {
             Domain.Entities.ImprovementType entity = new()
-            { 
+            {
                 Id = 0,
                 Name = command.Name,
                 Description = command.Description

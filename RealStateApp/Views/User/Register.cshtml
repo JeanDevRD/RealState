@@ -31,6 +31,13 @@
                             <input asp-for="Phone" class="form-control" />
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DocumentId" class="form-label">Cédula/Documento</label>
+                            <input asp-for="DocumentId" class="form-control" />
+                            <span asp-validation-for="DocumentId" class="text-danger"></span>
+                        </div>
+
                         <div class="mb-3">
                             <label asp-for="Photo" class="form-label">Foto de Usuario</label>
                             <input asp-for="Photo" type="file" class="form-control" accept="image/*" />

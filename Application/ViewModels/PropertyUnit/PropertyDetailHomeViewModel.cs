@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RealState.Core.Application.ViewModels.PropertyUnit
+﻿namespace RealState.Core.Application.ViewModels.PropertyUnit
 {
     public class PropertyDetailHomeViewModel
     {
@@ -17,7 +11,7 @@ namespace RealState.Core.Application.ViewModels.PropertyUnit
         public required int Bathrooms { get; set; }
         public required double SizeM { get; set; }
         public required string Description { get; set; }
-        public required List<string> Images { get; set; }  
+        public required List<string> Images { get; set; }
         public required List<string> ImprovementNames { get; set; }
 
         public required string AgentName { get; set; }

@@ -41,7 +41,7 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var result = await _propertyService.GetAllPropertyUnitsByAgent(userId, onlyAvailable: true); 
+            var result = await _propertyService.GetAllPropertyUnitsByAgent(userId, onlyAvailable: false); 
 
             if (result.IsError)
             {

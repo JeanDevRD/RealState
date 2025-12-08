@@ -32,6 +32,6 @@ namespace RealState.Core.Application.Features.ImprovementType.Queries.GetById
             return improventType;
         }
 
-        
+
     }
 }

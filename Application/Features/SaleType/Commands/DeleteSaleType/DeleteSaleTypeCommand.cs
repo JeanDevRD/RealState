@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.SaleType.Commands.DeleteSaleType
 {

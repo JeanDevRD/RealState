@@ -37,6 +37,6 @@ namespace RealState.Core.Application.Features.SaleType.Queries.GetById
             return saleType;
         }
 
-        
+
     }
 }

@@ -12,6 +12,6 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
                 .ReverseMap();
 
 
-        }   
+        }
     }
 }
