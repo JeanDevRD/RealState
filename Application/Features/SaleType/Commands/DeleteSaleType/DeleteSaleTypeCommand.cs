@@ -1,11 +1,17 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.SaleType.Commands.DeleteSaleType
 {
+    /// <summary>
+    /// parametros para eliminar un tipo de pago
+    /// </summary>
     public class DeleteSaleTypeCommand : IRequest<Unit>
     {
+        ///<example>1</example>
+        [SwaggerParameter(Description = "Id del tipo de pago")]
         public required int Id { get; set; }
     }
 

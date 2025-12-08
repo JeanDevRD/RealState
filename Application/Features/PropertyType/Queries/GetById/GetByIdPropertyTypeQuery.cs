@@ -3,12 +3,18 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.PropertyType;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.PropertyType.Commands.CreatePropertyType
 {
+    /// <summary>
+    /// obtener tipo de propiedad por id
+    /// </summary>
     public class GetByIdPropertyTypeQuery : IRequest<PropertyTypeDto>
     {
+        ///<example>1</example>
+        [SwaggerParameter(Description = "Id del tipo de propiedad")]
         public required int Id { get; set; }
     }
 

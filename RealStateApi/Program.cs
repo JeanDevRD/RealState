@@ -1,14 +1,23 @@
 using Application;
+using Microsoft.AspNetCore.Mvc;
 using RealState.Infrastructure.Identity;
 using RealState.Infrastructure.Persistence;
 using RealState.Infrastructure.Shared;
 using RealStateApi.Extensions;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt => {
+    opt.Filters.Add(new ProducesAttribute("application/json"));
+}).ConfigureApiBehaviorOptions(opt => { 
+    opt.SuppressInferBindingSourcesForParameters = true;
+    opt.SuppressMapClientErrors = true;
+}).AddJsonOptions(opt => { 
+    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();

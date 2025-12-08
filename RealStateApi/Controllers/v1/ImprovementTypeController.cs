@@ -6,6 +6,8 @@ using RealState.Core.Application.Features.ImprovementType.Commands.DeleteImprove
 using RealState.Core.Application.Features.ImprovementType.Commands.UpdateImprovementType;
 using RealState.Core.Application.Features.ImprovementType.Queries.GetAll;
 using RealState.Core.Application.Features.ImprovementType.Queries.GetById;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace RealStateApi.Controllers.v1
 {
@@ -16,6 +18,12 @@ namespace RealStateApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ImprovementTypeDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+
+        [SwaggerOperation(
+            Summary = "Listado de mejora",
+            Description = "Listado de mejora sin filtros"
+        )]
         public async Task<IActionResult> Get()
         {
             try
@@ -39,6 +47,12 @@ namespace RealStateApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ImprovementTypeDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+
+        [SwaggerOperation(
+            Summary = "Mejora por id",
+            Description = "Obtener  mejora por id"
+        )]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -62,6 +76,13 @@ namespace RealStateApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        [Consumes(MediaTypeNames.Application.Json)]
+
+        [SwaggerOperation(
+            Summary = "Crear tipo de mejora",
+            Description = "Crar mejora con parametros de nombre y descripcion"
+        )]
         public async Task<IActionResult> Create([FromBody]CreateImprovementTypeCommand command)
         {
             try
@@ -90,6 +111,12 @@ namespace RealStateApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+
+        [SwaggerOperation(
+            Summary = "Actualizar tipo de mejora",
+            Description = "Actualizar tipo de mejora por id"
+        )]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateImprovementTypeCommand command)
         {
             try
@@ -118,6 +145,12 @@ namespace RealStateApi.Controllers.v1
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Consumes(MediaTypeNames.Application.Json)]
+
+        [SwaggerOperation(
+            Summary = "Eliminar tipo de mejora",
+            Description = "Eliminar tipo de mejora por id"
+        )]
         public async Task<IActionResult> Delete(int id)
         {
             try

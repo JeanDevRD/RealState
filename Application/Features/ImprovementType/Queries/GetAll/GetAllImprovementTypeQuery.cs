@@ -7,6 +7,9 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
 {
+    /// <summary>
+    /// listar todos los tipos de mejora
+    /// </summary>
     public class GetAllImprovementTypeQuery : IRequest<IList<ImprovementTypeDto>>
     {
     }

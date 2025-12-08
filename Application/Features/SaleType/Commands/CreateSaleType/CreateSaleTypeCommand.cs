@@ -1,11 +1,19 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.SaleType.Commands.CreateSaleType
 {
+    /// <summary>
+    ///     prametros para crear un tipo de venta
+    /// </summary>
     public class CreateSaleTypeCommand : IRequest<int>
     {
+        /// <example>Venta Directa</example>
+        [SwaggerParameter(Description = "Nombre del tipo de venta")]
         public required string Name { get; set; }
+
+        [SwaggerParameter(Description = "Descripcion del tipo de venta")]
         public required string Description { get; set; }
     }
 

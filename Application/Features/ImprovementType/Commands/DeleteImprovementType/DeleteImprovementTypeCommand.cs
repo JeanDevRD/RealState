@@ -1,11 +1,17 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.ImprovementType.Commands.DeleteImprovementType
 {
+    /// <summary>
+    /// parametros para eliminar un tipo de mejora
+    /// </summary>
     public class DeleteImprovementTypeCommand : IRequest<Unit>
     {
+        ///<example>1</example>
+        [SwaggerParameter("Id de la mejora ")]
         public required int Id { get; set; }
     }
 

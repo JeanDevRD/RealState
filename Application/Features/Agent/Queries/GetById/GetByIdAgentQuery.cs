@@ -6,11 +6,16 @@ using RealState.Core.Application.DTOs.ImprovementType;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.Agent.Queries.GetById
 {
+    /// <summary>
+    /// Parametros para ver un agente especifico
+    /// </summary>
     public class GetByIdAgentQuery : IRequest<AgentDto>
     {
+        [SwaggerParameter(Description = "Id del agente")]
         public required string Id { get; set; }
     }
 
