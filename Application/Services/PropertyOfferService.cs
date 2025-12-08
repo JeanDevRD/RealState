@@ -42,7 +42,7 @@ namespace RealState.Core.Application.Services
             {
                 var offers = await _propertyOffer.GetAllQueryAsync().ToListAsync();
 
-                var filteredOffers = offers.Where(o => o.IdClient == idClient && o.IdProperty == idProperty).ToList();
+                var filteredOffers = offers.Where(o => o!.IdClient == idClient && o.IdProperty == idProperty).ToList();
                 return _mapper.Map<List<PropertyOfferDto>>(filteredOffers);
             }
             catch (Exception ex)

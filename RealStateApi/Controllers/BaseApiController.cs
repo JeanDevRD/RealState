@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RealStateApi.Controllers
 {
@@ -6,6 +7,8 @@ namespace RealStateApi.Controllers
     [ApiController]
     public class BaseApiController : ControllerBase
     {
-        
+        private IMediator _mediator;
+
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<IMediator>();
     }
 }

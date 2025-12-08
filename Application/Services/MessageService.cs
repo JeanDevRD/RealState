@@ -39,7 +39,7 @@ namespace RealState.Core.Application.Services
         {
             try
             {
-                var message = await _messageRepo.GetAllQueryAsync().Where(m => m.Id == messageId).ToListAsync();
+                var message = await _messageRepo.GetAllQueryAsync().Where(m => m!.Id == messageId).ToListAsync();
                 if (message == null)
                 {
                     return [];
