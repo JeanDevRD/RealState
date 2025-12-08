@@ -29,7 +29,7 @@ namespace RealState.Core.Application.Services
         {
             try
             {
-                var favoriteProperties = await _favoritePropertyRepo.GetAllQueryAsync().Where(f => f.IdClient == clientId).ToListAsync();
+                var favoriteProperties = await _favoritePropertyRepo.GetAllQueryAsync().Where(f => f!.IdClient == clientId).ToListAsync();
 
 
                 if (favoriteProperties == null)

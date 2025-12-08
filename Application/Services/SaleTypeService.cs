@@ -45,7 +45,7 @@ namespace RealState.Core.Application.Services
 
                 foreach (var dto in saleTypeList)
                 {
-                    var property = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p.PropertyTypeId == dto.Id).CountAsync();
+                    var property = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p!.PropertyTypeId == dto.Id).CountAsync();
                     dto.CountProperty = property;
                 }
 

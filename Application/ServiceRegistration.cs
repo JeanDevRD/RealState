@@ -11,6 +11,7 @@ namespace Application
 
             #region Configuration
             services.AddAutoMapper(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(services => services.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             #endregion
 
             #region Services

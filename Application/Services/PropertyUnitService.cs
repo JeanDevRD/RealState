@@ -77,7 +77,7 @@ namespace RealState.Core.Application.Services
                 };
 
                 var propertyQuery = _propertyUnitRepo.GetAllQueryIncluide(propertyIncludes);
-                var getProperty = await propertyQuery.FirstOrDefaultAsync(p => p.Id == idProperty);
+                var getProperty = await propertyQuery.FirstOrDefaultAsync(p => p!.Id == idProperty);
 
                 if (getProperty == null)
                 {
@@ -93,7 +93,7 @@ namespace RealState.Core.Application.Services
                     ?? new List<string>();
 
 
-                var chats = await _chatRepo.GetAllQueryAsync().Where(c => c.IdProperty == idProperty).ToListAsync();
+                var chats = await _chatRepo.GetAllQueryAsync().Where(c => c!.IdProperty == idProperty).ToListAsync();
 
                 var chatDtos = new List<ChatWithPropertyDetails>();
 
@@ -168,11 +168,11 @@ namespace RealState.Core.Application.Services
             };
             try
             {
-                var propertyUnits = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p.IdAgent == idAgent).ToListAsync();
+                var propertyUnits = await _propertyUnitRepo.GetAllQueryAsync().Where(p => p!.IdAgent == idAgent).ToListAsync();
 
                 if (onlyAvailable == true)
                 {
-                    propertyUnits = propertyUnits.Where(p => p.StateProperty == 1).ToList();
+                    propertyUnits = propertyUnits.Where(p => p!.StateProperty == 1).ToList();
                 }
 
                 if (!propertyUnits.Any())
@@ -423,6 +423,7 @@ namespace RealState.Core.Application.Services
         }
 
         #endregion
+
     }
 
 }
