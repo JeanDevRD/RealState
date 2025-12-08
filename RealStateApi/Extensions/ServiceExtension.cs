@@ -42,6 +42,7 @@ namespace RealStateApi.Extensions
 
 
                 options.DescribeAllParametersInCamelCase();
+                options.EnableAnnotations();
             });
         }
 

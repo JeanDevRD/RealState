@@ -5,6 +5,7 @@ using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Features.PropertyUnit.Queries.GetAll;
 using RealState.Core.Application.Features.PropertyUnit.Queries.GetById;
 using RealState.Core.Application.Features.PropertyUnit.Queries.GetByIdCode;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealStateApi.Controllers.v1
 {
@@ -15,6 +16,10 @@ namespace RealStateApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyUnitDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Listar unidades",
+            Description = "Devuelve todas las unidades de propiedad."
+        )]
         public async Task<IActionResult> Get()
         {
             try
@@ -33,16 +38,19 @@ namespace RealStateApi.Controllers.v1
             }
         }
 
-
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyUnitDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+            Summary = "Buscar unidad por ID",
+            Description = "Obtiene una unidad usando su Id."
+        )]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var propertyUnits = await Mediator.Send(new GetByIdPropertyUnitQuery() { Id = id});
+                var propertyUnits = await Mediator.Send(new GetByIdPropertyUnitQuery() { Id = id });
                 if (propertyUnits == null)
                 {
                     return NoContent();
@@ -56,15 +64,19 @@ namespace RealStateApi.Controllers.v1
             }
         }
 
-        [HttpGet("{Code}")]
+        [HttpGet("by-code/{code}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropertyUnitDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByCode(int Code)
+        [SwaggerOperation(
+            Summary = "Buscar unidad por código",
+            Description = "Obtiene una unidad usando su código único."
+        )]
+        public async Task<IActionResult> GetByCode(int code)
         {
             try
             {
-                var propertyUnits = await Mediator.Send(new GetByCodePropertyUnitQuery() { Code = Code });
+                var propertyUnits = await Mediator.Send(new GetByCodePropertyUnitQuery() { Code = code });
                 if (propertyUnits == null)
                 {
                     return NoContent();
@@ -77,8 +89,5 @@ namespace RealStateApi.Controllers.v1
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
-
     }
 }

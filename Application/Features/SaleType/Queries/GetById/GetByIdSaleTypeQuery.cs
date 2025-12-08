@@ -3,11 +3,17 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealState.Core.Application.DTOs.SaleType;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.SaleType.Queries.GetById
 {
+    /// <summary>
+    /// obtener tipo de venta por id
+    /// </summary>
     public class GetByIdSaleTypeQuery : IRequest<SaleTypeDto>
     {
+        ///<example>1</example>
+        [SwaggerParameter(Description = "Id del tipo de venta")]
         public required int Id { get; set; }
     }
 

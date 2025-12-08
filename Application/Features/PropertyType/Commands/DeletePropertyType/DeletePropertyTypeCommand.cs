@@ -1,10 +1,17 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RealState.Core.Application.Features.PropertyType.Commands.CreatePropertyType
 {
+    /// <summary>
+    /// Parametros para eliminar un tipo de propiedad
+    /// </summary>
     public class DeletePropertyTypeCommand : IRequest<Unit>
     {
+        ///<example>1</example>
+        [SwaggerParameter(Description = "Id tipo de propiedad")]
         public required int Id { get; set; }
     }
 

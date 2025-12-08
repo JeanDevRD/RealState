@@ -6,6 +6,9 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Features.SaleType.Queries.GetAll
 {
+    /// <summary>
+    /// listar todos los tipos de venta
+    /// </summary>
     public class GetAllSaleTypeQuery : IRequest<IList<SaleTypeDto>>
     {
     }

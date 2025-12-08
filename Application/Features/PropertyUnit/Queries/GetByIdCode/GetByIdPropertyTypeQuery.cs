@@ -2,11 +2,17 @@
 using MediatR;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.PropertyUnit.Queries.GetByIdCode
 {
+    /// <summary>
+    /// obtener propiedad por codigo
+    /// </summary>
     public class GetByCodePropertyUnitQuery : IRequest<PropertyUnitDto>
     {
+        ///<example>1001</example>
+        [SwaggerParameter(Description = "introducir codigo")]
         public required int Code { get; set; }
     }
 

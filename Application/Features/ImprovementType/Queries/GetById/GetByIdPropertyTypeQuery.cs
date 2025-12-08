@@ -2,11 +2,17 @@
 using MediatR;
 using RealState.Core.Application.DTOs.ImprovementType;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.ImprovementType.Queries.GetById
 {
+    /// <summary>
+    /// obtener tipo de mejora por id
+    /// </summary>
     public class GetByIdImproventTypeQuery : IRequest<ImprovementTypeDto>
     {
+        ///<example>1</example>
+        [SwaggerParameter(Description = "Id del tipo de mejora")]
         public required int Id { get; set; }
     }
 

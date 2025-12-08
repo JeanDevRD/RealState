@@ -1,12 +1,20 @@
 ﻿using MediatR;
 using RealState.Core.Domain.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RealState.Core.Application.Features.ImprovementType.Commands.UpdateImprovementType
 {
+    /// <summary>
+    /// parametros para actualizar un tipo de mejora
+    /// </summary>
     public class UpdateImprovementTypeCommand : IRequest<Unit>
     {
+        ///<example>1</example>
         public required int Id { get; set; }
+        [SwaggerParameter(Description = "Nuevo nombre del tipo de mejora")]
         public required string Name { get; set; }
+
+        [SwaggerParameter(Description = "Nueva descripcion del tipo de mejora")]
         public required string Description { get; set; }
     }
 

@@ -6,6 +6,9 @@ using RealState.Core.Domain.Interfaces;
 
 namespace RealState.Core.Application.Features.PropertyType.Commands.CreatePropertyType
 {
+    /// <summary>
+    /// listar todos los tipos de propiedad
+    /// </summary>
     public class GetAllPropertyTypeQuery : IRequest<IList<PropertyTypeDto>>
     {
     }

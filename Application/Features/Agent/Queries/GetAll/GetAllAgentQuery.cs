@@ -6,8 +6,11 @@ using RealState.Core.Application.Interfaces;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Core.Domain.Interfaces;
 
-namespace RealState.Core.Application.Features.ImprovementType.Queries.GetAll
+namespace RealState.Core.Application.Features.Agent.Queries.GetAll
 {
+    /// <summary>
+    /// listar todos los agentes
+    /// </summary>
     public class GetAllAgentQuery : IRequest<IList<AgentDto>>
     {
     }
