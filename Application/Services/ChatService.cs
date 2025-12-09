@@ -37,17 +37,13 @@ namespace RealState.Core.Application.Services
         {
             try
             {
-                var chat = await GetAllWithInclude();
-                chat = chat.Where(c => c.IdProperty == propertyId && c.IdClient == clientId).ToList();
+                var chats = await GetAllWithInclude();
 
+                var chat = chats.FirstOrDefault(c =>
+                    c.IdProperty == propertyId &&
+                    c.IdClient == clientId);
 
-                if (chat == null)
-                {
-                    return null!;
-
-                }
-
-                return _mapper.Map<ChatDto>(chat);
+                return chat!;
             }
             catch (Exception ex)
             {
