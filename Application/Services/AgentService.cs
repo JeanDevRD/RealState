@@ -133,7 +133,7 @@ namespace RealState.Core.Application.Services
                     Id = a.Id,
                     Name = a.FirstName,
                     LastName = a.LastName,
-                    PhotoUrl = null // Agregar cuando se tenga el campo en User
+                    PhotoUrl = a.PhotoUrl
                 }).OrderBy(a => a.Name).ToList();
             }
             catch (Exception ex)

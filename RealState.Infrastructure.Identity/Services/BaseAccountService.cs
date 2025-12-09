@@ -354,6 +354,7 @@ namespace RealState.Infrastructure.Identity.Services
                 Phone = user.PhoneNumber,
                 IsVerified = user.EmailConfirmed,
                 IsActive = user.IsActive,
+                PhotoUrl = user.PhotoUrl,
                 Role = rolesList.FirstOrDefault() ?? ""
             };
         }
@@ -481,6 +482,7 @@ namespace RealState.Infrastructure.Identity.Services
                     Phone = u.PhoneNumber,
                     IsVerified = u.EmailConfirmed,
                     IsActive = u.IsActive,
+                    PhotoUrl = u.PhotoUrl,
                     Role = rolesList.FirstOrDefault() ?? ""
 
                 };

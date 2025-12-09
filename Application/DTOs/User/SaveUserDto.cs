@@ -12,6 +12,6 @@
         public required string ConfirmPassword { get; set; }
         public required string Role { get; set; }
         public string? Phone { get; set; }
-        public string? PhotoUrl { get; set; }
+        public string? PhotoUrl { get; set; } 
     }
 }

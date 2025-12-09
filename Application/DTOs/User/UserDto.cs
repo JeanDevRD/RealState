@@ -11,6 +11,7 @@
         public string? Phone { get; set; }
         public bool IsVerified { get; set; }
         public bool IsActive { get; set; }
+        public string ? PhotoUrl { get; set; }
         public required string Role { get; set; }
     }
 }

@@ -76,7 +76,7 @@ namespace RealStateApi.Controllers.v1
             }
         }
 
-        [HttpGet("{idProperty}")]
+        [HttpGet("Properties/idProperty")]
         [Authorize(Roles = "Admin,Developer")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AgentDto))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -64,7 +64,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = result.Message;
+                TempData["Error"] = result.Message.FirstOrDefault();
                 return RedirectToAction("Index");
             }
 
