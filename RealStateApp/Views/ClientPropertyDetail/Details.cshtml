@@ -1,4 +1,5 @@
-﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+﻿@using RealState.Core.Application.ViewModels.Message
+@using RealState.Core.Application.ViewModels.PropertyOffer
 @using RealState.Core.Application.ViewModels.PropertyUnit
 @model PropertyDetailHomeViewModel
 @{
@@ -88,12 +89,37 @@
                 <h5 class="mb-0">Chat con el Agente</h5>
             </div>
             <div class="card-body">
-                <div class="chat-messages mb-3" style="max-height: 300px; overflow-y: auto;">
-                    <p class="text-muted text-center">Inicia una conversación con el agente</p>
-                </div>
+                @if (ViewBag.ChatExists == true && ViewBag.Messages != null && ((List<MessageViewModel>)ViewBag.Messages).Any())
+                {
+                    <div class="chat-messages mb-3 p-3" style="max-height: 300px; overflow-y: auto; background-color: #f8f9fa; border-radius: 5px;">
+                        @foreach (var message in (List<MessageViewModel>)ViewBag.Messages)
+                        {
+                            var isFromClient = message.SenderId == ViewBag.CurrentUserId;
+                            <div class="message mb-3 @(isFromClient ? "text-end" : "")">
+                                <div class="d-inline-block p-2 rounded @(isFromClient ? "bg-primary text-white" : "bg-white border")" style="max-width: 70%;">
+                                    <p class="mb-1">@message.Content</p>
+                                    <small class="@(isFromClient ? "text-white-50" : "text-muted") d-block" style="font-size: 0.75rem;">
+                                        @message.SentAt.ToString("dd/MM/yyyy HH:mm")
+                                    </small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="chat-messages mb-3 p-3 text-center text-muted" style="background-color: #f8f9fa; border-radius: 5px;">
+                        <p>No hay mensajes. Inicia una conversación con el agente</p>
+                    </div>
+                }
+
                 <form asp-controller="Chat" asp-action="SendMessage" method="post">
                     <input type="hidden" name="IdProperty" value="@Model.Id" />
                     <input type="hidden" name="agentId" value="@ViewBag.AgentId" />
+                    @if (ViewBag.ChatId != null)
+                    {
+                        <input type="hidden" name="chatId" value="@ViewBag.ChatId" />
+                    }
                     <div class="input-group">
                         <input type="text" name="content" class="form-control" placeholder="Escribe tu mensaje..." required />
                         <button type="submit" class="btn btn-success">

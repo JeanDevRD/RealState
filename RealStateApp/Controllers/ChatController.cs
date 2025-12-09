@@ -88,12 +88,22 @@ namespace RealStateApp.Controllers
             if (string.IsNullOrWhiteSpace(content))
             {
                 TempData["Error"] = "El mensaje no puede estar vacío.";
+
+                // Redirigir según el contexto
+                if (IdProperty.HasValue)
+                {
+                    var user = await _accountService.GetUserById(currentUserId);
+                    if (user?.Role == "Client")
+                        return RedirectToAction("Details", "ClientPropertyDetail", new { id = IdProperty.Value });
+                    else if (user?.Role == "Agent")
+                        return RedirectToAction("Detail", "AgentPropertyDetail", new { id = IdProperty.Value });
+                }
+
                 return chatId.HasValue ? RedirectToAction("Detail", new { chatId = chatId }) : RedirectToAction("Index", "Home");
             }
 
             int finalChatId = chatId ?? 0;
 
-            // Si no hay chatId, crear uno nuevo (solo para clientes)
             if (!chatId.HasValue && IdProperty.HasValue && !string.IsNullOrEmpty(agentId))
             {
                 var existingChat = await _chatService.GetConversation(IdProperty.Value, currentUserId);
@@ -117,25 +127,21 @@ namespace RealStateApp.Controllers
 
             if (finalChatId == 0)
             {
-                TempData["Error"] = "Error al identificar o crear el chat. Asegúrese de que todos los parámetros sean correctos.";
+                TempData["Error"] = "Error al identificar o crear el chat.";
                 return RedirectToAction("Index", "Home");
             }
 
             var chat = await _chatService.GetByIdAsync(finalChatId);
 
-            // ✅ CORRECCIÓN: Validación mejorada
             if (chat == null)
             {
                 TempData["Error"] = "El chat no existe.";
                 return RedirectToAction("Index", "Home");
             }
 
-            // Verificar que el usuario sea parte del chat
             if (chat.IdAgent != currentUserId && chat.IdClient != currentUserId)
             {
                 TempData["Error"] = "No tiene permisos para enviar mensajes en este chat.";
-
-                // Redirigir según el rol del usuario
                 var user = await _accountService.GetUserById(currentUserId);
                 if (user?.Role == "Agent")
                     return RedirectToAction("Index", "HomeAgent");
@@ -161,6 +167,16 @@ namespace RealStateApp.Controllers
             catch (Exception ex)
             {
                 TempData["Error"] = $"Error al enviar el mensaje: {ex.Message}";
+            }
+            var senderUser = await _accountService.GetUserById(currentUserId);
+
+            if (senderUser?.Role == "Client")
+            {
+                return RedirectToAction("Details", "ClientPropertyDetail", new { id = chat.IdProperty });
+            }
+            else if (senderUser?.Role == "Agent")
+            {
+                return RedirectToAction("Detail", new { chatId = finalChatId });
             }
 
             return RedirectToAction("Detail", new { chatId = finalChatId });
