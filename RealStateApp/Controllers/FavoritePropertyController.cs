@@ -20,7 +20,7 @@ namespace RealStateApp.Controllers
             _mapper = mapper;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
             if (string.IsNullOrEmpty(userId))
@@ -28,7 +28,7 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var propertiesDto =  _favoriteProperty.GetFavoritesByClient(userId);
+            var propertiesDto =  await _favoriteProperty.GetFavoritesByClient(userId);
 
             var properties = _mapper.Map<List<UserFavoritePropertyUnitViewModel>>(propertiesDto);
 
@@ -47,14 +47,19 @@ namespace RealStateApp.Controllers
             if (existing != null)
             {
                 await _favoriteProperty.DeleteAsync(existing.Id);
+                TempData["Success"] = "La propiedad ha sido eliminada de tus favoritos.";
             }
             else
+            {
                 await _favoriteProperty.AddAsync(new UserFavoritePropertyUnitDto
                 {
                     Id = 0,
-                    IdClient = userId,
+                    IdClient = userId!,
                     IdProperty = propertyId
                 });
+
+                TempData["Success"] = "La propiedad ha sido agregada a tus favoritos.";
+            }
 
             return RedirectToAction("Index", "HomeClient");
         }

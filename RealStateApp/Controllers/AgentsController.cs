@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.Agent;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.Agent;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
@@ -11,11 +13,16 @@ namespace RealStateApp.Controllers
     {
         private readonly IAgentService _agentService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
+        private readonly IAccountServiceForApp _accountServiceForApp;
 
-        public AgentsController(IAgentService agentService, IMapper mapper)
+        public AgentsController(IAgentService agentService, IMapper mapper, UserManager<User> user, 
+            IAccountServiceForApp accountServiceFor)
         {
             _agentService = agentService;
             _mapper = mapper;
+            _userManager = user;
+            _accountServiceForApp = accountServiceFor;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +34,14 @@ namespace RealStateApp.Controllers
                 TempData["Error"] = result.Message;
                 return View(new List<AgentCardDto>());
             }
+            var id = _userManager.GetUserId(User);
 
+            if (!string.IsNullOrEmpty(id))
+            {
+                var user = _accountServiceForApp.GetUserById(id);
+
+                ViewBag.Role = user.Result?.Role;
+            }
             var agents = _mapper.Map<List<AgentCardViewModel>>(result.Data);
 
             return View(agents);
@@ -58,6 +72,15 @@ namespace RealStateApp.Controllers
             {
                 TempData["Error"] = "ID de agente inválido";
                 return RedirectToAction("Index");
+            }
+
+            var id = _userManager.GetUserId(User);
+
+            if(!string.IsNullOrEmpty(id))
+            {
+                var user = _accountServiceForApp.GetUserById(id);
+
+                ViewBag.Role = user.Result?.Role;
             }
 
             var result = await _agentService.GetAgentAvailablePropertiesAsync(agentId);

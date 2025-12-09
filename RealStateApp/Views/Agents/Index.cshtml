@@ -1,7 +1,15 @@
 ﻿@model List<AgentCardViewModel>
 @{
     ViewData["Title"] = "Agentes";
-    Layout = "_LayoutAnonymous";
+
+    if (ViewBag.Role != null && ViewBag.Role.ToString() == "Client")
+    {
+        Layout = "_LayoutClient";
+    }
+    else
+    {
+        Layout = "_LayoutAnonymous";
+    }
 }
 
 <div class="row mb-4">

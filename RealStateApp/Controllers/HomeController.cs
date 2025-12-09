@@ -1,9 +1,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 using RealStateApp.Models;
 using System.Diagnostics;
 
@@ -16,7 +18,8 @@ namespace RealStateApp.Controllers
         private readonly IPropertyTypeService _propertyTypeService;
         private readonly IMapper _mapper;
 
-        public HomeController(IPropertyUnitService propertyService, IPropertyTypeService propertyTypeService, IMapper mapper)
+        public HomeController(IPropertyUnitService propertyService, IPropertyTypeService propertyTypeService,
+            IMapper mapper) 
         {
             _propertyService = propertyService;
             _propertyTypeService = propertyTypeService;
@@ -56,15 +59,24 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            var properties = new List<PropertyUnitViewModel> 
+            var properties = new List<PropertyCardViewModel> 
             { 
-                _mapper.Map<PropertyUnitViewModel>(result.Data) 
+                _mapper.Map<PropertyCardViewModel>(result.Data) 
             
             };
             ViewBag.PropertyTypes = await _propertyTypeService.GetAllAsync();
 
             return View("Index", properties);
         }
+        [HttpGet]
+        public async Task<IActionResult> Filter()
+        {
+
+            ViewBag.PropertyTypes = await _propertyTypeService.GetAllAsync();
+
+            return View();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Filter(PropertyFilterViewModel filter)
@@ -77,9 +89,9 @@ namespace RealStateApp.Controllers
                 TempData["Error"] =  result.Message.FirstOrDefault();
                 return RedirectToAction("Index");
             }
-
-            var properties = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
             ViewBag.PropertyTypes = await _propertyTypeService.GetAllAsync();
+
+            var properties = _mapper.Map<List<PropertyCardViewModel>>(result.Data);
 
             return View("Index", properties);
         }

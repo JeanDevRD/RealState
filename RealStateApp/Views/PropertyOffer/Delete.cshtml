@@ -1,1 +1,45 @@
-﻿
+﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+@model PropertyOfferViewModel
+@{
+    ViewData["Title"] = "Eliminar Oferta";
+    Layout = "_LayoutClient";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Eliminar Oferta</h4>
+            </div>
+            <div class="card-body">
+                <p>¿Estás seguro de que deseas eliminar esta oferta?</p>
+
+                <ul>
+                    <li><strong>Fecha:</strong> @Model.OfferDate.ToString("dd/MM/yyyy")</li>
+                    <li><strong>Monto:</strong> RD$ @Model.OfferAmount.ToString("N2")</li>
+                    <li>
+                        <strong>Estado:</strong>
+                        @if (Model.OfferStatus == 0)
+                        {
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        }
+                        else if (Model.OfferStatus == 1)
+                        {
+                            <span class="badge bg-success">Aceptada</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Rechazada</span>
+                        }
+                    </li>
+                </ul>
+
+                <form asp-controller="PropertyOffer" asp-action="DeleteConfirmed" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <a asp-controller="PropertyOffer" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

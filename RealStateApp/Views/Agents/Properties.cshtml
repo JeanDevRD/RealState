@@ -2,7 +2,14 @@
 @model List<PropertyUnitViewModel>
 @{
     ViewData["Title"] = "Propiedades del Agente";
-    Layout = "_LayoutAnonymous";
+    if (ViewBag.Role != null && ViewBag.Role.ToString() == "Client")
+    {
+        Layout = "_LayoutClient";
+    }
+    else
+    {
+        Layout = "_LayoutAnonymous";
+    }
 }
 
 <div class="row mb-4">
@@ -33,7 +40,7 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <img src="@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName" style="height: 200px; object-fit: cover;" />
+                    <img src="~/@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName" style="height: 200px; object-fit: cover;" />
                     <div class="card-body">
                         <span class="badge bg-primary mb-2">@property.PropertyTypeName</span>
                         <span class="badge bg-secondary mb-2">@property.SaleTypeName</span>
