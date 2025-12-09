@@ -31,8 +31,6 @@ builder.Services.AddSwaggerConfiguration();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-builder.Services.AddSwaggerConfiguration();
-builder.Services.AddApiVersioningConfiguration();
 
 builder.Services.AddCors(options =>
 {
