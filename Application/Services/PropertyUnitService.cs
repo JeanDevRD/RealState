@@ -172,7 +172,7 @@ namespace RealState.Core.Application.Services
 
                 if (onlyAvailable == true)
                 {
-                    propertyUnits = propertyUnits.Where(p => p!.StateProperty == 1).ToList();
+                    propertyUnits = propertyUnits.Where(p => p!.StateProperty == 0).ToList();
                 }
 
                 if (!propertyUnits.Any())
@@ -365,9 +365,9 @@ namespace RealState.Core.Application.Services
             {
                 var propertyIncludes = new List<string>
                 {
-                 "PropertyType",
-                 "SaleType",
-                 "ImprovementTypes"
+                    "PropertyType",
+                    "SaleType",
+                    "ImprovementTypes"
                 };
 
                 var property = await _propertyUnitRepo.GetAllQueryIncluide(propertyIncludes)
@@ -389,12 +389,26 @@ namespace RealState.Core.Application.Services
                     return result;
                 }
 
-                var propertyDetail = _mapper.Map<PropertyDetailHomeDto>(property);
+                var propertyDetail = new PropertyDetailHomeDto
+                {
+                    Id = property.Id,
+                    PropertyTypeName = property.PropertyType?.Name ?? "N/A",
+                    SaleTypeName = property.SaleType?.Name ?? "N/A",
+                    CodeProperty = property.CodeProperty,
+                    Price = property.Price,
+                    Bedrooms = property.Bedrooms,
+                    Bathrooms = property.Bathrooms,
+                    SizeM = property.SizeM,
+                    Description = property.Description,
+                    Images = property.Images ?? new List<string>(), 
+                    ImprovementNames = property.ImprovementTypes?.Select(i => i.Name).ToList() ?? new List<string>(),
+                    AgentName = $"{agent.FirstName} {agent.LastName}",
+                    AgentPhone = agent.Phone ?? "N/A",
+                    AgentEmail = agent.Email,
+                    AgentPhoto = agent.PhotoUrl
+                };
 
-                propertyDetail.AgentName = $"{agent.FirstName} {agent.LastName}";
-                propertyDetail.AgentPhone = agent.Phone ?? "N/A";
-                propertyDetail.AgentEmail = agent.Email;
-                propertyDetail.AgentPhoto = null;
+                result.Data = propertyDetail;
             }
             catch (Exception ex)
             {
@@ -403,6 +417,7 @@ namespace RealState.Core.Application.Services
             }
 
             return result;
+    
         }
 
         #endregion

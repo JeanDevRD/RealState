@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.ImprovementType;
+using RealState.Core.Application.ViewModels.PropertyType;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Core.Application.ViewModels.SalesType;
 using RealState.Infrastructure.Identity.Entities;
 using RealStateApp.Helpers;
 
@@ -99,7 +102,7 @@ namespace RealStateApp.Controllers
                 return View(vm);
             }
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+            var userId = _userService.GetUserId(User);
             if (string.IsNullOrEmpty(userId))
             {
                 return RedirectToAction("Index", "Login");
@@ -258,9 +261,9 @@ namespace RealStateApp.Controllers
 
         private async Task LoadSelectLists()
         {
-            ViewBag.PropertyTypes = await _propertyTypeService.GetAllAsync();
-            ViewBag.SaleTypes = await _saleTypeService.GetAllAsync();
-            ViewBag.Improvements = await _improvementTypeService.GetAllAsync();
+            ViewBag.PropertyTypes = _mapper.Map<List<PropertyTypeViewModel>>(await _propertyTypeService.GetAllAsync());
+            ViewBag.SaleTypes = _mapper.Map<List<SaleTypeViewModel>>(await _saleTypeService.GetAllAsync());
+            ViewBag.Improvements = _mapper.Map<List<ImprovementTypeViewModel>>(await _improvementTypeService.GetAllAsync());
         }
     }
 }

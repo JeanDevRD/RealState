@@ -281,6 +281,13 @@ namespace RealState.Infrastructure.Identity.Services
                 return response;
             }
 
+            if( request.Password != request.ConfirmPassword)
+            {
+                response.HasError = true;
+                response.Errors.Add($"La contraseña y la confirmación de la contraseña no coinciden");
+                return response;
+            }
+
             var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
             var result = await _userManager.ResetPasswordAsync(user, token, request.Password);
 

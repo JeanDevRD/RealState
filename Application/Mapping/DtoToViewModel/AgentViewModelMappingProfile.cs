@@ -12,7 +12,7 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
                 .ReverseMap();
 
             CreateMap<AgentDto, AgentViewModel>()
-    .ReverseMap();
+                .ReverseMap();
         }
     }
 }

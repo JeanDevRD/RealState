@@ -2,6 +2,7 @@
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.ViewModels.PropertyUnit;
 using RealState.Core.Domain.Common.Enums;
+using RealState.Core.Domain.Entities;
 
 namespace RealState.Core.Application.Mapping.DtoToViewModel
 {
@@ -27,6 +28,16 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
 
             CreateMap<PropertyDetailHomeDto, PropertyDetailHomeViewModel>()
                 .ReverseMap();
+
+            CreateMap<PropertyUnit, PropertyDetailHomeDto>()
+                .ForMember(dest => dest.PropertyTypeName,
+                           opt => opt.MapFrom(src => src.PropertyType != null ? src.PropertyType.Name : string.Empty))
+                .ForMember(dest => dest.SaleTypeName,
+                           opt => opt.MapFrom(src => src.SaleType != null ? src.SaleType.Name : string.Empty))
+                .ForMember(dest => dest.ImprovementNames,
+                           opt => opt.MapFrom(src => src.ImprovementTypes != null
+                                                    ? src.ImprovementTypes.Select(i => i.Name).ToList()
+                                                    : new List<string>()));
         }
     }
 }

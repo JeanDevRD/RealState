@@ -59,7 +59,8 @@ namespace RealStateApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var userId = _userManager.GetUserId(User);
+            
+          var userId = _userManager.GetUserId(User);
 
             if (string.IsNullOrEmpty(userId))
             {

@@ -52,7 +52,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = result.Message;
+                TempData["Error"] = result.Message.FirstOrDefault();
                 return RedirectToAction("Index");
             }
 
@@ -74,7 +74,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError)
             {
-                TempData["Error"] = string.Join(", ", result.Message);
+                TempData["Error"] =  result.Message.FirstOrDefault();
                 return RedirectToAction("Index");
             }
 
@@ -90,7 +90,7 @@ namespace RealStateApp.Controllers
 
             if (result.IsError || result.Data == null)
             {
-                TempData["Error"] = result.Message;
+                TempData["Error"] = result.Message.FirstOrDefault();
                 return RedirectToAction("Index");
             }
 
