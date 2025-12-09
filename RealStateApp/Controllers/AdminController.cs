@@ -40,7 +40,7 @@ namespace RealStateApp.Controllers
 
         public IActionResult Create()
         {
-            return View("Create", new SaveUserViewModel 
+            return View("Save", new SaveUserViewModel 
             {
                 Id = "",
                 FirstName = "",
@@ -136,7 +136,7 @@ namespace RealStateApp.Controllers
         public async Task<IActionResult> DeleteAdmin(string id)
         {
             await _forApp.DeleteAsync(id);
-            return RedirectToAction("Index", "PropertyType");
+            return RedirectToAction("Index", "Admin");
         }
 
         public IActionResult ChangeStatus(string IdUser)

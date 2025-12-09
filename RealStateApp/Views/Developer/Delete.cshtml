@@ -14,7 +14,7 @@
                 </div>
                 <div class="card-body">
                     <p class="text-center lead">
-                        ¿Estás seguro de que deseas eliminar al administrador **@Model.FirstName @Model.LastName**?
+                        ¿Estás seguro de que deseas eliminar al desarrollador **@Model.FirstName @Model.LastName**?
                     </p>
                     <hr />
                     <dl class="row">
@@ -28,7 +28,7 @@
                         <dd class="col-sm-8">@Model.Email</dd>
                     </dl>
 
-                    <form method="post" asp-controller="Admin" asp-action="DeleteAdmin" class="d-flex justify-content-around mt-4">
+                    <form method="post" asp-controller="Developer" asp-action="DeleteDeveloper" class="d-flex justify-content-around mt-4">
                         <input type="hidden" name="id" value="@Model.Id" />
                         <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Cancelar</a>
                         <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>

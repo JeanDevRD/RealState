@@ -81,8 +81,12 @@ namespace RealStateApp.Controllers
             }
 
             var dto = _mapper.Map<PropertyOfferDto>(vm);
-
+            dto.IdClient = userId;                 
+            dto.IdProperty = vm.IdProperty;        
+            dto.OfferDate = DateTime.Now;         
+            dto.OfferAmount = vm.OfferAmount;      
             dto.OfferStatus = (int)OfferStatus.Pending;
+
 
             var result = await _propertyOffer.AddAsync(dto);
 

@@ -81,7 +81,7 @@ namespace RealStateApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteProperty(int id)
+        public async Task<IActionResult> DeleteImprovent(int id)
         {
             await _improvementTypeService.DeleteAsync(id);
             return RedirectToAction("Index", "ImprovementType");

@@ -38,7 +38,7 @@ namespace RealStateApp.Controllers
 
         public IActionResult Create()
         {
-            return View("Create", new SaveUserViewModel 
+            return View("Save", new SaveUserViewModel 
             {
                 Id = "",
                 FirstName = "",
@@ -65,14 +65,14 @@ namespace RealStateApp.Controllers
             var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var dto = _mapper.Map<SaveUserDto>(save);
             var result = await _forApp.RegisterUser(dto, origin);
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Index", "Developer");
         }
 
         public async Task<IActionResult> Edit(string id)
         {
             var userDto = await _forApp.GetUserById(id);
             var viewModel = _mapper.Map<EditUserViewModel>(userDto);
-            return View("Save", viewModel);
+            return View("Edit", viewModel);
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace RealStateApp.Controllers
             var dto = _mapper.Map<SaveUserDto>(save);
             var origin = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
             var result = await _forApp.EditUser(dto, origin);
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Index", "Developer");
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -99,10 +99,10 @@ namespace RealStateApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteAdmin(string id)
+        public async Task<IActionResult> DeleteDeveloper(string id)
         {
             await _forApp.DeleteAsync(id);
-            return RedirectToAction("Index", "PropertyType");
+            return RedirectToAction("Index", "Developer");
         }
 
         public IActionResult ChangeStatus(string IdUser)

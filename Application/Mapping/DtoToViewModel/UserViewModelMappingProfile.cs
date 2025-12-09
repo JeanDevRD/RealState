@@ -18,6 +18,17 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
             CreateMap<SaveUserViewModel, SaveUserDto>()
                 .ReverseMap();
 
+            CreateMap<EditUserViewModel, SaveUserDto>()
+                            .ForMember(d => d.PhotoUrl, opt => opt.Ignore())
+                            .ForMember(d => d.Password, opt => opt.MapFrom(src => src.Password ?? ""))
+                            .ForMember(d => d.ConfirmPassword, opt => opt.MapFrom(src => src.ConfirmPassword ?? ""));
+
+            CreateMap<SaveUserDto, EditUserViewModel>()
+                .ForMember(d => d.ExistingPhotoUrl, opt => opt.Ignore())
+                .ForMember(d => d.Photo, opt => opt.Ignore());
+
+            CreateMap<UserDto, UserViewModel>()
+                .ReverseMap();
 
         }
     }
