@@ -1,6 +1,7 @@
 ﻿@model List<DeveloperViewModel>
 @{
     ViewData["Title"] = "Gestión de Desarrolladores";
+    Layout = "_LayoutAdmin";
 }
 
 <div class="container-fluid">
@@ -47,9 +48,15 @@
                                     <td>@developer.UserName</td>
                                     <td>@developer.Email</td>
                                     <td>
+                                        <span class="badge @(developer.IsActive ? "bg-success" : "bg-danger")">
+                                            @(developer.IsActive ? "Activo" : "Inactivo")
+                                        </span>
+                                    </td>
+                                    <td>
+                                       
                                         <a asp-controller="Developer" asp-action="Edit" asp-route-id="@developer.Id" class="btn btn-sm btn-warning me-2">Editar</a>
                                         <a asp-controller="Developer" asp-action="Delete" asp-route-id="@developer.Id" class="btn btn-sm btn-danger me-2">Eliminar</a>
-                                        <a asp-controller="Developer" asp-action="ChangeStatusUser" asp-route-id="@developer.Id" class="btn btn-sm btn-info">Cambiar Estado</a>
+                                        <a asp-controller="Developer" asp-action="ChangeStatus" asp-route-IdUser="@developer.Id" class="btn btn-sm btn-info">Cambiar Estado</a>
                                     </td>
                                 </tr>
                             }

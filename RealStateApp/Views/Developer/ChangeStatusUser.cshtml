@@ -1,28 +1,26 @@
-﻿@model DeveloperViewModel
+﻿@model string
+
 @{
-    ViewData["Title"] = "Cambiar Estado de Desarrollador";
+    ViewData["Title"] = "Confirmar Cambio de Estado";
+    Layout = "_LayoutAdmin";
 }
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card bg-light shadow-lg border-info rounded-lg mt-5">
-                <div class="card-header bg-info text-white">
-                    <h3 class="text-center font-weight-light my-4">Cambiar Estado de Usuario</h3>
-                </div>
-                <div class="card-body">
-                    <p class="text-center lead">
-                        El estado actual del desarrollador **@Model.Name @Model.LastName** es: **[Aquí debería ir el estado actual (Activo/Inactivo)]**.
-                    </p>
-                    <p class="text-center">
-                        ¿Estás seguro de que deseas cambiar el estado de este desarrollador? Esto podría activar o desactivar su cuenta.
-                    </p>
-                    <hr />
+        <div class="col-md-6">
+            <div class="card shadow p-4 mt-5">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-warning">Advertencia</h4>
+                    <p class="card-text">¿Estás seguro de que deseas **cambiar el estado** de este agente?</p>
+                    <p class="text-muted small">Esto invertirá su estado actual (Activo/Inactivo).</p>
 
-                    <form method="post" asp-controller="Developer" asp-action="ChangeStatusUser" class="d-flex justify-content-around mt-4">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <a asp-controller="Developer" asp-action="Index" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-info">Confirmar Cambio de Estado</button>
+                    <form asp-controller="Developer" asp-action="ChangeStatusUser" method="post">
+                        <input type="hidden" name="id" value="@Model" />
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                            <button type="submit" class="btn btn-warning">Confirmar Cambio</button>
+                            <a asp-controller="Developer" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        </div>
                     </form>
                 </div>
             </div>

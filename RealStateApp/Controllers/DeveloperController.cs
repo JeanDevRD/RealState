@@ -15,12 +15,12 @@ namespace RealStateApp.Controllers
     public class DeveloperController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IAdminService _developerService;
+        private readonly IDeveloperService _developerService;
         private readonly IAccountServiceForApp _forApp;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public DeveloperController(ILogger<HomeController> logger, IAdminService developerService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
+        public DeveloperController(ILogger<HomeController> logger, IDeveloperService developerService, IMapper mapper, IAccountServiceForApp forApp, UserManager<User> userManager)
         {
             _logger = logger;
             _mapper = mapper;
@@ -31,7 +31,7 @@ namespace RealStateApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var admins = await _developerService.GetAllAdminAsync();
+            var admins = await _developerService.GetAllDevelopersAsync();
             var result = _mapper.Map<List<DeveloperViewModel>>(admins.Data);
             return View("Index", result);
         }
@@ -71,12 +71,12 @@ namespace RealStateApp.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             var userDto = await _forApp.GetUserById(id);
-            var viewModel = _mapper.Map<SaveUserViewModel>(userDto);
+            var viewModel = _mapper.Map<EditUserViewModel>(userDto);
             return View("Save", viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SaveUserViewModel save)
+        public async Task<IActionResult> Edit(EditUserViewModel save)
         {
             if (!ModelState.IsValid)
             {
@@ -105,15 +105,15 @@ namespace RealStateApp.Controllers
             return RedirectToAction("Index", "PropertyType");
         }
 
-        public IActionResult ChangeStatusUser()
+        public IActionResult ChangeStatus(string IdUser)
         {
-            return View();
+            return View("ChangeStatusUser", IdUser);
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangeStatusUser(string id)
         {
-            var res = await _developerService.ChangeStatusAdminAsync(id);
+            var res = await _developerService.ChangeStatusDeveloperAsync(id);
             return RedirectToAction("Index");
         }
 

@@ -1,6 +1,7 @@
 ﻿@model List<AdminViewModel>
 @{
     ViewData["Title"] = "Gestión de Administradores";
+    Layout = "_LayoutAdmin";
 }
 
 <div class="container-fluid">
@@ -47,6 +48,14 @@
                                     <td>@admin.UserName</td>
                                     <td>@admin.Email</td>
                                     <td>
+                                        <span class="badge @(admin.IsActive ? "bg-success" : "bg-danger")">
+                                            @(admin.IsActive ? "Activo" : "Inactivo")
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Admin" asp-action="ChangeStatus" asp-route-IdUser="@admin.Id" class="btn btn-sm btn-info">
+                                            Cambiar Estado
+                                        </a>
                                         <a asp-controller="Admin" asp-action="Edit" asp-route-id="@admin.Id" class="btn btn-sm btn-warning me-2">Editar</a>
                                         <a asp-controller="Admin" asp-action="Delete" asp-route-id="@admin.Id" class="btn btn-sm btn-danger me-2">Eliminar</a>
                                     </td>

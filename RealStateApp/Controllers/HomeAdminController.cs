@@ -37,7 +37,7 @@ namespace RealStateApp.Controllers
                 ClientCount = clientCount,
                 DeveloperCount = developerCount
             };
-            return View("HomdeAdmin", viewModel);
+            return View("Index", viewModel);
         }
 
     }

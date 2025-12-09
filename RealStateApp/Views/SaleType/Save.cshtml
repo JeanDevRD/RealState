@@ -2,13 +2,14 @@
 @{
     bool editMode = ViewBag.EditMode ?? false;
     ViewData["Title"] = editMode ? "Editar Tipo de pago" : "Nuevo Tipo de pago";
+        Layout = "_LayoutAdmin";
 }
 
 <div class="row mt-4">
     <div class="col-12 col-md-6 offset-md-3">
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h5 class="text-center">@(editMode ? "Editar - " : "Nuevo - ") Tipo de Propiedad</h5>
+                <h5 class="text-center">@(editMode ? "Editar - " : "Nuevo - ") Tipo de Pago</h5>
             </div>
             <div class="card-body">
 

@@ -139,9 +139,9 @@ namespace RealStateApp.Controllers
             return RedirectToAction("Index", "PropertyType");
         }
 
-        public IActionResult ChangeStatusUser()
+        public IActionResult ChangeStatus(string IdUser)
         {
-            return View();
+            return View("ChangeStatusUser", IdUser);
         }
 
         [HttpPost]

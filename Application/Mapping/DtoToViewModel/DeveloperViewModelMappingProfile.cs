@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using RealState.Core.Application.DTOs.Agent;
 using RealState.Core.Application.ViewModels.Agent;
+using RealState.Core.Application.ViewModels.Developer;
 
 namespace RealState.Core.Application.Mapping.DtoToViewModel
 {
-    public class AgentViewModelMappingProfile : Profile
+    public class DeveloperViewModelMappingProfile : Profile
     {
-        public AgentViewModelMappingProfile()
+        public DeveloperViewModelMappingProfile()
         {
-            CreateMap<AgentCardDto, AgentCardViewModel>()
+            CreateMap<DeveloperDto, DeveloperViewModel>()
                 .ReverseMap();
 
-            CreateMap<AgentDto, AgentViewModel>()
-    .ReverseMap();
+            
         }
     }
 }

@@ -31,7 +31,7 @@ namespace RealStateApp.Controllers
 
         public IActionResult Create()
         {
-            return View("Save", new SaleTypeViewModel 
+            return View("Save", new SaveImprovementTypeViewModel
             {
                 Id = 0,
                 Name = "",
@@ -56,7 +56,7 @@ namespace RealStateApp.Controllers
         {
             ViewBag.EditMode = true;
             var propertyTypeDto = await _improvementTypeService.GetByIdAsync(id);
-            var viewModel = _mapper.Map<ImprovementTypeViewModel>(propertyTypeDto);
+            var viewModel = _mapper.Map<SaveImprovementTypeViewModel>(propertyTypeDto);
             return View("Save", viewModel);
         }
 
@@ -76,7 +76,7 @@ namespace RealStateApp.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var propertyTypeDto = await _improvementTypeService.GetByIdAsync(id);
-            var viewModel = _mapper.Map<ImprovementTypeDto>(propertyTypeDto);
+            var viewModel = _mapper.Map<ImprovementTypeViewModel>(propertyTypeDto);
             return View("Delete", viewModel);
         }
 

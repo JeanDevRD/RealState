@@ -51,7 +51,8 @@ namespace RealState.Core.Application.Services
                     LastName = d.LastName,
                     UserName = d.UserName!,
                     IdentityNumber = d.DocumentId!,
-                    Email = d.Email!
+                    Email = d.Email!,
+                    IsActive = d.IsActive
                 }).ToList();
 
                 result.Data = developerDtos;

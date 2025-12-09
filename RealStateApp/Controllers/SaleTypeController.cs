@@ -75,8 +75,8 @@ namespace RealStateApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var propertyTypeDto = await _saleTypeService.GetByIdAsync(id);
-            var viewModel = _mapper.Map<PropertyTypeViewModel>(propertyTypeDto);
+            var sale = await _saleTypeService.GetByIdAsync(id);
+            var viewModel = _mapper.Map<SaleTypeViewModel>(sale);
             return View("Delete", viewModel);
         }
 

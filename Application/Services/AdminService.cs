@@ -45,7 +45,8 @@ namespace RealState.Core.Application.Services
                     Name = admin.FirstName,
                     LastName = admin.LastName,
                     UserName = admin.UserName,
-                    Email = admin.Email
+                    Email = admin.Email,
+                    IsActive = admin.IsActive
                 }).ToList();
 
                 result.Data = adminDtos;
