@@ -33,6 +33,9 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
                 .ForMember(dest => dest.FirstImage, opt => opt.MapFrom(src => src.Images.FirstOrDefault()))
                 .ReverseMap();
 
+            CreateMap<PropertyCardDto, PropertyUnitViewModel>()
+                .ReverseMap();
+
         }
     }
 }

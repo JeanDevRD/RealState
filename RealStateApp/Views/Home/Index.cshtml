@@ -45,6 +45,14 @@
                             <label class="form-label">Tipo de Propiedad</label>
                             <select name="PropertyTypeId" class="form-select">
                                 <option value="">Todos</option>
+                                @if (ViewBag.PropertyTypes != null)
+                                {
+                                  @foreach (var type in ViewBag.PropertyTypes)
+                                  {
+                                    var selected = (type.Id == (ViewBag.SelectedPropertyTypeId as int?)) ? "selected" : "";
+                                    <option value="@type.Id" selected="@selected">@type.Name</option>
+                                  }
+                                }
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -90,7 +98,7 @@
         {
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <img src="@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName" style="height: 200px; object-fit: cover;" />
+                    <img src="~/@property.FirstImage" class="card-img-top" alt="@property.PropertyTypeName" style="height: 200px; object-fit: cover;" />
                     <div class="card-body">
                         <span class="badge bg-primary mb-2">@property.PropertyTypeName</span>
                         <span class="badge bg-secondary mb-2">@property.SaleTypeName</span>

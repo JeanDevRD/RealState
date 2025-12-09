@@ -26,7 +26,6 @@ namespace RealState.Core.Application.Services
             {
                 var favoriteProperties = await _favoritePropertyRepo.GetAllQueryAsync().Where(f => f!.IdClient == clientId).ToListAsync();
 
-
                 if (favoriteProperties == null)
                 {
                     return new List<UserFavoritePropertyUnitDto>();
