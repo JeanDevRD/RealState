@@ -28,7 +28,7 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var propertiesDto = _favoriteProperty.GetFavoritesByClient(userId);
+            var propertiesDto =  _favoriteProperty.GetFavoritesByClient(userId);
 
             var properties = _mapper.Map<List<UserFavoritePropertyUnitViewModel>>(propertiesDto);
 

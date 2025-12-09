@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Bcpg;
 using RealState.Core.Application.DTOs.Message;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
+using RealState.Infrastructure.Identity.Entities;
 
 namespace RealStateApp.Controllers
 {
@@ -12,17 +15,19 @@ namespace RealStateApp.Controllers
     {
         private readonly IPropertyUnitService _propertyService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public AgentPropertyDetailController(IPropertyUnitService propertyService, IMapper mapper)
+        public AgentPropertyDetailController(IPropertyUnitService propertyService, IMapper mapper, UserManager<User> userManager)
         {
             _propertyService = propertyService;
             _mapper = mapper;
-
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+
+            var userId = _userManager.GetUserId(User);
 
             if (string.IsNullOrEmpty(userId))
             {

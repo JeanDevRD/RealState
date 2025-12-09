@@ -50,6 +50,8 @@ namespace RealStateApp.Controllers
 
             var property = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
 
+           
+
             return View(property);
         }
 
@@ -183,6 +185,6 @@ namespace RealStateApp.Controllers
             TempData["Success"] = "Contraseña cambiada exitosamente";
             return RedirectToAction("Profile");
         }
-#endregion
+        #endregion      
     }
 }

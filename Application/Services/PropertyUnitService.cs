@@ -19,15 +19,17 @@ namespace RealState.Core.Application.Services
         private readonly IPropertyOfferRepository _offerRepo;
         private readonly IAccountServiceForApp _clientService;
         private readonly IMapper _mapper;
+        private readonly IImprovementTypeRepository _improvementTypeRepo;
 
         public PropertyUnitService(IPropertyUnitRepository propertyUnitRepo, IMapper mapper, IChatRepository chatRepo, IAccountServiceForApp clientService,
-            IPropertyOfferRepository offerRepo) : base(propertyUnitRepo, mapper)
+            IPropertyOfferRepository offerRepo, IImprovementTypeRepository improvementTypeRepo) : base(propertyUnitRepo, mapper)
         {
             _propertyUnitRepo = propertyUnitRepo;
             _mapper = mapper;
             _chatRepo = chatRepo;
             _clientService = clientService;
             _offerRepo = offerRepo;
+            _improvementTypeRepo = improvementTypeRepo;
         }
 
         public async Task<List<PropertyUnitDto>> GetAllWithInclude()
@@ -73,7 +75,6 @@ namespace RealState.Core.Application.Services
                  "PropertyType",
                  "SaleType",
                  "ImprovementTypes",
-                 "Images"
                 };
 
                 var propertyQuery = _propertyUnitRepo.GetAllQueryIncluide(propertyIncludes);
@@ -366,12 +367,16 @@ namespace RealState.Core.Application.Services
                 var propertyIncludes = new List<string>
                 {
                     "PropertyType",
-                    "SaleType",
-                    "ImprovementTypes"
+                    "SaleType",      
                 };
 
                 var property = await _propertyUnitRepo.GetAllQueryIncluide(propertyIncludes)
                     .FirstOrDefaultAsync(p => p!.Id == id);
+
+                var improvementNames = _improvementTypeRepo.GetAllListIncluide(["PropertyUnits"]);
+                    
+
+
 
                 if (property == null)
                 {
@@ -389,6 +394,7 @@ namespace RealState.Core.Application.Services
                     return result;
                 }
 
+
                 var propertyDetail = new PropertyDetailHomeDto
                 {
                     Id = property.Id,
@@ -401,7 +407,7 @@ namespace RealState.Core.Application.Services
                     SizeM = property.SizeM,
                     Description = property.Description,
                     Images = property.Images ?? new List<string>(), 
-                    ImprovementNames = property.ImprovementTypes?.Select(i => i.Name).ToList() ?? new List<string>(),
+                    ImprovementNames = null,
                     AgentName = $"{agent.FirstName} {agent.LastName}",
                     AgentPhone = agent.Phone ?? "N/A",
                     AgentEmail = agent.Email,

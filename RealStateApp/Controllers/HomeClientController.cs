@@ -38,11 +38,11 @@ namespace RealStateApp.Controllers
                 ViewBag.Message = ("Error al obtener Propiedades ", result.Message);
             }
 
-            var property = _mapper.Map<List<PropertyUnitViewModel>>(result.Data);
+            var property = _mapper.Map<List<PropertyCardViewModel>>(result.Data);
 
            
 
-            return View("Home", property);
+            return View(property);
         }
 
         [HttpPost]

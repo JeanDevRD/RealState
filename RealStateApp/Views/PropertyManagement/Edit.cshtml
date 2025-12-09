@@ -1,4 +1,6 @@
 ﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+@using RealState.Core.Application.ViewModels.PropertyType
+@using RealState.Core.Application.ViewModels.SalesType
 @model SavePropertyViewModel
 @{
     ViewData["Title"] = "Editar Propiedad";
@@ -18,18 +20,18 @@
                     <h5 class="mb-3"><i class="fas fa-info-circle"></i> Información Básica</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Tipo de Propiedad *</label>
+                            <label class="form-label">Tipo de Propiedad </label>
                             <select asp-for="PropertyTypeId" class="form-select">
-                                @foreach (var type in (List<dynamic>)ViewBag.PropertyTypes)
+                                @foreach (PropertyTypeViewModel type in (List<PropertyTypeViewModel>)ViewBag.PropertyTypes)
                                 {
                                     <option value="@type.Id">@type.Name</option>
                                 }
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Tipo de Venta *</label>
+                            <label class="form-label">Tipo de Venta </label>
                             <select asp-for="SaleTypeId" class="form-select">
-                                @foreach (var type in (List<dynamic>)ViewBag.SaleTypes)
+                                @foreach (SaleTypeViewModel type in (List<SaleTypeViewModel>)ViewBag.SaleTypes)
                                 {
                                     <option value="@type.Id">@type.Name</option>
                                 }
@@ -68,7 +70,7 @@
                     <h5 class="mb-3"><i class="fas fa-star"></i> Mejoras</h5>
                     <div class="mb-3">
                         <div class="row">
-                            @foreach (var improvement in (List<dynamic>)ViewBag.Improvements)
+                            @foreach (var improvement in (List<ImprovementTypeViewModel>)ViewBag.Improvements)
                             {
                                 <div class="col-md-4 mb-2">
                                     <div class="form-check">
@@ -92,7 +94,7 @@
                             @foreach (var image in Model.ExistingImages)
                             {
                                 <div class="col-md-3 mb-2">
-                                    <img src="@image" class="img-thumbnail" alt="Imagen de propiedad" />
+                                    <img src="~/@image" class="img-thumbnail" alt="Imagen de propiedad" />
                                 </div>
                             }
                         </div>
