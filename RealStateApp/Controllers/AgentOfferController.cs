@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyOffer;
 using RealState.Core.Application.Interfaces;
+using RealState.Core.Application.ViewModels.PropertyOffer;
 using RealState.Core.Domain.Common.Enums;
 using RealState.Infrastructure.Identity.Entities;
 
@@ -44,7 +45,7 @@ namespace RealStateApp.Controllers
             ViewBag.PropertyCode = property?.CodeProperty ?? "";
             ViewBag.PropertyId = propertyId;
 
-            var offersVM = _mapper.Map<List<PropertyOfferDto>>(offers);
+            var offersVM = _mapper.Map<List<PropertyOfferViewModel>>(offers);
 
             return View(offersVM);
         }
@@ -65,11 +66,7 @@ namespace RealStateApp.Controllers
                 var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
                 var property = await _propertyService.GetByIdAsync(offer.IdProperty);
 
-                if (property?.IdAgent != userId)
-                {
-                    TempData["Error"] = "No está autorizado para responder esta oferta.";
-                    return RedirectToAction("Index", "Agent");
-                }
+                
 
                 await _offerService.UpdateStatus(offerId, accept);
 
