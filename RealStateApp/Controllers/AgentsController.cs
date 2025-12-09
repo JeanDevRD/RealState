@@ -34,7 +34,14 @@ namespace RealStateApp.Controllers
                 TempData["Error"] = result.Message;
                 return View(new List<AgentCardDto>());
             }
+            var id = _userManager.GetUserId(User);
 
+            if (!string.IsNullOrEmpty(id))
+            {
+                var user = _accountServiceForApp.GetUserById(id);
+
+                ViewBag.Role = user.Result?.Role;
+            }
             var agents = _mapper.Map<List<AgentCardViewModel>>(result.Data);
 
             return View(agents);

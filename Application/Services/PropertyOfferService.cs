@@ -22,7 +22,7 @@ namespace RealState.Core.Application.Services
         {
             try
             {
-                var messages = await _propertyOffer.GetAllListIncluide(["PropertyUnit"]);
+                var messages = await _propertyOffer.GetAllListIncluide(["Property"]);
                 if (messages == null)
                 {
                     return new List<PropertyOfferDto>();

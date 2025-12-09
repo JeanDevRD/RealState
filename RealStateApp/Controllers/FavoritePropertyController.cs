@@ -54,7 +54,7 @@ namespace RealStateApp.Controllers
                 await _favoriteProperty.AddAsync(new UserFavoritePropertyUnitDto
                 {
                     Id = 0,
-                    IdClient = userId,
+                    IdClient = userId!,
                     IdProperty = propertyId
                 });
 

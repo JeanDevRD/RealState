@@ -80,6 +80,15 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            var propertyOffer = await _propertyOffer.GetByClientAndProperty(userId, vm.IdProperty);
+
+            if (propertyOffer != null && (propertyOffer.Any(p => p.OfferStatus == (int)OfferStatus.Pending) 
+                || propertyOffer.Any(p => p.OfferStatus == (int)OfferStatus.Accepted)))
+            {
+                TempData["Error"] = "Ya has enviado una oferta para esta propiedad.";
+                return View(vm);
+            }
+
             var dto = _mapper.Map<PropertyOfferDto>(vm);
             dto.IdClient = userId;                 
             dto.IdProperty = vm.IdProperty;        
@@ -123,13 +132,15 @@ namespace RealStateApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(SavePropertyOfferViewModel vm)
         {
+
+            var userId = _userManager.GetUserId(User);
+
             if (!ModelState.IsValid)
             {
                 TempData["Error"] = "Por favor corrige los errores en el formulario.";
                 return View(vm);
             }
 
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
 
             var property = await _propertyOffer.GetByIdAsync(vm.Id);
 
@@ -159,7 +170,9 @@ namespace RealStateApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(property);
+            var propertiesVM = _mapper.Map<PropertyOfferViewModel>(property);
+
+            return View(propertiesVM);
         }
 
         [HttpPost]

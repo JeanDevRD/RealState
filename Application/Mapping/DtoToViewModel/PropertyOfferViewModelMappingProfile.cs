@@ -15,6 +15,9 @@ namespace RealState.Core.Application.Mapping.DtoToViewModel
                 .ForMember(d => d.IdProperty, opt => opt.Ignore())
                 .ForMember(d => d.OfferDate, opt => opt.Ignore())
                 .ReverseMap();
+
+            CreateMap<PropertyOfferDto, PropertyOfferViewModel>()
+                .ForMember(dest => dest.Property, opt => opt.MapFrom(src => src.Property));
         }
     }
 }

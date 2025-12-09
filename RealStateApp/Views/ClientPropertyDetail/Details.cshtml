@@ -1,8 +1,10 @@
-﻿@using RealState.Core.Application.ViewModels.PropertyUnit
+﻿@using RealState.Core.Application.ViewModels.PropertyOffer
+@using RealState.Core.Application.ViewModels.PropertyUnit
 @model PropertyDetailHomeViewModel
 @{
     ViewData["Title"] = "Detalle de Propiedad";
     Layout = "_LayoutClient";
+    var clientOffers = ViewBag.ClientOffers as List<PropertyOfferViewModel> ?? new List<PropertyOfferViewModel>();
 }
 
 <div class="row">
@@ -107,28 +109,53 @@
                 <h5 class="mb-0">Mis Ofertas</h5>
             </div>
             <div class="card-body">
+                @if (!clientOffers.Any())
+                {
+                    <p class="text-muted">No has realizado ofertas para esta propiedad todavía.</p>
+                }
+                else
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var offer in clientOffers)
+                            {
+                                <tr>
+                                    <td>@offer.OfferDate.ToString("dd/MM/yyyy")</td>
+                                    <td>RD$ @offer.OfferAmount.ToString("N2")</td>
+                                    <td>
+                                        @if (offer.OfferStatus == 0)
+                                        {
+                                            <span class="badge bg-warning text-dark">Pendiente</span>
+                                        }
+                                        else if (offer.OfferStatus == 1)
+                                        {
+                                            <span class="badge bg-success">Aceptada</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Rechazada</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
                 <div class="mb-3">
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#offerModal">
                         <i class="fas fa-hand-holding-usd"></i> Hacer una Oferta
                     </button>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Monto</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="text-center text-muted">No has realizado ofertas para esta propiedad</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
-    </div>
 
     <div class="col-md-4">
         <div class="card">
@@ -138,7 +165,7 @@
             <div class="card-body text-center">
                 @if (!string.IsNullOrEmpty(Model.AgentPhoto))
                 {
-                    <img src="@Model.AgentPhoto" class="rounded-circle mb-3" alt="@Model.AgentName" style="width: 100px; height: 100px; object-fit: cover;" />
+                    <img src="~/@Model.AgentPhoto" class="rounded-circle mb-3" alt="@Model.AgentName" style="width: 100px; height: 100px; object-fit: cover;" />
                 }
                 else
                 {
@@ -180,4 +207,5 @@
             </form>
         </div>
     </div>
+</div>
 </div>
