@@ -35,17 +35,20 @@ namespace RealState.Core.Application.Services
             }
         }
 
-        public async Task<List<MessageDto>> GetConversation(int messageId)
+        public async Task<List<MessageDto>> GetConversation(int chatId) 
         {
             try
             {
-                var message = await _messageRepo.GetAllQueryAsync().Where(m => m!.Id == messageId).ToListAsync();
-                if (message == null)
+                var messages = await _messageRepo.GetAllQueryAsync()
+                    .Where(m => m!.IdChat == chatId) 
+                    .OrderBy(m => m!.SentAt) 
+                    .ToListAsync();
+
+                if (messages == null || !messages.Any())
                 {
                     return [];
                 }
-                var messageDto = _mapper.Map<List<MessageDto>>(message);
-                return messageDto;
+                return _mapper.Map<List<MessageDto>>(messages);
             }
             catch (Exception ex)
             {

@@ -14,5 +14,6 @@ namespace RealState.Core.Application.Interfaces
         Task<ResultDto<PropertyDetailsDto>> GetPropertyDetailByAgent(int idProperty);
         Task<ResultDto<PropertyDetailHomeDto>> GetPropertyDetailForHomeAsync(int id);
         Task<int> TotalPropertyUnitsAsync();
+        Task UpdateImprovementsAsync(int propertyId, List<int> improvementTypeIds);
     }
 }

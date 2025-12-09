@@ -138,6 +138,11 @@ namespace RealStateApp.Controllers
                 }
             }
 
+            if (vm.ImprovementTypeIds != null && vm.ImprovementTypeIds.Any())
+            {
+                await _propertyService.UpdateImprovementsAsync(result.Id, vm.ImprovementTypeIds);
+            }
+
             result.Images = imagePaths;
             await _propertyService.UpdateAsync(result.Id, result);
 
@@ -200,6 +205,11 @@ namespace RealStateApp.Controllers
             property.SizeM = vm.SizeM;
             property.Bedrooms = vm.Bedrooms;
             property.Bathrooms = vm.Bathrooms;
+
+            if (vm.ImprovementTypeIds != null && vm.ImprovementTypeIds.Any())
+            {
+                await _propertyService.UpdateImprovementsAsync(vm.Id, vm.ImprovementTypeIds);
+            }
 
             if (images != null && images.Any())
             {

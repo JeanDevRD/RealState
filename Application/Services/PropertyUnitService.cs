@@ -428,6 +428,32 @@ namespace RealState.Core.Application.Services
 
         #endregion
 
+        #region Property Units by Client
+        public async Task UpdateImprovementsAsync(int propertyId, List<int> improvementTypeIds)
+        {
+            var property = await _propertyUnitRepo.GetAllQueryIncluide(new List<string> { "ImprovementTypes" })
+                .FirstOrDefaultAsync(p => p!.Id == propertyId);
+
+            if (property == null || improvementTypeIds == null || !improvementTypeIds.Any())
+            {
+                return;
+            }
+
+            property.ImprovementTypes = new List<ImprovementType>();
+
+            foreach (var improvementId in improvementTypeIds)
+            {
+                var improvement = await _improvementTypeRepo.GetByIdAsync(improvementId);
+                if (improvement != null)
+                {
+                    property.ImprovementTypes.Add(improvement);
+                }
+            }
+
+            await _propertyUnitRepo.UpdateAsync(property, propertyId);
+        }
+        #endregion
+
         #region Generate unique property code
 
         public async Task<string> GenerateUniquePropertyCodeAsync()
