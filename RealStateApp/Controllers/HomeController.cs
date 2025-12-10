@@ -1,13 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.DTOs.PropertyUnit;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.PropertyUnit;
-using RealState.Infrastructure.Identity.Entities;
-using RealStateApp.Models;
-using System.Diagnostics;
 
 namespace RealStateApp.Controllers
 {

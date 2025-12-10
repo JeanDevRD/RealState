@@ -150,6 +150,16 @@ namespace RealStateApp.Controllers
 
         #region Change Password
 
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordViewModel
+            {
+                CurrentPassword = "",
+                NewPassword = "",
+                ConfirmPassword = ""
+            });
+        }
+
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel vm)
         {

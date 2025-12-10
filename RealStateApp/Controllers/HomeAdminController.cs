@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealState.Core.Application.Interfaces;
 using RealState.Core.Application.ViewModels.HomeAdmin;
@@ -6,6 +7,7 @@ using RealStateApp.Models;
 
 namespace RealStateApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HomeAdminController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,6 +16,7 @@ namespace RealStateApp.Controllers
         private readonly IClientService _clientService;
         private readonly IDeveloperService _developerService;
 
+        
         public HomeAdminController(ILogger<HomeController> logger, IPropertyUnitService propertyUnitService, IAgentService agentService, IClientService clientService, IDeveloperService developerService)
         {
             _logger = logger;

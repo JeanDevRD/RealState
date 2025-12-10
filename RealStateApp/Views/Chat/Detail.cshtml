@@ -1,7 +1,16 @@
-﻿@model RealState.Core.Application.ViewModels.Chat.ChatDetailViewModel
+﻿@using RealState.Core.Application.ViewModels.Chat
+@model ChatDetailViewModel
 @{
     ViewData["Title"] = "Chat";
-    Layout = "_LayoutClient";
+    
+    if (ViewBag.UserRole == "Agent")
+    {
+        Layout = "_LayoutAgent";
+    }
+    else if (ViewBag.UserRole == "Client")
+    {
+        Layout = "_LayoutClient";
+    }
 }
 
 <div class="row">

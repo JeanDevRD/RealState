@@ -505,7 +505,7 @@ namespace RealState.Infrastructure.Identity.Services
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var route = "User/ConfirmEmail";
+            var route = "Login/ConfirmEmail";
             var completeUrl = new Uri(string.Concat(origin, "/", route));
             var verificationUri = QueryHelpers.AddQueryString(completeUrl.ToString(), "userId", user.Id);
             verificationUri = QueryHelpers.AddQueryString(verificationUri.ToString(), "token", token);
@@ -523,7 +523,7 @@ namespace RealState.Infrastructure.Identity.Services
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var route = "User/ResetPassword";
+            var route = "Login/ResetPassword";
             var completeUrl = new Uri(string.Concat(origin, "/", route));
             var resetUri = QueryHelpers.AddQueryString(completeUrl.ToString(), "userId", user.Id);
             resetUri = QueryHelpers.AddQueryString(resetUri.ToString(), "token", token);

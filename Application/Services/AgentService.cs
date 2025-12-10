@@ -175,7 +175,7 @@ namespace RealState.Core.Application.Services
                     Id = a.Id,
                     Name = a.FirstName,
                     LastName = a.LastName,
-                    PhotoUrl = null
+                    PhotoUrl = a.PhotoUrl,
                 }).OrderBy(a => a.Name).ToList();
             }
             catch (Exception ex)

@@ -53,6 +53,9 @@ namespace RealStateApp.Controllers
             var client = await _accountService.GetUserById(chat.IdClient);
             var property = await _propertyService.GetByIdAsync(chat.IdProperty);
 
+            var currentUser = await _accountService.GetUserById(currentUserId);
+            ViewBag.UserRole = currentUser?.Role;
+
             var detailVM = new ChatDetailViewModel
             {
                 ChatId = chatId,
@@ -89,7 +92,6 @@ namespace RealStateApp.Controllers
             {
                 TempData["Error"] = "El mensaje no puede estar vacío.";
 
-                // Redirigir según el contexto
                 if (IdProperty.HasValue)
                 {
                     var user = await _accountService.GetUserById(currentUserId);
